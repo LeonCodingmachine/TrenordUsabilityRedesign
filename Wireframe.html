@@ -3,604 +3,2417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trenord UX Wireframe v5 - Tourism Strategy Hub</title>
+    <title>Trenord Ticket Purchase Prototype</title>
     <style>
-        /* Strict Low-Fidelity Monochrome Color Specification */
         :root {
-            --wf-white: #ffffff;
-            --wf-gray-50: #f9fafb;
-            --wf-gray-100: #f4f4f5;
-            --wf-gray-200: #e4e4e7;
-            --wf-gray-300: #d4d4d8;
-            --wf-gray-400: #a1a1aa;
-            --wf-gray-600: #52525b;
-            --wf-gray-800: #27272a;
-            --wf-black: #09090b;
+            --green: #007a53;
+            --green-dark: #004b38;
+            --green-deep: #003f2f;
+            --green-soft: #e6f4ef;
+            --red: #e4002b;
+            --red-dark: #b70022;
+            --blue-dark: #053d52;
+            --ink: #263430;
+            --muted: #65706c;
+            --line: #d8e1dd;
+            --paper: #ffffff;
+            --soft: #f4f7f5;
+            --warning: #fff4df;
+            --focus: #ffbf47;
+            --shadow: 0 16px 38px rgba(0, 47, 35, 0.16);
+            --radius: 6px;
         }
 
-        *, *::before, *::after { box-sizing: border-box; }
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--wf-gray-100);
-            color: var(--wf-black);
-            margin: 0; padding: 0; line-height: 1.5;
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.45;
         }
 
-        header {
-            background-color: var(--wf-black); color: var(--wf-white);
-            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .header-logo { font-size: 14px; font-weight: bold; border: 2px dashed var(--wf-white); padding: 4px 10px; }
-        .header-tag { font-size: 12px; color: var(--wf-gray-400); }
-
-        /* Two-Column Asymmetric Wireframe Dashboard Grid */
-        .dashboard-container {
-            max-width: 1500px; margin: 20px auto; padding: 0 20px;
-            display: grid; grid-template-columns: 400px 1fr; gap: 20px;
+        button,
+        input,
+        select {
+            font: inherit;
         }
 
-        .config-side-panel { display: flex; flex-direction: column; gap: 20px; }
-        .wf-card { background-color: var(--wf-white); border: 2px solid var(--wf-black); padding: 20px; }
-        .card-title {
-            font-size: 13px; font-weight: bold; margin-top: 0; margin-bottom: 12px;
-            padding-bottom: 6px; border-bottom: 2px dashed var(--wf-gray-200);
-            display: flex; justify-content: space-between; align-items: center;
+        button {
+            cursor: pointer;
         }
 
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
-        .form-group input[type="text"], .form-group input[type="datetime-local"] {
-            width: 100%; padding: 8px; border: 1px solid var(--wf-gray-600); font-size: 13px;
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        summary:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px;
         }
 
-        /* Highly Enhanced & Diversified Passenger Personas */
-        .passenger-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-        .p-persona-option {
-            border: 1px solid var(--wf-gray-400); padding: 8px; text-align: left; cursor: pointer; background-color: var(--wf-white);
-        }
-        .p-persona-option.active { border: 3px solid var(--wf-black); background-color: var(--wf-gray-200); }
-        .p-persona-title { font-size: 12px; font-weight: bold; margin: 0; }
-        .p-persona-desc { font-size: 10px; color: var(--wf-gray-600); margin: 2px 0 0 0; }
+        a { color: inherit; }
 
-        /* Tourism Destination & Experience Package Planner */
-        .tour-package-select {
-            width: 100%; padding: 8px; border: 1px solid var(--wf-black); font-size: 13px; font-weight: bold; margin-bottom: 10px;
-        }
-        .tour-itinerary-box {
-            background-color: var(--wf-gray-50); border: 1px dashed var(--wf-black); padding: 12px; font-size: 12px; margin-bottom: 10px;
-        }
-        .tour-step { margin-bottom: 6px; padding-left: 14px; position: relative; }
-        .tour-step::before { content: "•"; position: absolute; left: 0; font-weight: bold; }
-
-        /* Standardized Action Buttons */
-        .btn-wf-action {
-            width: 100%; background-color: var(--wf-white); border: 2px solid var(--wf-black);
-            padding: 10px; font-size: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase;
-        }
-        .btn-wf-action:hover { background-color: var(--wf-gray-100); }
-        .btn-wf-action.btn-filled { background-color: var(--wf-black); color: var(--wf-white); }
-        .btn-wf-action.btn-filled:hover { background-color: var(--wf-gray-800); }
-
-        .quick-btn {
-            width: 100%; text-align: left; background: var(--wf-white); border: 1px solid var(--wf-gray-400);
-            padding: 8px 12px; cursor: pointer; font-size: 11px; margin-bottom: 6px;
-        }
-        .quick-btn:hover { background-color: var(--wf-gray-100); }
-
-        /* ==================== RIGHT PANEL STYLING ==================== */
-        .main-matrix-panel { display: flex; flex-direction: column; gap: 20px; }
-
-        .disruption-box {
-            border: 2px solid var(--wf-black); background-color: var(--wf-gray-200);
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .switch-label {
-            display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: bold;
-            cursor: pointer; border: 2px solid var(--wf-black); padding: 6px 12px; background-color: var(--wf-white);
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
-        .filter-control-bar {
-            background-color: var(--wf-white); border: 2px solid var(--wf-black); padding: 12px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .filter-tabs { display: flex; gap: 6px; }
-        .tab-trigger {
-            background-color: var(--wf-white); border: 1px solid var(--wf-gray-600);
-            padding: 6px 14px; font-size: 12px; cursor: pointer;
-        }
-        .tab-trigger.active { background-color: var(--wf-black); color: var(--wf-white); font-weight: bold; }
-
-        /* Sensory Feedback Banners */
-        .feedback-banner {
-            background-color: var(--wf-black); color: var(--wf-white);
-            padding: 18px 25px; border: 2px solid var(--wf-black);
-            display: flex; flex-direction: column; gap: 4px;
-        }
-        .feedback-banner h3 { margin: 0; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
-        .feedback-banner p { margin: 0; font-size: 12px; color: var(--wf-gray-400); }
-
-        /* Hero Spotlight Matrix Box */
-        .spotlight-frame {
-            border: 4px solid var(--wf-black); background-color: var(--wf-white);
-            padding: 20px; position: relative; display: none; margin-bottom: 5px;
-        }
-        .spotlight-lbl {
-            position: absolute; top: -14px; left: 20px; background-color: var(--wf-black);
-            color: var(--wf-white); font-size: 10px; font-weight: bold; padding: 2px 10px; letter-spacing: 1px;
+        .skip-link {
+            position: absolute;
+            top: -60px;
+            left: 14px;
+            z-index: 50;
+            padding: 10px 14px;
+            border-radius: 0 0 var(--radius) var(--radius);
+            background: var(--green-dark);
+            color: #fff;
+            font-weight: 800;
+            text-decoration: none;
         }
 
-        /* Route Result Cards Layout */
-        .results-stack { display: flex; flex-direction: column; gap: 12px; }
-        .strategy-card {
-            background-color: var(--wf-white); border: 2px solid var(--wf-black);
-            display: grid; grid-template-columns: 2.2fr 1.2fr 1fr 1fr auto;
-            align-items: center; padding: 15px 20px; gap: 15px; transition: all 0.2s;
+        .skip-link:focus { top: 0; }
+
+        .container {
+            width: min(1240px, calc(100% - 48px));
+            margin: 0 auto;
         }
-        .strategy-card.contingency-mode { border: 2px dashed var(--wf-black); background-color: var(--wf-gray-100); display: none; }
 
-        /* Dimming Effect for Secondary Options */
-        .strategy-card.dimmed-out {
-            opacity: 0.2; border: 1px dashed var(--wf-gray-400);
-            transform: scale(0.99); filter: grayscale(1);
+        .top-strip {
+            background: var(--green-deep);
+            color: #fff;
         }
-        .strategy-card.dimmed-out .btn-card { pointer-events: none; }
 
-        .card-badge { display: inline-block; border: 1px solid var(--wf-black); background-color: var(--wf-gray-200); font-size: 10px; font-weight: bold; padding: 2px 6px; margin-bottom: 6px; }
-        .card-time { font-size: 18px; font-weight: bold; }
-        .card-meta { font-size: 12px; color: var(--wf-gray-600); }
-        .card-price { font-size: 16px; font-weight: bold; }
-        .btn-card { background-color: var(--wf-white); border: 1px solid var(--wf-black); padding: 6px 10px; font-size: 11px; cursor: pointer; }
-        .btn-card.saved { background-color: var(--wf-black); color: var(--wf-white); }
+        .top-strip .container {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+        }
 
-        .details-drawer { display: none; background-color: var(--wf-gray-100); border: 2px solid var(--wf-black); border-top: none; margin-top: -12px; margin-bottom: 8px; padding: 15px 20px; font-size: 12px; }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 21px;
+            height: 15px;
+            border-radius: 2px;
+            background:
+                linear-gradient(135deg, var(--red) 0 52%, transparent 52%),
+                linear-gradient(45deg, transparent 0 36%, #fff 36% 100%);
+        }
+
+        .brand span:last-child {
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 25px;
+            font-style: italic;
+            font-weight: 900;
+        }
+
+        .header-tools {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .main-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid #e7e7e7;
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(10px);
+        }
+
+        .main-nav .container {
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: clamp(14px, 3vw, 34px);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: #4d5754;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-links a[aria-current="page"],
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-search {
+            flex: 0 1 280px;
+            display: grid;
+            grid-template-columns: 1fr 38px 34px;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .nav-search input {
+            min-width: 0;
+            min-height: 38px;
+            border: 1px solid #d3dbd7;
+            border-radius: var(--radius);
+            padding: 8px 10px;
+        }
+
+        .icon-button {
+            min-width: 34px;
+            min-height: 34px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #d3dbd7;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--green-dark);
+            font-weight: 900;
+        }
+
+        .hero {
+            min-height: 320px;
+            display: grid;
+            align-items: end;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0, rgba(0, 0, 0, 0.62) 35%, rgba(0, 0, 0, 0.08) 74%),
+                url("https://www.trenord.it/fileadmin/contenuti/TRENORD/3-News/Trenord_Informa/Notizie/2025/campagna_loyalty/TND_LOYALTY_Area_riservata_B_1500x260_RAGAZZA.jpg") center / cover;
+            color: #fff;
+        }
+
+        .hero-copy {
+            max-width: 720px;
+            padding: 52px 0 94px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(34px, 6vw, 58px);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            max-width: 560px;
+            margin: 12px 0 20px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .outline-button {
+            min-height: 40px;
+            border: 2px solid currentColor;
+            border-radius: 999px;
+            padding: 8px 22px;
+            background: transparent;
+            color: inherit;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .booking-shell {
+            margin-top: -66px;
+            margin-bottom: 70px;
+        }
+
+        .purchase-card {
+            overflow: hidden;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        .booking-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            border-bottom: 1px solid var(--line);
+            background: #f7faf8;
+        }
+
+        .booking-tab {
+            min-height: 58px;
+            border: 0;
+            border-bottom: 3px solid transparent;
+            background: transparent;
+            color: var(--muted);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .booking-tab small {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: none;
+        }
+
+        .booking-tab[aria-pressed="true"] {
+            border-bottom-color: var(--green);
+            background: #fff;
+            color: var(--green);
+        }
+
+        .funnel {
+            display: grid;
+            grid-template-columns: 330px minmax(0, 1fr);
+            min-height: 650px;
+        }
+
+        .rail {
+            border-right: 1px solid var(--line);
+            background: #f7faf8;
+            padding: 22px;
+        }
+
+        .journey-summary {
+            position: sticky;
+            top: 76px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .mini-title {
+            margin: 0 0 8px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .summary-card,
+        .assist-panel,
+        .screen-block,
+        .result-card,
+        .product-card,
+        .payment-option,
+        .confirmation-ticket {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #fff;
+        }
+
+        .summary-card,
+        .assist-panel {
+            padding: 16px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            border-top: 1px solid #edf1ef;
+            padding: 10px 0;
+            color: var(--muted);
+        }
+
+        .summary-line:first-of-type {
+            border-top: 0;
+        }
+
+        .summary-line strong {
+            color: var(--ink);
+            text-align: right;
+        }
+
+        .funnel-steps {
+            display: grid;
+            gap: 8px;
+        }
+
+        .funnel-step {
+            min-height: 44px;
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 8px 10px;
+            background: #fff;
+            color: var(--muted);
+            text-align: left;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .step-number {
+            width: 26px;
+            height: 26px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--soft);
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .funnel-step[aria-current="step"] {
+            border-color: var(--green);
+            color: var(--green-dark);
+            box-shadow: inset 4px 0 0 var(--green);
+        }
+
+        .funnel-step[aria-current="step"] .step-number,
+        .funnel-step.done .step-number {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .content {
+            min-width: 0;
+            padding: 24px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .screen-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .header-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .kicker {
+            margin: 0 0 4px;
+            color: var(--green);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .screen-title {
+            margin: 0;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1.05;
+        }
+
+        .screen-subtitle {
+            max-width: 760px;
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .primary-button,
+        .secondary-button,
+        .text-button {
+            min-height: 44px;
+            border-radius: var(--radius);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .primary-button {
+            border: 1px solid var(--red);
+            background: var(--red);
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .primary-button:hover {
+            background: var(--red-dark);
+        }
+
+        .secondary-button {
+            border: 1px solid var(--green);
+            background: #fff;
+            color: var(--green);
+            padding: 10px 18px;
+        }
+
+        .text-button {
+            border: 0;
+            background: transparent;
+            color: var(--green);
+            padding: 8px 10px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.8fr);
+            gap: 18px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .screen-block {
+            padding: 18px;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+            gap: 12px;
+            align-items: end;
+        }
+
+        .mode-panel {
+            display: none;
+        }
+
+        .mode-panel.active {
+            display: block;
+        }
+
+        .search-method-bar {
+            margin-bottom: 16px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #fff;
+        }
+
+        .search-method-bar summary {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 14px;
+            align-items: center;
+            min-height: 62px;
+            padding: 14px 16px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .method-copy {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .method-panel {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 220px;
+            gap: 18px;
+            border-top: 1px solid var(--line);
+            padding: 16px;
+            background: #fbfdfc;
+        }
+
+        .mode-switcher {
+            align-self: start;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: #fff;
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field label,
+        .small-label {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .field input,
+        .field select {
+            min-height: 48px;
+            width: 100%;
+            border: 1px solid #b9c8c2;
+            border-radius: var(--radius);
+            padding: 10px 12px;
+            background: #fff;
+            color: var(--ink);
+        }
+
+        .swap-button {
+            width: 42px;
+            min-height: 48px;
+            border: 1px solid #b9c8c2;
+            border-radius: var(--radius);
+            background: #fff;
+            color: var(--red);
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(180px, 0.5fr) auto;
+            gap: 12px;
+            align-items: end;
+            margin-top: 14px;
+        }
+
+        .return-row {
+            display: none;
+            margin-top: 14px;
+        }
+
+        .return-row.active {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .preference-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .choice-button,
+        .chip-button {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #fff;
+            color: var(--ink);
+            text-align: left;
+        }
+
+        .choice-button {
+            min-height: 74px;
+            padding: 11px;
+        }
+
+        .choice-button strong,
+        .chip-button strong {
+            display: block;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+        }
+
+        .choice-button small,
+        .chip-button small,
+        .meta {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .choice-button[aria-pressed="true"],
+        .chip-button[aria-pressed="true"] {
+            border-color: var(--green);
+            color: var(--green-dark);
+            box-shadow: inset 4px 0 0 var(--green);
+        }
+
+        .chip-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .chip-button {
+            min-height: 54px;
+            padding: 9px 10px;
+        }
+
+        details.assist-panel summary {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .assist-body {
+            display: grid;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .toggle-row,
+        .check-row,
+        .radio-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: #fff;
+        }
+
+        .toggle-row input,
+        .check-row input,
+        .radio-row input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--green);
+        }
+
+        .status-banner {
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid #f2c2ca;
+            border-left: 5px solid var(--red);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: #fff7f8;
+        }
+
+        .status-banner.neutral {
+            border-color: var(--line);
+            border-left-color: var(--green);
+            background: #f3fbf7;
+        }
+
+        .status-icon {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--red);
+            color: #fff;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .status-banner.neutral .status-icon {
+            background: var(--green);
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .filter-button {
+            min-height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--muted);
+            padding: 8px 15px;
+            font-weight: 800;
+        }
+
+        .filter-button[aria-pressed="true"] {
+            border-color: var(--green);
+            background: var(--green);
+            color: #fff;
+        }
+
+        .results-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .result-card {
+            width: 100%;
+            display: block;
+            overflow: hidden;
+            padding: 0;
+            text-align: left;
+        }
+
+        .result-card.selected {
+            border-color: var(--green);
+            box-shadow: inset 5px 0 0 var(--green);
+        }
+
+        .result-card.dimmed {
+            opacity: 0.25;
+            filter: grayscale(1);
+        }
+
+        .train-card-main {
+            display: grid;
+            grid-template-columns: 160px minmax(0, 1.35fr) minmax(150px, 0.52fr) minmax(190px, 0.58fr) 48px;
+            gap: 18px;
+            align-items: center;
+            padding: 18px;
+        }
+
+        .train-service {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--ink);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .service-logo {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 6px;
+            background: #b30045;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .train-route {
+            display: grid;
+            gap: 8px;
+        }
+
+        .station-line {
+            display: grid;
+            grid-template-columns: 52px minmax(0, 1fr) auto;
+            gap: 8px;
+            align-items: center;
+            color: var(--green-dark);
+            font-size: 18px;
+        }
+
+        .platform-pill {
+            border: 1px solid var(--green);
+            border-radius: 999px;
+            padding: 2px 8px;
+            color: var(--green-dark);
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .train-duration strong,
+        .train-fare strong {
+            display: block;
+            color: var(--ink);
+            font-size: 18px;
+        }
+
+        .train-fare {
+            text-align: center;
+        }
+
+        .fare-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            min-width: 170px;
+            min-height: 46px;
+            border: 2px solid var(--red);
+            border-radius: 999px;
+            color: var(--red);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .expand-icon {
+            justify-self: end;
+            color: var(--muted);
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .train-card-footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            min-height: 44px;
+            border-top: 1px solid #ecefed;
+            padding: 9px 18px;
+            background: #f2f3f2;
+        }
+
+        .train-card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .train-tag {
+            border-radius: 999px;
+            padding: 4px 9px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .train-tag.alert {
+            background: #ffe3e8;
+            color: var(--red-dark);
+        }
+
+        .train-details {
+            display: none;
+            border-top: 1px solid var(--line);
+            padding: 14px 18px 18px;
+            background: #fff;
+        }
+
+        .result-card.expanded .train-details {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 0.75fr);
+            gap: 16px;
+        }
+
+        .train-select {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            text-align: left;
+        }
+
+        .time-pair {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 21px;
+            font-weight: 900;
+            line-height: 1.15;
+        }
+
+        .train-meta strong {
+            display: block;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+        }
+
+        .price {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            text-align: right;
+        }
+
+        .badge {
+            justify-self: end;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            border-radius: 999px;
+            padding: 5px 10px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .spotlight {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .metric {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: var(--soft);
+        }
+
+        .metric span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .metric strong {
+            display: block;
+            margin-top: 3px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .stop {
+            display: grid;
+            grid-template-columns: 62px minmax(0, 1fr) auto;
+            gap: 10px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 10px;
+            background: #fff;
+        }
+
+        .stop time {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .stop-status {
+            justify-self: end;
+            border-radius: 999px;
+            padding: 5px 9px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .stop-status.warning {
+            background: #ffe3e8;
+            color: var(--red-dark);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .product-card {
+            min-height: 186px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+            text-align: left;
+        }
+
+        .product-card[aria-pressed="true"] {
+            border-color: #0d0f10;
+            background: #0d0f10;
+            color: #fff;
+        }
+
+        .product-card[aria-pressed="true"] small {
+            color: #d7e0dc;
+        }
+
+        .product-price {
+            margin-top: 18px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        .counter-list {
+            display: grid;
+            gap: 9px;
+        }
+
+        .counter-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 38px 36px 38px;
+            gap: 8px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 10px;
+            background: #fff;
+        }
+
+        .counter-button {
+            min-height: 36px;
+            border: 1px solid var(--green);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--green);
+            font-weight: 900;
+        }
+
+        .counter-value {
+            text-align: center;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .amount-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .amount-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid #edf1ef;
+            padding: 8px 0;
+        }
+
+        .amount-line.discount {
+            color: var(--green);
+        }
+
+        .amount-line.total {
+            margin-top: 8px;
+            border-top: 2px solid var(--ink);
+            border-bottom: 0;
+            padding-top: 12px;
+            color: var(--ink);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .payment-option {
+            min-height: 62px;
+            display: grid;
+            place-items: center;
+            position: relative;
+            color: var(--muted);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .payment-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .payment-option.active {
+            border-color: var(--green);
+            background: var(--green);
+            color: #fff;
+        }
+
+        .login-choice {
+            display: grid;
+            gap: 10px;
+        }
+
+        .login-choice .radio-row {
+            justify-content: flex-start;
+        }
+
+        .qr-ticket {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 168px;
+            gap: 18px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 20px;
+            background: linear-gradient(135deg, #fff, #eef7f3);
+        }
+
+        .success-title {
+            margin: 0 0 10px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(32px, 5vw, 54px);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .qr {
+            width: 156px;
+            height: 156px;
+            display: grid;
+            grid-template-columns: repeat(13, 1fr);
+            grid-template-rows: repeat(13, 1fr);
+            gap: 2px;
+            padding: 7px;
+            border: 5px solid var(--ink);
+            background: #edf4f1;
+        }
+
+        .qr span.on {
+            border-radius: 1px;
+            background: var(--ink);
+        }
+
+        .site-section {
+            padding: 56px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            margin: 0 0 28px;
+            color: #4f5754;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 32px;
+            text-transform: uppercase;
+        }
+
+        .promo-grid,
+        .updates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .updates-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            max-width: 760px;
+            margin: 0 auto 28px;
+        }
+
+        .promo-card,
+        .news-card {
+            min-height: 160px;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            background: #143b2f;
+            color: #fff;
+            text-align: left;
+        }
+
+        .promo-card:nth-child(2) {
+            background: #eef34a;
+            color: var(--ink);
+        }
+
+        .promo-card h3,
+        .news-card h3 {
+            margin: 0;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 24px;
+            line-height: 1.02;
+            text-transform: uppercase;
+        }
+
+        footer {
+            margin-top: 30px;
+        }
+
+        .footer-band {
+            background: var(--blue-dark);
+            color: #e0eef2;
+            padding: 46px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 44px;
+        }
+
+        .footer-grid h3 {
+            margin: 0 0 14px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
+
+        .footer-grid ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-grid li {
+            margin: 9px 0;
+        }
+
+        .copyright {
+            padding: 24px 0 34px;
+            color: #717b77;
+            font-size: 13px;
+        }
+
+        @media (max-width: 1050px) {
+            .funnel,
+            .grid-2,
+            .spotlight,
+            .qr-ticket {
+                grid-template-columns: 1fr;
+            }
+
+            .rail {
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
+            }
+
+            .journey-summary {
+                position: static;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                align-items: start;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .container {
+                width: min(100% - 24px, 720px);
+            }
+
+            .top-strip .container,
+            .main-nav .container,
+            .screen-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                overflow-x: auto;
+                gap: 20px;
+                padding-bottom: 5px;
+            }
+
+            .nav-search {
+                display: none;
+            }
+
+            .hero {
+                min-height: 310px;
+            }
+
+            .hero-copy {
+                padding-bottom: 82px;
+            }
+
+            .booking-shell {
+                margin-top: -54px;
+            }
+
+            .content,
+            .rail {
+                padding: 14px;
+            }
+
+            .journey-summary,
+            .field-grid,
+            .search-row,
+            .return-row.active,
+            .preference-grid,
+            .grid-3,
+            .product-grid,
+            .metric-grid,
+            .payment-grid,
+            .updates-grid,
+            .promo-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-card,
+            .stop,
+            .counter-row,
+            .status-banner {
+                grid-template-columns: 1fr;
+            }
+
+            .badge,
+            .price,
+            .stop-status {
+                justify-self: start;
+                text-align: left;
+            }
+
+            .swap-button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
+    <a href="#purchase-flow" class="skip-link">Skip to purchase flow</a>
 
     <header>
-        <div class="header-logo">TRENORD STRATEGY MATRIX [LOW-FI WIREFRAME v5]</div>
-        <div class="header-tag">Context: Non-Linear Tourism Strategy Engine</div>
+        <div class="top-strip">
+            <div class="container">
+                <a href="#" class="brand" aria-label="Trenord home">
+                    <span class="brand-mark" aria-hidden="true"></span>
+                    <span>TRENORD</span>
+                </a>
+                <div class="header-tools" aria-label="Header tools">
+                    <span>ENG</span>
+                    <span>Sign in / Register</span>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav" aria-label="Main navigation">
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="#" aria-current="page">Tickets</a></li>
+                    <li><a href="#">Routes and Timetables</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Assistance</a></li>
+                    <li><a href="#">Train Trips</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+                <form class="nav-search" role="search">
+                    <label class="sr-only" for="site-search">Search Trenord</label>
+                    <input id="site-search" type="search" placeholder="What are you looking for?">
+                    <button class="icon-button" type="submit" aria-label="Submit site search">S</button>
+                    <button class="icon-button" type="button" aria-label="Open account">A</button>
+                </form>
+            </div>
+        </nav>
     </header>
 
-    <div class="dashboard-container">
-        
-        <!-- LEFT CONTROL COLUMN (INPUT ARCHITECTURE) -->
-        <section class="config-side-panel" aria-label="Strategy Customization Panel">
-            
-            <!-- NEW/ENHANCED: Tour Experience Route Filter Planner (Planning transforms into filter conditions) -->
-            <div class="wf-card">
-                <div class="card-title">
-                    <span>1. TOURISM ITINERARY DESIGNER</span>
-                    <span style="font-size:10px; border: 1px solid #000; padding:1px 3px;">IMAGE 1 COUPLING</span>
-                </div>
-                <p style="font-size: 11px; color: var(--wf-gray-600); margin-top:0; margin-bottom:10px;">
-                    Select an experience package below to review its full planning layout. Applying it will override and filter the stations on the map.
-                </p>
-                
-                <label style="display:none;" for="tour-selector">Package Selector</label>
-                <select class="tour-package-select" id="tour-selector" onchange="previewTourPackage(this.value)">
-                    <option value="como">Tesori del Lago di Como (Lake Treasures Pack)</option>
-                    <option value="garda">Lake Garda Active Sport & Bike Trail Pack</option>
-                    <option value="iseo">Iseo Wine Estates & Historic Rail Journey</option>
-                </select>
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="container">
+            <div class="hero-copy">
+                <h1 id="hero-title">Community</h1>
+                <p>Travel by train, choose a sustainable route, and complete the ticket purchase in one guided flow.</p>
+                <button class="outline-button" type="button">Discover more</button>
+            </div>
+        </div>
+    </section>
 
-                <!-- Detailed Experience Drawer View -->
-                <div class="tour-itinerary-box" id="tourPreviewBox">
-                    <strong>📋 Experience Itinerary Breakdown:</strong>
-                    <div style="margin-top: 6px;" id="tourPreviewContent">
-                        <div class="tour-step"><strong>Rail Segment:</strong> Milano Centrale to Como Lago terminus.</div>
-                        <div class="tour-step"><strong>Navigational Link:</strong> Integrated Navigazione Lago Ferry voucher.</div>
-                        <div class="tour-step"><strong>Exploration Window:</strong> Bellagio & Varenna intermediate stopovers.</div>
-                        <div class="tour-step"><strong>Strategic Perk:</strong> 15% combined multimodal tariff deduction applied.</div>
-                    </div>
-                </div>
+    <main id="purchase-flow" class="booking-shell container">
+        <section class="purchase-card" aria-labelledby="flow-title">
+            <h2 id="flow-title" class="sr-only">Trenord ticket purchase flow</h2>
 
-                <button class="btn-wf-action btn-filled" onclick="applyTourPlanAsFilter()">Apply Tour Plan as Route Filter ↓</button>
+            <div class="booking-tabs" aria-label="Search mode">
+                <button class="booking-tab" type="button" id="mode-search" data-search-mode="station" aria-pressed="true">Search<small>Search for your journey by departure and arrival station</small></button>
+                <button class="booking-tab" type="button" id="mode-explore" data-search-mode="explore" aria-pressed="false">Explore<small>Plan your journey with Itinerary designer</small></button>
             </div>
 
-            <!-- ENHANCED: Highly Diversified Passenger Personas -->
-            <div class="wf-card">
-                <div class="card-title">2. DIVERSIFIED PASSENGER PERSONAS</div>
-                <div class="passenger-grid">
-                    <div class="p-persona-option active" id="pp-tourist" onclick="setPassengerPersona('tourist')">
-                        <p class="p-persona-title">Day-Tripper</p>
-                        <p class="p-persona-desc">Occasional explorer matching multi-leg scenic passes.</p>
-                    </div>
-                    <div class="p-persona-option" id="pp-family" onclick="setPassengerPersona('family')">
-                        <p class="p-persona-title">Family Group</p>
-                        <p class="p-persona-desc">Traveling with children. Optimizes comfort & group rates.</p>
-                    </div>
-                    <div class="p-persona-option" id="pp-hiker" onclick="setPassengerPersona('hiker')">
-                        <p class="p-persona-title">Alpine Hiker</p>
-                        <p class="p-persona-desc">Requires bike transport cars & rural trail station data.</p>
-                    </div>
-                    <div class="p-persona-option" id="pp-adult" onclick="setPassengerPersona('adult')">
-                        <p class="p-persona-title">Standard Adult</p>
-                        <p class="p-persona-desc">Direct A-to-B routing with standard regional fares.</p>
-                    </div>
-                </div>
-            </div>
+            <div class="funnel">
+                <aside class="rail" aria-label="Trip summary and progress">
+                    <div class="journey-summary">
+                        <section class="summary-card" aria-labelledby="journey-summary-title">
+                            <h3 class="mini-title" id="journey-summary-title">Current selection</h3>
+                            <div class="summary-line"><span>From</span><strong id="summary-origin">Milano Centrale</strong></div>
+                            <div class="summary-line"><span>To</span><strong id="summary-destination">Como Lago</strong></div>
+                            <div class="summary-line"><span>Train</span><strong id="summary-train">Not selected</strong></div>
+                            <div class="summary-line"><span>Ticket</span><strong id="summary-product">Single ticket</strong></div>
+                            <div class="summary-line"><span>Total</span><strong id="summary-total">5.20 EUR</strong></div>
+                        </section>
 
-            <!-- Core Journey Settings Override Controls -->
-            <div class="wf-card">
-                <div class="card-title">3. STATION CONFIGURATION (FIND JOURNEY)</div>
-                <div class="form-group">
-                    <label for="station-from">Departure Station</label>
-                    <input type="text" id="station-from" value="Milano Centrale">
-                </div>
-                <div class="form-group">
-                    <label for="station-to">Arrival Destination Filter</label>
-                    <input type="text" id="station-to" value="Como Lago">
-                </div>
-                <div class="form-group">
-                    <label for="strategy-time">Target Timeframe</label>
-                    <input type="datetime-local" id="strategy-time" value="2026-06-05T08:30">
-                </div>
-            </div>
+                        <section class="summary-card" aria-labelledby="progress-title">
+                            <h3 class="mini-title" id="progress-title">Purchase progress</h3>
+                            <div class="funnel-steps" role="list" aria-label="Purchase steps">
+                                <button class="funnel-step" type="button" data-go-step="1" aria-current="step"><span class="step-number">1</span><span>Search journey</span></button>
+                                <button class="funnel-step" type="button" data-go-step="2"><span class="step-number">2</span><span>Select train</span></button>
+                                <button class="funnel-step" type="button" data-go-step="3"><span class="step-number">3</span><span>Choose ticket</span></button>
+                                <button class="funnel-step" type="button" data-go-step="4"><span class="step-number">4</span><span>Review and pay</span></button>
+                                <button class="funnel-step" type="button" data-go-step="5"><span class="step-number">5</span><span>Ticket ready</span></button>
+                            </div>
+                        </section>
+                    </div>
+                </aside>
 
-            <!-- ENHANCED: Saved Strategies Dashboard -->
-            <div class="wf-card">
-                <div class="card-title">⭐ QUICK-ACCESS STRATEGY PRESETS</div>
-                <button class="quick-btn" onclick="injectQuickPreset('Milano Centrale', 'Como Lago', 'tourist', 'como')">
-                    <strong>Milano ➔ Como (Lake Treasures Day-Trip)</strong><br>
-                    <span style="color: var(--wf-gray-600);">Persona: Day-Tripper / Package Active</span>
-                </button>
-                <button class="quick-btn" onclick="injectQuickPreset('Milano Cadorna', 'Malpensa Aeroporto', 'adult', 'none')">
-                    <strong>Milano Cadorna ➔ Malpensa Express (Airport)</strong><br>
-                    <span style="color: var(--wf-gray-600);">Persona: Standard Adult / Direct Rail</span>
-                </button>
-            </div>
+                <section class="content" aria-live="polite">
+                    <section class="screen active" id="screen-search" aria-labelledby="search-title">
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 1</p>
+                                <h2 class="screen-title" id="search-title">Start your journey</h2>
+                                <p class="screen-subtitle" id="search-subtitle">Search with the official-style station form, or switch to Explore to plan with the itinerary designer.</p>
+                            </div>
+                            <div class="header-actions">
+                                <button class="secondary-button" type="button" data-back-step="0">Back</button>
+                                <button class="primary-button" type="button" id="search-submit">Search</button>
+                            </div>
+                        </div>
 
+                        <div class="mode-panel active" id="search-mode-station">
+                            <section class="screen-block" aria-labelledby="route-fields-title">
+                                <h3 class="mini-title" id="route-fields-title">Station Config</h3>
+                                <div class="field-grid">
+                                    <div class="field">
+                                        <label for="origin">From</label>
+                                        <input id="origin" type="text" value="Milano Centrale" autocomplete="off">
+                                    </div>
+                                    <button class="swap-button" type="button" id="swap-route" aria-label="Swap origin and destination">=</button>
+                                    <div class="field">
+                                        <label for="destination">To</label>
+                                        <input id="destination" type="text" value="Como Lago" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="search-row">
+                                    <div class="field">
+                                        <label for="outbound-date">Outbound</label>
+                                        <input id="outbound-date" type="datetime-local" value="2026-06-19T09:30">
+                                    </div>
+                                    <button class="secondary-button" type="button" id="toggle-return">Add return</button>
+                                    <button class="primary-button" type="button" id="search-submit-inline">Search</button>
+                                </div>
+                                <div class="return-row" id="return-row">
+                                    <div class="field">
+                                        <label for="return-date">Return</label>
+                                        <input id="return-date" type="datetime-local" value="2026-06-19T18:10">
+                                    </div>
+                                    <button class="text-button" type="button" id="remove-return">Remove return</button>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="mode-panel" id="search-mode-explore">
+                            <section class="screen-block" aria-labelledby="preferences-title">
+                                <h3 class="mini-title" id="preferences-title">Itinerary Designer</h3>
+                                <div class="field" style="margin-top:12px;">
+                                    <label for="itinerary-package">Itinerary designer</label>
+                                    <select id="itinerary-package">
+                                        <option value="standard">Standard rail journey</option>
+                                        <option value="como" selected>Lake Como day trip</option>
+                                        <option value="bike">Bike and outdoor route</option>
+                                        <option value="crossborder">Swiss cross-border route</option>
+                                    </select>
+                                </div>
+                                <div style="margin-top:14px;">
+                                    <h4 class="mini-title">Passenger persona</h4>
+                                    <div class="preference-grid">
+                                        <button class="choice-button" type="button" data-persona="tourist" aria-pressed="true"><strong>Day visitor</strong><small>Scenic route and simple fare</small></button>
+                                        <button class="choice-button" type="button" data-persona="family" aria-pressed="false"><strong>Family group</strong><small>Comfort and group clarity</small></button>
+                                        <button class="choice-button" type="button" data-persona="bike" aria-pressed="false"><strong>Bike traveler</strong><small>Bike supplement visible</small></button>
+                                        <button class="choice-button" type="button" data-persona="commuter" aria-pressed="false"><strong>Daily commuter</strong><small>Reliability and recovery first</small></button>
+                                    </div>
+                                </div>
+                                <button class="primary-button" type="button" id="explore-submit" style="margin-top:16px;">Search</button>
+                            </section>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-results" aria-labelledby="results-title">
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 2</p>
+                                <h2 class="screen-title" id="results-title">Select an outbound train</h2>
+                                <p class="screen-subtitle">Results behave like a train selection page, with route strategy filters, strike alerts, selected-journey focus, expanded stops, and recovery guidance embedded into the same decision point.</p>
+                            </div>
+                            <div class="header-actions">
+                                <button class="secondary-button" type="button" data-back-step="1">Back</button>
+                                <button class="primary-button" type="button" id="continue-ticket">Continue</button>
+                            </div>
+                        </div>
+
+                        <details class="search-method-bar" id="method-details">
+                            <summary>
+                                <span><span id="method-title">Search method: Station search</span><span class="method-copy" id="method-copy">Milano Centrale to Como Lago, outbound route search.</span></span>
+                                <span>Expand</span>
+                            </summary>
+                            <div class="method-panel">
+                                <div>
+                                    <div class="mode-panel active" id="results-mode-station">
+                                        <section class="screen-block" aria-labelledby="results-station-title">
+                                            <h3 class="mini-title" id="results-station-title">Station Config</h3>
+                                            <div class="field-grid">
+                                                <div class="field">
+                                                    <label for="results-origin">From</label>
+                                                    <input id="results-origin" type="text" value="Milano Centrale" autocomplete="off">
+                                                </div>
+                                                <button class="swap-button" type="button" id="results-swap-route" aria-label="Swap results origin and destination">=</button>
+                                                <div class="field">
+                                                    <label for="results-destination">To</label>
+                                                    <input id="results-destination" type="text" value="Como Lago" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <button class="primary-button" type="button" id="results-station-search" style="margin-top:14px;">Search</button>
+                                        </section>
+                                    </div>
+                                    <div class="mode-panel" id="results-mode-explore">
+                                        <section class="screen-block" aria-labelledby="results-explore-title">
+                                            <h3 class="mini-title" id="results-explore-title">Itinerary Designer</h3>
+                                            <div class="field">
+                                                <label for="results-itinerary-package">Experience package</label>
+                                                <select id="results-itinerary-package">
+                                                    <option value="standard">Standard rail journey</option>
+                                                    <option value="como" selected>Lake Como day trip</option>
+                                                    <option value="bike">Bike and outdoor route</option>
+                                                    <option value="crossborder">Swiss cross-border route</option>
+                                                </select>
+                                            </div>
+                                            <div style="margin-top:14px;">
+                                                <h4 class="mini-title">Passenger Persona</h4>
+                                                <div class="preference-grid">
+                                                    <button class="choice-button" type="button" data-persona="tourist" aria-pressed="true"><strong>Day visitor</strong><small>Scenic route and simple fare</small></button>
+                                                    <button class="choice-button" type="button" data-persona="family" aria-pressed="false"><strong>Family group</strong><small>Comfort and group clarity</small></button>
+                                                    <button class="choice-button" type="button" data-persona="bike" aria-pressed="false"><strong>Bike traveler</strong><small>Bike supplement visible</small></button>
+                                                    <button class="choice-button" type="button" data-persona="commuter" aria-pressed="false"><strong>Daily commuter</strong><small>Reliability and recovery first</small></button>
+                                                </div>
+                                            </div>
+                                            <button class="primary-button" type="button" id="results-explore-search" style="margin-top:14px;">Search</button>
+                                        </section>
+                                    </div>
+                                </div>
+                                <aside class="mode-switcher">
+                                    <h3 class="mini-title">Switch mode</h3>
+                                    <button class="chip-button" type="button" data-switch-search-mode="station" aria-pressed="true" style="width:100%;margin-bottom:8px;"><strong>Search</strong><small>Station Config</small></button>
+                                    <button class="chip-button" type="button" data-switch-search-mode="explore" aria-pressed="false" style="width:100%;"><strong>Explore</strong><small>Itinerary Designer</small></button>
+                                </aside>
+                            </div>
+                        </details>
+
+                        <section class="assist-panel" style="margin-bottom:16px;" aria-labelledby="results-preset-title">
+                            <h3 class="mini-title" id="results-preset-title">Strategy presets</h3>
+                            <div class="grid-3">
+                                <button class="chip-button" type="button" data-preset="lake" aria-pressed="true"><strong>Milano to Como</strong><small>Lake day-trip preset</small></button>
+                                <button class="chip-button" type="button" data-preset="airport" aria-pressed="false"><strong>Milano Cadorna to Malpensa</strong><small>Airport direct service</small></button>
+                                <button class="chip-button" type="button" data-preset="commuter" aria-pressed="false"><strong>Como Borghi to Saronno</strong><small>Disruption-aware commute</small></button>
+                            </div>
+                        </section>
+
+                        <h3 class="mini-title">Strike Alert & Filter</h3>
+                        <div class="status-banner neutral" id="alert-banner">
+                            <span class="status-icon" aria-hidden="true">i</span>
+                            <span><strong id="alert-title">Route status clear</strong><br><span id="alert-copy">Standard service is available for the selected route.</span></span>
+                            <button class="secondary-button" type="button" id="toggle-disruption">Simulate disruption</button>
+                        </div>
+
+                        <div class="filter-bar" aria-label="Result filters">
+                            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All options</button>
+                            <button class="filter-button" type="button" data-filter="fast" aria-pressed="false">Fastest</button>
+                            <button class="filter-button" type="button" data-filter="cheap" aria-pressed="false">Lowest fare</button>
+                            <button class="filter-button" type="button" data-filter="scenic" aria-pressed="false">Scenic route</button>
+                            <button class="filter-button" type="button" data-filter="recovery" aria-pressed="false">Recovery ready</button>
+                        </div>
+
+                        <div class="results-list" id="results-list"></div>
+
+                        <div class="spotlight">
+                            <section class="screen-block" aria-labelledby="spotlight-title">
+                                <h3 class="mini-title" id="spotlight-title">Selected journey spotlight</h3>
+                                <div class="metric-grid" id="journey-metrics"></div>
+                                <div class="amount-line" style="margin-top:12px;"><span>Recovery strategy</span><strong id="recovery-summary">Direct service, no transfer risk.</strong></div>
+                            </section>
+                            <section class="screen-block" aria-labelledby="timeline-title">
+                                <h3 class="mini-title" id="timeline-title">Expanded timetable stops</h3>
+                                <div class="timeline" id="timeline"></div>
+                            </section>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-ticket" aria-labelledby="ticket-title">
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 3</p>
+                                <h2 class="screen-title" id="ticket-title">Choose ticket and verify fares</h2>
+                                <p class="screen-subtitle">Product selection, region scope, passenger counters, and student or senior discount checks are integrated before checkout.</p>
+                            </div>
+                            <div class="header-actions">
+                                <button class="secondary-button" type="button" data-back-step="2">Back</button>
+                                <button class="primary-button" type="button" id="continue-checkout">Continue</button>
+                            </div>
+                        </div>
+
+                        <section class="screen-block" aria-labelledby="product-title">
+                            <h3 class="mini-title" id="product-title">Select ticket or pass type</h3>
+                            <div class="product-grid">
+                                <button class="product-card" type="button" data-product="single" aria-pressed="true"><span><strong>Single ticket</strong><small>One-way journey for the selected route. Valid after activation.</small></span><span class="product-price" data-product-price="single">5.20 EUR</span></button>
+                                <button class="product-card" type="button" data-product="carnet" aria-pressed="false"><span><strong>Carnet 10 trips</strong><small>Ten journeys on the selected route. Useful for repeat travel.</small></span><span class="product-price" data-product-price="carnet">46.80 EUR</span></button>
+                                <button class="product-card" type="button" data-product="monthly" aria-pressed="false"><span><strong>Monthly pass</strong><small>Unlimited travel for the selected origin-destination pair.</small></span><span class="product-price" data-product-price="monthly">84.00 EUR</span></button>
+                            </div>
+                        </section>
+
+                        <div class="grid-2" style="margin-top:18px;">
+                            <section class="screen-block" aria-labelledby="passengers-title">
+                                <h3 class="mini-title" id="passengers-title">Passenger configuration</h3>
+                                <div class="counter-list">
+                                    <div class="counter-row"><span><strong>Adult</strong><small class="meta">Age 14 to 64</small></span><button class="counter-button" type="button" data-counter="adult" data-delta="-1" aria-label="Decrease adult passengers">-</button><span class="counter-value" id="adult-count">1</span><button class="counter-button" type="button" data-counter="adult" data-delta="1" aria-label="Increase adult passengers">+</button></div>
+                                    <div class="counter-row"><span><strong>Student under 26</strong><small class="meta">Student status required</small></span><button class="counter-button" type="button" data-counter="student" data-delta="-1" aria-label="Decrease student passengers">-</button><span class="counter-value" id="student-count">0</span><button class="counter-button" type="button" data-counter="student" data-delta="1" aria-label="Increase student passengers">+</button></div>
+                                    <div class="counter-row"><span><strong>Senior</strong><small class="meta">Age 65 and over</small></span><button class="counter-button" type="button" data-counter="senior" data-delta="-1" aria-label="Decrease senior passengers">-</button><span class="counter-value" id="senior-count">0</span><button class="counter-button" type="button" data-counter="senior" data-delta="1" aria-label="Increase senior passengers">+</button></div>
+                                </div>
+                                <label class="check-row" style="margin-top:12px;">
+                                    <span><strong>Verify student status</strong><small class="meta">Student passengers hold valid identification.</small></span>
+                                    <input id="student-verified" type="checkbox" checked>
+                                </label>
+                            </section>
+                            <section class="screen-block" aria-labelledby="fare-title">
+                                <h3 class="mini-title" id="fare-title">Fare verification</h3>
+                                <div class="amount-list" id="fare-preview"></div>
+                            </section>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-checkout" aria-labelledby="checkout-title">
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 4</p>
+                                <h2 class="screen-title" id="checkout-title">Review and pay</h2>
+                                <p class="screen-subtitle">The official store sign-in barrier is represented here, then improved with a reversible guest checkout path before payment.</p>
+                            </div>
+                            <div class="header-actions">
+                                <button class="secondary-button" type="button" data-back-step="3">Back</button>
+                                <button class="primary-button" type="button" id="pay-now">Pay now</button>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <section class="screen-block" aria-labelledby="review-title">
+                                <h3 class="mini-title" id="review-title">Trip details</h3>
+                                <div class="amount-list">
+                                    <div class="amount-line"><span>Route</span><strong id="review-route">Milano Centrale to Como Lago</strong></div>
+                                    <div class="amount-line"><span>Train</span><strong id="review-train">09:43 Direct regional</strong></div>
+                                    <div class="amount-line"><span>Validity</span><strong id="review-validity">Selected travel date</strong></div>
+                                    <div class="amount-line"><span>Passengers</span><strong id="review-passengers">1 Adult</strong></div>
+                                </div>
+                                <h3 class="mini-title" style="margin-top:18px;">Extras</h3>
+                                <label class="check-row"><span><strong>Bicycle transport</strong><small class="meta">Reserved bike carriage where available.</small></span><input id="bike" type="checkbox"></label>
+                                <label class="check-row" style="margin-top:9px;"><span><strong>First class upgrade</strong><small class="meta">Upgrade the selected product.</small></span><input id="first-class" type="checkbox"></label>
+                                <label class="check-row" style="margin-top:9px;"><span><strong>Accept terms of carriage</strong><small class="meta">Required before payment.</small></span><input id="terms" type="checkbox"></label>
+                            </section>
+
+                            <section class="screen-block" aria-labelledby="payment-title">
+                                <h3 class="mini-title" id="payment-title">Sign in or continue as guest</h3>
+                                <div class="login-choice" role="radiogroup" aria-label="Checkout identity option">
+                                    <label class="radio-row"><input type="radio" name="identity" value="guest" checked><span><strong>Continue as guest</strong><small class="meta">Bypass mandatory registration and receive the ticket by email.</small></span></label>
+                                    <label class="radio-row"><input type="radio" name="identity" value="signin"><span><strong>Sign in with Trenord account</strong><small class="meta">Matches the official store login path.</small></span></label>
+                                </div>
+                                <h3 class="mini-title" style="margin-top:18px;">Fare summary</h3>
+                                <div class="amount-list" id="checkout-summary"></div>
+                                <h3 class="mini-title" style="margin-top:18px;">Payment method</h3>
+                                <div class="payment-grid">
+                                    <label class="payment-option active"><input type="radio" name="payment" value="Credit card" checked>Credit card</label>
+                                    <label class="payment-option"><input type="radio" name="payment" value="PayPal">PayPal</label>
+                                    <label class="payment-option"><input type="radio" name="payment" value="Satispay">Satispay</label>
+                                    <label class="payment-option"><input type="radio" name="payment" value="Apple Pay">Apple Pay</label>
+                                </div>
+                            </section>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-confirmation" aria-labelledby="confirmation-title">
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 5</p>
+                                <h2 class="screen-title" id="confirmation-title">Purchase confirmed</h2>
+                                <p class="screen-subtitle">The ticket is ready with order details, QR validation, and a live journey monitor for platform changes or disruption recovery.</p>
+                            </div>
+                            <div class="header-actions">
+                                <button class="secondary-button" type="button" data-back-step="4">Back</button>
+                                <button class="secondary-button" type="button" id="new-search">New search</button>
+                            </div>
+                        </div>
+
+                        <section class="qr-ticket" aria-labelledby="success-title">
+                            <div>
+                                <h3 class="success-title" id="success-title">Ticket ready</h3>
+                                <div class="amount-list">
+                                    <div class="amount-line"><span>Order ID</span><strong>TN-928374-2026</strong></div>
+                                    <div class="amount-line"><span>Route</span><strong id="confirmed-route">Milano Centrale to Como Lago</strong></div>
+                                    <div class="amount-line"><span>Product</span><strong id="confirmed-product">Single ticket</strong></div>
+                                    <div class="amount-line"><span>Total paid</span><strong id="confirmed-total">5.20 EUR</strong></div>
+                                </div>
+                            </div>
+                            <div class="qr" id="qr-code" role="img" aria-label="Validated digital QR ticket"></div>
+                        </section>
+
+                        <div class="spotlight">
+                            <section class="screen-block" aria-labelledby="monitor-title">
+                                <h3 class="mini-title" id="monitor-title">Live journey monitor</h3>
+                                <div class="status-banner" id="confirmation-alert">
+                                    <span class="status-icon" aria-hidden="true">!</span>
+                                    <span><strong id="confirmation-alert-title">No active disruption</strong><br><span id="confirmation-alert-copy">Track and timing remain aligned with the selected train.</span></span>
+                                    <button class="secondary-button" type="button" id="confirmation-disruption">Toggle alert</button>
+                                </div>
+                            </section>
+                            <section class="screen-block" aria-labelledby="post-purchase-timeline-title">
+                                <h3 class="mini-title" id="post-purchase-timeline-title">Activated ticket timeline</h3>
+                                <div class="timeline" id="confirmation-timeline"></div>
+                            </section>
+                        </div>
+                    </section>
+                </section>
+            </div>
         </section>
+    </main>
 
-        <!-- RIGHT PANEL STACK (OUTPUT EVALUATION MATRIX WITH SENSORY FEEDBACK) -->
-        <section class="main-matrix-panel">
-            
-            <!-- Strike Contingency Management (Feature 3 alternative routes check) -->
-            <div class="disruption-box">
-                <div>
-                    <h4 style="margin:0 0 4px 0; font-size:13px; text-transform:uppercase;">⚠️ Regional Industrial Action Alert System</h4>
-                    <p style="margin:0; font-size:11px; color:var(--wf-gray-600);">Potential trade union strike detected for this date. Regular train lines might face unexpected service suspensions.</p>
-                </div>
-                <label class="switch-label">
-                    <input type="checkbox" id="strikeCheckbox" onchange="toggleStrikeRoutes()">
-                    Inject Strike-Proof Alternatives
-                </label>
+    <section class="site-section container" aria-labelledby="updates-title">
+        <h2 class="section-title" id="updates-title">Stay updated</h2>
+        <div class="updates-grid">
+            <article class="news-card"><h3>Service works</h3></article>
+            <article class="news-card"><h3>Other notices</h3></article>
+        </div>
+        <div class="promo-grid">
+            <article class="promo-card"><h3>Garda experience</h3></article>
+            <article class="promo-card"><h3>Sustainability report</h3></article>
+            <article class="promo-card"><h3>ZeroNeet</h3></article>
+        </div>
+    </section>
+
+    <section class="site-section container" aria-labelledby="infomobility-title">
+        <h2 class="section-title" id="infomobility-title">Infomobility</h2>
+        <p>Search for a train, follow its current operating status, and keep recovery options close.</p>
+        <form class="nav-search" style="margin:18px auto 0;max-width:430px;grid-template-columns:1fr auto;" role="search">
+            <label class="sr-only" for="train-search">Train number</label>
+            <input id="train-search" type="search" value="RE 25510">
+            <button class="primary-button" type="submit">Search</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-band">
+            <div class="container footer-grid">
+                <div><h3>Before departure</h3><ul><li>Online purchase guide</li><li>Train trips</li><li>Travelers with disabilities</li></ul></div>
+                <div><h3>On the journey</h3><ul><li>Real-time traffic</li><li>Replacement buses</li><li>Guaranteed trains</li></ul></div>
+                <div><h3>After arrival</h3><ul><li>Contacts</li><li>Lost property</li><li>Refunds</li></ul></div>
             </div>
+        </div>
+        <div class="container copyright">Prototype for usability redesign. Website hierarchy and purchase-flow constraints were referenced from Trenord.it.</div>
+    </footer>
 
-            <!-- Multidimensional Analytical Controls (Feature 1 & 2 compare engine) -->
-            <div class="filter-control-bar">
-                <div style="font-size: 12px; font-weight: bold; text-transform: uppercase;">Compare Strategies by Cost, Time &amp; Transfers</div>
-                <div class="filter-tabs">
-                    <button class="tab-trigger active" id="t-all" onclick="filterStrategyMatrix('all')">View All Recommendations</button>
-                    <button class="tab-trigger" id="t-fast" onclick="filterStrategyMatrix('fast')">⚡ Fastest Route</button>
-                    <button class="tab-trigger" id="t-cheap" onclick="filterStrategyMatrix('cheap')">💰 Cheapest &amp; Promo</button>
-                    <button class="tab-trigger" id="t-conv" onclick="filterStrategyMatrix('conv')">🔄 Scenic/Multimodal</button>
-                </div>
-            </div>
-
-            <!-- HIGH SENSORY FEEDBACK COMPONENT 1: Plain English Explainer Console Banner -->
-            <div class="feedback-banner" id="matrixConsoleLog">
-                <h3 id="consoleLogTitle">📊 Balanced Evaluation Matrix Initialized</h3>
-                <p id="consoleLogDesc">Currently executing a standard multi-variable cross-comparison across time, cost, and layout constraints. The direct RegioExpress variant presents the optimal equilibrium score.</p>
-            </div>
-
-            <!-- HIGH SENSORY FEEDBACK COMPONENT 2: Hero Strategy Focus Frame -->
-            <div class="spotlight-frame" id="heroSpotlightFrame">
-                <div class="spotlight-lbl" id="heroSpotlightTitle">ACTIVE STRATEGIC SPOTLIGHT FOCUS</div>
-                <div id="heroSpotlightSlot"><!-- Cloned Winning Card Injecting Target Here --></div>
-            </div>
-
-            <!-- OUTPUT STRATEGY RESULTS STACK -->
-            <div class="results-stack" id="mainResultsContainer">
-                
-                <!-- Strategy Option Card 1: Fastest -->
-                <div class="strategy-card" id="scard-fast" data-type="fast">
-                    <div>
-                        <span class="card-badge">⚡ TIMEFRAME OPTIMAL (FASTEST)</span>
-                        <div class="card-time">08:43 ➔ 09:32</div>
-                        <div class="card-meta">RegioExpress 10042 • Non-stop Rail • 49 mins elapsed</div>
-                    </div>
-                    <div class="card-price">
-                        <span id="price-lbl-1">€4.90</span>
-                        <div class="card-meta">Standard Tariff</div>
-                    </div>
-                    <div class="card-meta"><strong>0</strong> transfers</div>
-                    <div class="card-meta">⚬ Running Normal</div>
-                    <div>
-                        <button class="btn-card" onclick="toggleStrategySave(this, 'RE-10042')">⭐ Save</button>
-                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-1')">Details</button>
-                    </div>
-                </div>
-                <div class="details-drawer" id="dr-1">
-                    <strong>Comprehensive Strategic Breakdown:</strong><br>
-                    • Boarding sequence executes at Milano Centrale Platform 5 at 08:43.<br>
-                    • Arrives at Como San Giovanni at 09:32. Skips all secondary urban intermediate hubs. High performance for time-restricted itineraries.
-                </div>
-
-                <!-- Strategy Option Card 2: Cheapest / Tourism Specific Bundle -->
-                <div class="strategy-card" id="scard-cheap" data-type="cheap">
-                    <div>
-                        <span class="card-badge">💰 FINANCIAL OPTIMAL (CHEAPEST / TOUR PASS BUNDLE)</span>
-                        <div class="card-time">08:50 ➔ 10:05</div>
-                        <div class="card-meta">Regional Local Rail 24110 • Multimodal Access Included • 1h 15m elapsed</div>
-                    </div>
-                    <div class="card-price">
-                        <span id="price-lbl-2">€3.60</span>
-                        <div class="card-meta" id="promo-subtext-2">Integrated Tour Discount Active</div>
-                    </div>
-                    <div class="card-meta"><strong>0</strong> transfers</div>
-                    <div class="card-meta">⚬ Running Normal</div>
-                    <div>
-                        <button class="btn-card" onclick="toggleStrategySave(this, 'REG-24110')">⭐ Save</button>
-                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-2')">Details</button>
-                    </div>
-                </div>
-                <div class="details-drawer" id="dr-2">
-                    <strong>Comprehensive Strategic Breakdown:</strong><br>
-                    • Slower local commuter rail. However, because your **Tourism Itinerary Designer** filter condition is locked, this layout automatically pairs with the Navigazione Lago public ferry network, reducing out-of-pocket tourist costs.
-                </div>
-
-                <!-- Strategy Option Card 3: Scenic Multimodal Transfer Path -->
-                <div class="strategy-card" id="scard-conv" data-type="conv">
-                    <div>
-                        <span class="card-badge">🔄 MULTIMODAL SCENIC SCORING (CONVENIENT)</span>
-                        <div class="card-time">09:10 ➔ 10:18</div>
-                        <div class="card-meta">Suburban S11 Route • High Density Scenic Corridor • 1h 08m elapsed</div>
-                    </div>
-                    <div class="card-price">
-                        <span id="price-lbl-3">€4.90</span>
-                        <div class="card-meta">Standard Base Rate</div>
-                    </div>
-                    <div class="card-meta"><strong>1</strong> transfer <span class="card-meta">(Monza Split)</span></div>
-                    <div class="card-meta" style="text-decoration: underline;">⚠️ 8 min delay expected</div>
-                    <div>
-                        <button class="btn-card" onclick="toggleStrategySave(this, 'S11-Transit')">⭐ Save</button>
-                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-3')">Details</button>
-                    </div>
-                </div>
-                <div class="details-drawer" id="dr-3">
-                    <strong>Comprehensive Strategic Breakdown:</strong><br>
-                    • Demands cross-platform connection handling at Monza Hub. Due to inbound technical delay patterns, the connection gap is compressed to 5 minutes. High risk of missed connection for travelers carrying heavy vacation gear.
-                </div>
-
-                <!-- Strategy Option Card 4: Hidden Strike Mitigation Alternative (Feature 3) -->
-                <div class="strategy-card contingency-mode" id="scard-strike" data-type="fast">
-                    <div>
-                        <span class="card-badge" style="background-color: var(--wf-black); color: var(--wf-white);">🛡️ STATUTORY STRIKE ESCAPE LAYOUT (STRIKE-PROOF)</span>
-                        <div class="card-time">09:00 ➔ 09:55</div>
-                        <div class="card-meta">Guaranteed Backup Coach Service Bus DB902 • Road Transit Corridor • 55 mins elapsed</div>
-                    </div>
-                    <div class="card-price">
-                        <span>€0.00</span>
-                        <div class="card-meta">Free with existing rail pass</div>
-                    </div>
-                    <div class="card-meta"><strong>0</strong> transfers <span class="card-meta">(Direct Highway link)</span></div>
-                    <div class="card-meta" style="font-weight: bold;">⬥ Guaranteed Action Service</div>
-                    <div>
-                        <button class="btn-card" onclick="toggleStrategySave(this, 'Bus-DB902')">⭐ Save</button>
-                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-4')">Details</button>
-                    </div>
-                </div>
-                <div class="details-drawer" id="dr-4">
-                    <strong>Comprehensive Strategic Breakdown:</strong><br>
-                    • This highway shuttle is legally protected under Italian transport strike exemption regulations. Even if all rail station grids freeze, this coach line remains operational. Crucial defensive routing to keep your tourism schedule intact.
-                </div>
-
-            </div>
-        </section>
-    </div>
-
-    <!-- WIREFRAME INTERACTION CONTROLLER SCRIPT ENGINE -->
     <script>
-        let selectedPersona = 'tourist';
-        let activeTourFilter = 'como';
+        const products = {
+            single: { name: "Single ticket", base: 5.2, validity: "Valid on the selected travel date" },
+            carnet: { name: "Carnet 10 trips", base: 46.8, validity: "10 route journeys" },
+            monthly: { name: "Monthly pass", base: 84, validity: "Calendar month on selected route" }
+        };
 
-        // Dynamic Itinerary Swapping Logic inside Step 1
-        function previewTourPackage(val) {
-            activeTourFilter = val;
-            const content = document.getElementById('tourPreviewContent');
-            
-            if (val === 'como') {
-                content.innerHTML = `
-                    <div class="tour-step"><strong>Rail Segment:</strong> Milano Centrale to Como Lago terminus.</div>
-                    <div class="tour-step"><strong>Navigational Link:</strong> Integrated Navigazione Lago Ferry voucher.</div>
-                    <div class="tour-step"><strong>Exploration Window:</strong> Bellagio & Varenna intermediate stopovers.</div>
-                    <div class="tour-step"><strong>Strategic Perk:</strong> 15% combined multimodal tariff deduction applied.</div>`;
-            } else if (val === 'garda') {
-                content.innerHTML = `
-                    <div class="tour-step"><strong>Rail Segment:</strong> Milano Centrale to Desenzano del Garda.</div>
-                    <div class="tour-step"><strong>Transit Adaptation:</strong> Guarded bicycle cargo rolling carriage prioritized.</div>
-                    <div class="tour-step"><strong>Destinations:</strong> Peschiera cycling trail interface coordinates.</div>
-                    <div class="tour-step"><strong>Strategic Perk:</strong> Zero-fee regional bicycle carriage waiver attached.</div>`;
-            } else {
-                content.innerHTML = `
-                    <div class="tour-step"><strong>Rail Segment:</strong> Milano Iseo historic steam locomotives scheduling grid.</div>
-                    <div class="tour-step"><strong>Experience Scope:</strong> Franciacorta regional vineyard shuttle connection links.</div>
-                    <div class="tour-step"><strong>Strategic Perk:</strong> Full access pass covering both winery entries and baseline transit costs.</div>`;
+        const regions = {
+            stibm: { label: "STIBM Milan Area", factor: 0.85 },
+            lombardy: { label: "Lombardy Regional", factor: 1 },
+            tilo: { label: "Swiss Cross-Border TILO", factor: 1.45 }
+        };
+
+        const trainOptions = [
+            {
+                id: "direct",
+                label: "Direct regional",
+                time: "09:43 to 10:43",
+                duration: "1h 00m",
+                train: "RE 25510",
+                platform: "Platform 5",
+                changes: "0 changes",
+                price: 5.2,
+                type: "fast",
+                scenic: false,
+                recovery: "Direct service. If the Monza stop is delayed by more than 10 minutes, replacement bus R101 is shown at station level.",
+                stops: [
+                    ["09:43", "Milano Centrale", "Platform 5", "On time"],
+                    ["10:12", "Sesto S. Giovanni", "Platform 2", "On time"],
+                    ["10:28", "Monza", "Platform 3", "On time"],
+                    ["10:43", "Como Lago", "Platform 1", "Arrival"]
+                ]
+            },
+            {
+                id: "cheap",
+                label: "Regional local",
+                time: "09:50 to 11:05",
+                duration: "1h 15m",
+                train: "R 24110",
+                platform: "Platform 7",
+                changes: "0 changes",
+                price: 4.7,
+                type: "cheap",
+                scenic: true,
+                recovery: "Lower fare route. The itinerary designer keeps ferry or lake add-ons visible after arrival.",
+                stops: [
+                    ["09:50", "Milano Centrale", "Platform 7", "On time"],
+                    ["10:22", "Monza", "Platform 4", "On time"],
+                    ["10:44", "Cantu", "Platform 1", "On time"],
+                    ["11:05", "Como Lago", "Platform 1", "Arrival"]
+                ]
+            },
+            {
+                id: "s11",
+                label: "S11 connection",
+                time: "10:10 to 11:18",
+                duration: "1h 08m",
+                train: "S11 + R",
+                platform: "Platform 2 / 4",
+                changes: "1 change",
+                price: 5.2,
+                type: "scenic",
+                scenic: true,
+                recovery: "Connection at Seregno. If the first leg is delayed, the next verified connection leaves from Platform 4.",
+                stops: [
+                    ["10:10", "Milano Centrale", "Platform 2", "On time"],
+                    ["10:40", "Seregno", "Platform 2", "Connection"],
+                    ["10:50", "Seregno", "Platform 4", "On time"],
+                    ["11:18", "Como Lago", "Platform 2", "Arrival"]
+                ]
+            },
+            {
+                id: "recovery",
+                label: "Recovery alternative",
+                time: "10:00 to 10:55",
+                duration: "55m",
+                train: "Guaranteed bus DB902",
+                platform: "Station square",
+                changes: "Rail substitute",
+                price: 0,
+                type: "recovery",
+                scenic: false,
+                recovery: "Strike-proof service. Existing route ticket remains accepted, and the selected bus is highlighted while other trains dim to 25 percent opacity.",
+                stops: [
+                    ["10:00", "Milano Centrale", "Bus bay B", "Guaranteed"],
+                    ["10:24", "Sesto corridor", "Road link", "Guaranteed"],
+                    ["10:41", "Monza", "Station square", "Guaranteed"],
+                    ["10:55", "Como Lago", "Bus bay A", "Arrival"]
+                ]
             }
+        ];
+
+        const state = {
+            step: 1,
+            maxStep: 1,
+            searchMode: "station",
+            origin: "Milano Centrale",
+            destination: "Como Lago",
+            returnActive: false,
+            region: "lombardy",
+            package: "como",
+            persona: "tourist",
+            preset: "lake",
+            filter: "all",
+            strikeProof: false,
+            disrupted: false,
+            selectedTrain: "direct",
+            savedTrain: "",
+            expandedTrain: "",
+            product: "single",
+            passengers: { adult: 1, student: 0, senior: 0 },
+            studentVerified: true,
+            bike: false,
+            firstClass: false,
+            terms: false,
+            identity: "guest",
+            payment: "Credit card"
+        };
+
+        const screens = {
+            1: "screen-search",
+            2: "screen-results",
+            3: "screen-ticket",
+            4: "screen-checkout",
+            5: "screen-confirmation"
+        };
+
+        function money(value) {
+            return Math.max(0, value).toFixed(2) + " EUR";
         }
 
-        // NON-LINEAR INTERACTION: Turn Planned Tour Itinerary into the screening condition for right side
-        function applyTourPlanAsFilter() {
-            const destInput = document.getElementById('station-to');
-            const logTitle = document.getElementById('consoleLogTitle');
-            const logDesc = document.getElementById('consoleLogDesc');
-            
-            // Visual layout shake to mimic active system calculation
-            const banner = document.getElementById('matrixConsoleLog');
-            banner.style.transform = "scale(1.01)";
-            setTimeout(() => { banner.style.transform = "scale(1)"; }, 150);
-
-            if (activeTourFilter === 'como') {
-                destInput.value = "Como Lago";
-                logTitle.innerText = "🔍 FILTER CONDITION INJECTED: LAKE COMO TREASURES CORRIDOR";
-                logDesc.innerText = "The strategy outputs below have been screened. Non-lake routes have been expunged. Multimodal ferry linkages and tourist discount pass coefficients are now driving the rank order.";
-            } else if (activeTourFilter === 'garda') {
-                destInput.value = "Desenzano (Garda)";
-                logTitle.innerText = "🔍 FILTER CONDITION INJECTED: LAKE GARDA CYCLING AXIS";
-                logDesc.innerText = "Screened list re-oriented for Lake Garda. Train models missing active bicycle freight infrastructure options have been filtered down. Displaying bike-trail optimized routes.";
-            } else {
-                destInput.value = "Iseo Hub";
-                logTitle.innerText = "🔍 FILTER CONDITION INJECTED: ISEO HISTORIC RAILWAY BUNDLE";
-                logDesc.innerText = "Filter conditions altered for Iseo regional matrix. Regular fast lines hidden; highlighting historic rolling stock options combined with local estate shuttle connections.";
-            }
-
-            // Sync passenger persona to best fit the chosen tour pack automatically
-            if(activeTourFilter === 'garda') setPassengerPersona('hiker');
-            else if(activeTourFilter === 'como') setPassengerPersona('tourist');
-            
-            // Re-render and match output display matrix values
-            switchPassengerPersonaRates();
+        function selectedTrain() {
+            return trainOptions.find(train => train.id === state.selectedTrain) || trainOptions[0];
         }
 
-        // Persona Selection State Engine
-        function setPassengerPersona(persona) {
-            selectedPersona = persona;
-            document.querySelectorAll('.p-persona-option').forEach(opt => opt.classList.remove('active'));
-            document.getElementById('pp-' + persona).classList.add('active');
-            switchPassengerPersonaRates();
+        function region() {
+            return regions[state.region];
         }
 
-        // Simulating Multi-Variable Factor Recalculation inside the Low-Fi scope
-        function switchPassengerPersonaRates() {
-            const price1 = document.getElementById('price-lbl-1');
-            const price2 = document.getElementById('price-lbl-2');
-            const sub2 = document.getElementById('promo-subtext-2');
-            const title = document.getElementById('consoleLogTitle');
-            const desc = document.getElementById('consoleLogDesc');
-
-            if (selectedPersona === 'tourist') {
-                price1.innerText = "€4.90"; price2.innerText = "€3.60";
-                sub2.innerText = "Integrated Tour Discount Active";
-            } else if (selectedPersona === 'family') {
-                price1.innerText = "€9.80"; price2.innerText = "€6.20";
-                sub2.innerText = "Group-Saver Combo Multiplier Applied";
-                title.innerText = "👤 PERSONA VARIABLE UPDATE: FAMILY GROUP CONTEXT LOADED";
-                desc.innerText = "Pricing matrices shifted to compound family packages. Priority scoring relocated to carriage units providing wide storage clearances and infant facilities.";
-            } else if (selectedPersona === 'hiker') {
-                price1.innerText = "€7.40"; price2.innerText = "€5.80";
-                sub2.innerText = "Includes Active Bicycle Transit Permit";
-                title.innerText = "👤 PERSONA VARIABLE UPDATE: ALPINE HIKER & CYCLE CONTEXT LOADED";
-                desc.innerText = "The ranking algorithm has elevated transit profiles incorporating dedicated sports equipment space. Rural trail station connections have been mapped.";
-            } else {
-                price1.innerText = "€4.90"; price2.innerText = "€4.90";
-                sub2.innerText = "Standard Baseline Regional Tariff";
-                title.innerText = "👤 PERSONA VARIABLE UPDATE: BASELINE COMMUTER MODE";
-                desc.innerText = "All integrated holiday bundle discounts removed. The tracking layout is calculating strict vanilla, direct train fares.";
-            }
-
-            // If an active focus filter tab was clicked, preserve its view rendering
-            const currentActiveTab = document.querySelector('.tab-trigger.active');
-            if (currentActiveTab && currentActiveTab.id !== 't-all') {
-                filterStrategyMatrix(currentActiveTab.id.replace('t-', ''));
-            }
+        function passengerCount() {
+            return state.passengers.adult + state.passengers.student + state.passengers.senior;
         }
 
-        // Feature 1 & 2: Compare Engine with Extreme Sensory Dimming Feedback Loop
-        function filterStrategyMatrix(mode) {
-            const tabs = document.querySelectorAll('.tab-trigger');
-            tabs.forEach(btn => btn.classList.remove('active'));
-            document.getElementById('t-' + mode).classList.add('active');
+        function passengerSummary() {
+            const parts = [];
+            if (state.passengers.adult) parts.push(state.passengers.adult + " Adult");
+            if (state.passengers.student) parts.push(state.passengers.student + " Student");
+            if (state.passengers.senior) parts.push(state.passengers.senior + " Senior");
+            return parts.join(", ") || "1 Adult";
+        }
 
-            const consoleTitle = document.getElementById('consoleLogTitle');
-            const consoleDesc = document.getElementById('consoleLogDesc');
-            
-            const spotlightFrame = document.getElementById('heroSpotlightFrame');
-            const spotlightSlot = document.getElementById('heroSpotlightSlot');
-            const badgeText = document.getElementById('spotlightBadgeText');
+        function unitFare(productKey = state.product) {
+            return products[productKey].base * region().factor;
+        }
 
-            const cards = document.querySelectorAll('.strategy-card');
+        function fare() {
+            const unit = unitFare();
+            const base = unit * passengerCount();
+            const student = state.studentVerified ? unit * state.passengers.student * 0.2 : 0;
+            const senior = unit * state.passengers.senior * 0.3;
+            const bike = state.bike ? 3 : 0;
+            const firstClass = state.firstClass ? 2.5 : 0;
+            const recoveryCredit = selectedTrain().id === "recovery" ? Math.min(base, 5.2) : 0;
+            return { base, student, senior, bike, firstClass, recoveryCredit, total: base - student - senior - recoveryCredit + bike + firstClass };
+        }
 
-            if (mode === 'all') {
-                spotlightFrame.style.display = 'none';
-                spotlightSlot.innerHTML = '';
-                cards.forEach(card => card.classList.remove('dimmed-out'));
-                consoleTitle.innerText = "📊 Evaluation Matrix Restored to Balanced View";
-                consoleDesc.innerText = "Displaying the unfiltered parallel matrix comparison layout across all generated strategy choices.";
-                return;
-            }
+        function log() {}
 
-            // Engage High Sensory Focus Frame Visual Shift
-            spotlightFrame.style.display = 'block';
-            let targetCardId = '';
+        function goTo(step) {
+            if (step > state.maxStep + 1) return;
+            state.step = Math.max(1, Math.min(5, step));
+            state.maxStep = Math.max(state.maxStep, state.step);
+            document.getElementById("purchase-flow").scrollIntoView({ behavior: "smooth", block: "start" });
+            log("Moved to step " + state.step + ".");
+            render();
+        }
 
-            if (mode === 'fast') {
-                targetCardId = 'scard-fast';
-                badgeText.innerText = "CRITICAL TARGET STRATEGY FOCUS: TIMEFRAME EFFICIENCY OPTIMAL (FASTEST)";
-                consoleTitle.innerText = "⚡ TIMEFRAME MINIMIZATION SHUTTLE MATRIX ENGAGED";
-                consoleDesc.innerText = "Isolating the absolute fastest rail transit track. This strategy cuts down in-transit overhead by 26 minutes compared to local options, prioritizing speed over leisure stopovers.";
-            } else if (mode === 'cheap') {
-                targetCardId = 'scard-cheap';
-                badgeText.innerText = "CRITICAL TARGET STRATEGY FOCUS: FINANCIAL OUT-OF-POCKET EXPENDITURE MINIMIZED (CHEAPEST)";
-                consoleTitle.innerText = "💰 TOTAL EXPENDITURE AUDITING ENGINE ENGAGED";
-                consoleDesc.innerText = "Isolating the lowest financial tariff tracks. System has cross-verified and factored in tourism concession passes matching your active left-side parameters.";
-            } else if (mode === 'conv') {
-                targetCardId = 'scard-conv';
-                badgeText.innerText = "CRITICAL TARGET STRATEGY FOCUS: HIGH-DENSITY SCENIC MULTIMODAL OVERLAY (CONVENIENT)";
-                consoleTitle.innerText = "🔄 TOURISM EXPERIENCE ENHANCEMENT ISOLATION ENGAGED";
-                consoleDesc.innerText = "Prioritizing scenic rail corridors and panoramic views. Highly recommended for leisure travelers where the travel route itself is part of the vacation experience.";
-            }
-
-            // Clone target option layout into top Spotlight box
-            const targetCard = document.getElementById(targetCardId);
-            if (targetCard) {
-                let cardSnapshot = targetCard.cloneNode(true);
-                let interactiveActions = cardSnapshot.querySelector('div:last-child');
-                if (interactiveActions) interactiveActions.remove(); // Drop controls inside spotlight container view
-                spotlightSlot.innerHTML = cardSnapshot.innerHTML;
-            }
-
-            // Apply extreme structural dimming to emphasize winning choice
-            cards.forEach(card => {
-                if (card.id === targetCardId) {
-                    card.classList.remove('dimmed-out');
-                } else {
-                    card.classList.add('dimmed-out');
-                }
+        function visibleTrains() {
+            return trainOptions.filter(train => {
+                if (train.id === "recovery" && !state.strikeProof && !state.disrupted) return false;
+                if (state.filter === "all") return true;
+                if (state.filter === "fast") return train.type === "fast";
+                if (state.filter === "cheap") return train.type === "cheap" || train.id === "recovery";
+                if (state.filter === "scenic") return train.scenic;
+                if (state.filter === "recovery") return train.id === "recovery" || train.id === "s11";
+                return true;
             });
         }
 
-        // Feature 3 Check alternative routes during strikes or delays
-        function toggleStrikeRoutes() {
-            const isChecked = document.getElementById('strikeCheckbox').checked;
-            const strikeCard = document.getElementById('scard-strike');
-            const consoleTitle = document.getElementById('consoleLogTitle');
-            const consoleDesc = document.getElementById('consoleLogDesc');
+        function renderSteps() {
+            document.querySelectorAll(".screen").forEach(screen => screen.classList.toggle("active", screen.id === screens[state.step]));
+            document.querySelectorAll("[data-go-step]").forEach(button => {
+                const step = Number(button.dataset.goStep);
+                button.classList.toggle("done", step < state.step);
+                if (step === state.step) button.setAttribute("aria-current", "step");
+                else button.removeAttribute("aria-current");
+            });
+        }
 
-            if (isChecked) {
-                strikeCard.style.display = 'grid';
-                consoleTitle.innerText = "🛡️ DEFENSIVE ACTION: STRIKE CONTINGENCY VECTOR INJECTED";
-                consoleDesc.innerText = "The scheduling layer has forcefully injected emergency highway shuttle Bus DB902. This run bypasses regional rail lines subject to union stop-work orders. Recommended for strict travel security.";
-            } else {
-                strikeCard.style.display = 'none';
-                filterStrategyMatrix('all');
+        function renderSearch() {
+            document.getElementById("summary-origin").textContent = state.origin;
+            document.getElementById("summary-destination").textContent = state.destination;
+            document.getElementById("origin").value = state.origin;
+            document.getElementById("destination").value = state.destination;
+            document.getElementById("itinerary-package").value = state.package;
+            document.getElementById("results-origin").value = state.origin;
+            document.getElementById("results-destination").value = state.destination;
+            document.getElementById("results-itinerary-package").value = state.package;
+            document.getElementById("return-row").classList.toggle("active", state.returnActive);
+            document.querySelectorAll("[data-search-mode]").forEach(button => button.setAttribute("aria-pressed", button.dataset.searchMode === state.searchMode ? "true" : "false"));
+            document.querySelectorAll("[data-switch-search-mode]").forEach(button => button.setAttribute("aria-pressed", button.dataset.switchSearchMode === state.searchMode ? "true" : "false"));
+            document.querySelectorAll("#search-mode-station, #results-mode-station").forEach(panel => panel.classList.toggle("active", state.searchMode === "station"));
+            document.querySelectorAll("#search-mode-explore, #results-mode-explore").forEach(panel => panel.classList.toggle("active", state.searchMode === "explore"));
+            document.getElementById("search-subtitle").textContent = state.searchMode === "station"
+                ? "Search for your journey by departure and arrival station."
+                : "Plan your journey with Itinerary designer.";
+            document.getElementById("method-title").textContent = state.searchMode === "station" ? "Search method: Station search" : "Search method: Explore with Itinerary Designer";
+            document.getElementById("method-copy").textContent = state.searchMode === "station"
+                ? `${state.origin} to ${state.destination}, outbound station search.`
+                : `${state.package === "como" ? "Lake Como day trip" : state.package} package with ${state.persona} persona.`;
+            document.querySelectorAll("[data-persona]").forEach(button => button.setAttribute("aria-pressed", button.dataset.persona === state.persona ? "true" : "false"));
+            document.querySelectorAll("[data-preset]").forEach(button => button.setAttribute("aria-pressed", button.dataset.preset === state.preset ? "true" : "false"));
+        }
+
+        function renderResults() {
+            const banner = document.getElementById("alert-banner");
+            const alertActive = state.strikeProof || state.disrupted;
+            banner.classList.toggle("neutral", !alertActive);
+            document.getElementById("alert-title").textContent = alertActive ? "Disruption-aware route planning active" : "Route status clear";
+            document.getElementById("alert-copy").textContent = alertActive
+                ? "Recovery-ready alternatives are injected and lower-confidence options are dimmed when they are not selected."
+                : "Standard service is available for the selected route.";
+            document.getElementById("toggle-disruption").textContent = state.disrupted ? "Clear disruption" : "Simulate disruption";
+            document.querySelectorAll("[data-filter]").forEach(button => button.setAttribute("aria-pressed", button.dataset.filter === state.filter ? "true" : "false"));
+
+            const trains = visibleTrains();
+            if (!trains.some(train => train.id === state.selectedTrain)) state.selectedTrain = trains[0]?.id || "direct";
+            document.getElementById("results-list").innerHTML = trains.map(train => {
+                const selected = train.id === state.selectedTrain;
+                const dimmed = alertActive && train.id !== "recovery" && !selected;
+                const expanded = state.expandedTrain === train.id;
+                const tags = [
+                    train.scenic ? "scenic" : "",
+                    train.type === "fast" ? "convenient" : "",
+                    train.id === "recovery" ? "strike-proof" : "",
+                    train.changes === "0 changes" ? "direct" : ""
+                ].filter(Boolean);
+                return `<article class="result-card ${selected ? "selected" : ""} ${dimmed ? "dimmed" : ""} ${expanded ? "expanded" : ""}" data-train-card="${train.id}">
+                    <button class="train-select" type="button" data-train="${train.id}" aria-pressed="${selected ? "true" : "false"}">
+                        <div class="train-card-main">
+                            <span class="train-service"><span class="service-logo">${train.id === "recovery" ? "BUS" : "TND"}</span>${train.train}</span>
+                            <span class="train-route">
+                                <span class="station-line"><strong>${train.time.split(" to ")[0]}</strong><span>${state.origin}</span><span class="platform-pill">${train.platform.split(" / ")[0]}</span></span>
+                                <span class="station-line"><strong>${train.time.split(" to ")[1]}</strong><span>${state.destination}</span><span class="platform-pill">${train.platform.includes("/") ? train.platform.split(" / ")[1] : "ARR"}</span></span>
+                            </span>
+                            <span class="train-duration"><strong>${train.duration}</strong><span class="meta">${train.changes}</span></span>
+                            <span class="train-fare"><span class="meta">First class</span><span class="fare-pill">${money(train.price * region().factor)} | cart</span></span>
+                            <span class="expand-icon" aria-hidden="true">${expanded ? "^" : "v"}</span>
+                        </div>
+                    </button>
+                    <div class="train-card-footer">
+                        <strong>Railway ticket</strong>
+                        <span class="tag-list">${tags.map(tag => `<span class="train-tag ${tag === "strike-proof" ? "alert" : ""}">${tag}</span>`).join("")}</span>
+                        <span class="train-card-actions">
+                            <button class="text-button" type="button" data-save-train="${train.id}">${state.savedTrain === train.id ? "Saved" : "Save train"}</button>
+                            <button class="text-button" type="button" data-expand-train="${train.id}">${expanded ? "Hide details" : "Expand details"}</button>
+                        </span>
+                    </div>
+                    <div class="train-details">
+                        <section>
+                            <h3 class="mini-title">Console, Focus & Results</h3>
+                            <p>${train.recovery}</p>
+                        </section>
+                        <section>
+                            <h3 class="mini-title">Train detail stops</h3>
+                            <div class="timeline">${train.stops.map(stop => `<div class="stop"><time>${stop[0]}</time><span><strong>${stop[1]}</strong><small class="meta">${stop[2]}</small></span><span class="stop-status ${stop[3] === "Delayed" || stop[3] === "Connection" ? "warning" : ""}">${stop[3]}</span></div>`).join("")}</div>
+                        </section>
+                    </div>
+                </article>`;
+            }).join("");
+            document.querySelectorAll("[data-train]").forEach(button => button.addEventListener("click", () => {
+                state.selectedTrain = button.dataset.train;
+                log("Selected train " + selectedTrain().train + ".");
+                render();
+            }));
+            document.querySelectorAll("[data-save-train]").forEach(button => button.addEventListener("click", () => {
+                state.savedTrain = button.dataset.saveTrain;
+                log("Saved train " + selectedTrain().train + ".");
+                render();
+            }));
+            document.querySelectorAll("[data-expand-train]").forEach(button => button.addEventListener("click", () => {
+                state.expandedTrain = state.expandedTrain === button.dataset.expandTrain ? "" : button.dataset.expandTrain;
+                log("Toggled train detail panel.");
+                render();
+            }));
+
+            const train = selectedTrain();
+            document.getElementById("journey-metrics").innerHTML = `
+                <div class="metric"><span>Time</span><strong>${train.time}</strong></div>
+                <div class="metric"><span>Service</span><strong>${train.train}</strong></div>
+                <div class="metric"><span>Platform</span><strong>${train.platform}</strong></div>`;
+            document.getElementById("recovery-summary").textContent = train.recovery;
+            renderTimeline("timeline", train.stops);
+        }
+
+        function renderTimeline(targetId, stops) {
+            document.getElementById(targetId).innerHTML = stops.map(stop => `
+                <div class="stop">
+                    <time>${stop[0]}</time>
+                    <span><strong>${stop[1]}</strong><small class="meta">${stop[2]}</small></span>
+                    <span class="stop-status ${stop[3] === "Delayed" || stop[3] === "Connection" ? "warning" : ""}">${stop[3]}</span>
+                </div>`).join("");
+        }
+
+        function renderTicket() {
+            document.querySelectorAll("[data-product]").forEach(button => button.setAttribute("aria-pressed", button.dataset.product === state.product ? "true" : "false"));
+            Object.keys(products).forEach(key => {
+                const node = document.querySelector(`[data-product-price="${key}"]`);
+                if (node) node.textContent = money(unitFare(key));
+            });
+            document.getElementById("adult-count").textContent = state.passengers.adult;
+            document.getElementById("student-count").textContent = state.passengers.student;
+            document.getElementById("senior-count").textContent = state.passengers.senior;
+            document.getElementById("student-verified").checked = state.studentVerified;
+            const f = fare();
+            document.getElementById("fare-preview").innerHTML = `
+                <div class="amount-line"><span>Base fare (${passengerCount()} passenger${passengerCount() === 1 ? "" : "s"})</span><strong>${money(f.base)}</strong></div>
+                <div class="amount-line discount"><span>Student discount</span><strong>-${money(f.student)}</strong></div>
+                <div class="amount-line discount"><span>Senior discount</span><strong>-${money(f.senior)}</strong></div>
+                <div class="amount-line discount"><span>Recovery credit</span><strong>-${money(f.recoveryCredit)}</strong></div>
+                <div class="amount-line total"><span>Total before extras</span><strong>${money(f.total)}</strong></div>`;
+        }
+
+        function renderCheckout() {
+            const train = selectedTrain();
+            const f = fare();
+            document.getElementById("review-route").textContent = state.origin + " to " + state.destination;
+            document.getElementById("review-train").textContent = train.time + " - " + train.train;
+            document.getElementById("review-validity").textContent = products[state.product].validity + " (" + region().label + ")";
+            document.getElementById("review-passengers").textContent = passengerSummary();
+            document.getElementById("bike").checked = state.bike;
+            document.getElementById("first-class").checked = state.firstClass;
+            document.getElementById("terms").checked = state.terms;
+            document.querySelectorAll('input[name="identity"]').forEach(input => input.checked = input.value === state.identity);
+            document.querySelectorAll('input[name="payment"]').forEach(input => {
+                input.checked = input.value === state.payment;
+                input.closest(".payment-option").classList.toggle("active", input.checked);
+            });
+            document.getElementById("checkout-summary").innerHTML = `
+                <div class="amount-line"><span>Base fare</span><strong>${money(f.base)}</strong></div>
+                <div class="amount-line discount"><span>Discounts</span><strong>-${money(f.student + f.senior + f.recoveryCredit)}</strong></div>
+                <div class="amount-line"><span>Supplements</span><strong>${money(f.bike + f.firstClass)}</strong></div>
+                <div class="amount-line total"><span>Total to pay</span><strong>${money(f.total)}</strong></div>`;
+        }
+
+        function renderConfirmation() {
+            const f = fare();
+            document.getElementById("confirmed-route").textContent = state.origin + " to " + state.destination;
+            document.getElementById("confirmed-product").textContent = products[state.product].name;
+            document.getElementById("confirmed-total").textContent = money(f.total);
+            const train = selectedTrain();
+            const stops = state.disrupted ? [
+                ["10:10", state.origin, "Platform 2", "On time"],
+                ["10:40", "Seregno", "Platform 2", "Delayed"],
+                ["10:50", "Seregno", "Platform 4", "Connection"],
+                ["11:18", state.destination, "Platform 2", "Arrival"]
+            ] : train.stops;
+            renderTimeline("confirmation-timeline", stops);
+            document.getElementById("confirmation-alert-title").textContent = state.disrupted ? "Platform change monitored" : "No active disruption";
+            document.getElementById("confirmation-alert-copy").textContent = state.disrupted
+                ? "S11 connection has been recalculated. Follow Platform 4 at Seregno for the protected connection."
+                : "Track and timing remain aligned with the selected train.";
+        }
+
+        function renderQr() {
+            const pattern = ["1111111010111","1000001010101","1011101011101","1011101000101","1011101111101","1000001000001","1111111011111","0000010001000","1110111110111","0010100010100","1011111011101","1000101000101","1111101111111"];
+            document.getElementById("qr-code").innerHTML = pattern.flatMap(row => row.split("").map(cell => `<span class="${cell === "1" ? "on" : ""}"></span>`)).join("");
+        }
+
+        function renderSummary() {
+            const train = selectedTrain();
+            const f = fare();
+            document.getElementById("summary-origin").textContent = state.origin;
+            document.getElementById("summary-destination").textContent = state.destination;
+            document.getElementById("summary-train").textContent = state.maxStep >= 2 ? train.train : "Not selected";
+            document.getElementById("summary-product").textContent = products[state.product].name;
+            document.getElementById("summary-total").textContent = money(f.total);
+        }
+
+        function render() {
+            renderSteps();
+            renderSearch();
+            renderResults();
+            renderTicket();
+            renderCheckout();
+            renderConfirmation();
+            renderSummary();
+            renderQr();
+        }
+
+        function submitSearch() {
+            state.maxStep = Math.max(state.maxStep, 2);
+            state.expandedTrain = "";
+            if (state.searchMode === "explore" && state.persona === "commuter") {
+                state.strikeProof = true;
+                state.filter = "recovery";
+                state.selectedTrain = "recovery";
             }
+            goTo(2);
         }
 
-        // Feature 4: Preset Data Loader Action
-        function injectQuickPreset(from, to, persona, tourPack) {
-            document.getElementById('station-from').value = from;
-            document.getElementById('station-to').value = to;
-            
-            if(tourPack !== 'none') {
-                document.getElementById('tour-selector').value = tourPack;
-                previewTourPackage(tourPack);
+        document.querySelectorAll("[data-search-mode]").forEach(button => button.addEventListener("click", () => {
+            state.searchMode = button.dataset.searchMode;
+            log("Search method selected: " + state.searchMode + ".");
+            render();
+        }));
+
+        document.querySelectorAll("[data-switch-search-mode]").forEach(button => button.addEventListener("click", () => {
+            state.searchMode = button.dataset.switchSearchMode;
+            log("Select train search method switched to " + state.searchMode + ".");
+            render();
+        }));
+
+        document.getElementById("swap-route").addEventListener("click", () => {
+            const temp = state.origin;
+            state.origin = state.destination;
+            state.destination = temp;
+            log("Origin and destination swapped.");
+            render();
+        });
+
+        ["origin", "destination"].forEach(id => document.getElementById(id).addEventListener("input", event => {
+            state[id] = event.target.value || (id === "origin" ? "Milano Centrale" : "Como Lago");
+            renderSummary();
+        }));
+
+        document.getElementById("itinerary-package").addEventListener("change", event => {
+            state.package = event.target.value;
+            if (state.package === "bike") state.bike = true;
+            if (state.package === "crossborder") state.region = "tilo";
+            log("Itinerary designer package selected: " + state.package + ".");
+            render();
+        });
+
+        document.getElementById("results-itinerary-package").addEventListener("change", event => {
+            state.package = event.target.value;
+            if (state.package === "bike") state.bike = true;
+            if (state.package === "crossborder") state.region = "tilo";
+            log("Results itinerary package selected: " + state.package + ".");
+            render();
+        });
+
+        ["results-origin", "results-destination"].forEach(id => document.getElementById(id).addEventListener("input", event => {
+            if (id === "results-origin") state.origin = event.target.value || "Milano Centrale";
+            if (id === "results-destination") state.destination = event.target.value || "Como Lago";
+            render();
+        }));
+
+        document.getElementById("results-swap-route").addEventListener("click", () => {
+            const temp = state.origin;
+            state.origin = state.destination;
+            state.destination = temp;
+            log("Results origin and destination swapped.");
+            render();
+        });
+
+        document.getElementById("toggle-return").addEventListener("click", () => { state.returnActive = true; log("Return journey field added."); render(); });
+        document.getElementById("remove-return").addEventListener("click", () => { state.returnActive = false; log("Return journey removed."); render(); });
+
+        document.querySelectorAll("[data-persona]").forEach(button => button.addEventListener("click", () => {
+            state.persona = button.dataset.persona;
+            if (state.persona === "commuter") {
+                state.strikeProof = true;
+                state.filter = "recovery";
+                state.selectedTrain = "recovery";
             }
-            
-            setPassengerPersona(persona);
-            applyTourPlanAsFilter();
-        }
+            if (state.persona === "bike") state.bike = true;
+            log("Passenger persona selected: " + state.persona + ".");
+            render();
+        }));
 
-        function toggleStrategySave(btn, id) {
-            btn.classList.toggle('saved');
-            btn.innerText = btn.classList.contains('saved') ? "★ Saved to Presets" : "⭐ Save";
-        }
+        document.querySelectorAll("[data-preset]").forEach(button => button.addEventListener("click", () => {
+            state.preset = button.dataset.preset;
+            if (state.preset === "lake") {
+                state.origin = "Milano Centrale";
+                state.destination = "Como Lago";
+                state.package = "como";
+                state.selectedTrain = "direct";
+                state.filter = "all";
+            }
+            if (state.preset === "airport") {
+                state.origin = "Milano Cadorna";
+                state.destination = "Malpensa Aeroporto T1";
+                state.package = "standard";
+                state.selectedTrain = "direct";
+                state.filter = "fast";
+            }
+            if (state.preset === "commuter") {
+                state.origin = "Como Borghi";
+                state.destination = "Saronno";
+                state.persona = "commuter";
+                state.strikeProof = true;
+                state.filter = "recovery";
+                state.selectedTrain = "recovery";
+            }
+            log("Strategy preset loaded: " + state.preset + ".");
+            render();
+        }));
 
-        function toggleDrawerInline(id) {
-            const drawer = document.getElementById(id);
-            drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
-        }
+        document.getElementById("search-submit").addEventListener("click", submitSearch);
+        document.getElementById("search-submit-inline").addEventListener("click", submitSearch);
+        document.getElementById("explore-submit").addEventListener("click", submitSearch);
+        document.getElementById("results-station-search").addEventListener("click", () => { state.searchMode = "station"; log("Station Config refreshed train results."); render(); });
+        document.getElementById("results-explore-search").addEventListener("click", () => { state.searchMode = "explore"; log("Itinerary Designer refreshed train results."); render(); });
+        document.getElementById("continue-ticket").addEventListener("click", () => { state.maxStep = Math.max(state.maxStep, 3); goTo(3); });
+        document.getElementById("continue-checkout").addEventListener("click", () => { state.maxStep = Math.max(state.maxStep, 4); goTo(4); });
+        document.getElementById("new-search").addEventListener("click", () => { state.step = 1; state.maxStep = 1; log("New search started."); render(); });
+
+        document.getElementById("toggle-disruption").addEventListener("click", () => {
+            state.disrupted = !state.disrupted;
+            if (state.disrupted) {
+                state.strikeProof = true;
+                state.filter = "recovery";
+                state.selectedTrain = "s11";
+            }
+            log("Disruption simulation " + (state.disrupted ? "enabled" : "cleared") + ".");
+            render();
+        });
+
+        document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
+            state.filter = button.dataset.filter;
+            log("Result filter selected: " + state.filter + ".");
+            render();
+        }));
+
+        document.querySelectorAll("[data-product]").forEach(button => button.addEventListener("click", () => {
+            state.product = button.dataset.product;
+            log("Ticket product selected: " + products[state.product].name + ".");
+            render();
+        }));
+
+        document.querySelectorAll("[data-counter]").forEach(button => button.addEventListener("click", () => {
+            const key = button.dataset.counter;
+            const delta = Number(button.dataset.delta);
+            if (passengerCount() === 1 && state.passengers[key] === 1 && delta < 0) {
+                log("At least one passenger is required.");
+                return;
+            }
+            state.passengers[key] = Math.max(0, state.passengers[key] + delta);
+            log("Passenger configuration updated: " + passengerSummary() + ".");
+            render();
+        }));
+
+        document.getElementById("student-verified").addEventListener("change", event => { state.studentVerified = event.target.checked; log("Student verification " + (state.studentVerified ? "accepted" : "removed") + "."); render(); });
+        document.getElementById("bike").addEventListener("change", event => { state.bike = event.target.checked; log("Bicycle transport " + (state.bike ? "added" : "removed") + "."); render(); });
+        document.getElementById("first-class").addEventListener("change", event => { state.firstClass = event.target.checked; log("First class upgrade " + (state.firstClass ? "added" : "removed") + "."); render(); });
+        document.getElementById("terms").addEventListener("change", event => { state.terms = event.target.checked; log("Terms agreement " + (state.terms ? "accepted" : "unchecked") + "."); render(); });
+
+        document.querySelectorAll('input[name="identity"]').forEach(input => input.addEventListener("change", event => { state.identity = event.target.value; log("Checkout identity selected: " + state.identity + "."); render(); }));
+        document.querySelectorAll('input[name="payment"]').forEach(input => input.addEventListener("change", event => { state.payment = event.target.value; log("Payment method selected: " + state.payment + "."); render(); }));
+
+        document.getElementById("pay-now").addEventListener("click", () => {
+            if (!state.terms) {
+                log("Terms agreement required before payment.");
+                return;
+            }
+            state.maxStep = 5;
+            log("Payment confirmed via " + state.payment + ". Order TN-928374-2026 generated.");
+            goTo(5);
+        });
+
+        document.getElementById("confirmation-disruption").addEventListener("click", () => {
+            state.disrupted = !state.disrupted;
+            log("Post-purchase journey alert " + (state.disrupted ? "enabled" : "cleared") + ".");
+            render();
+        });
+
+        document.querySelectorAll("[data-go-step]").forEach(button => button.addEventListener("click", () => goTo(Number(button.dataset.goStep))));
+        document.querySelectorAll("[data-back-step]").forEach(button => button.addEventListener("click", () => {
+            const target = Number(button.dataset.backStep);
+            if (target < 1) {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+            goTo(target);
+        }));
+
+        log("Prototype initialized from Trenord purchase-flow walkthrough.");
+        render();
     </script>
 </body>
 </html>
