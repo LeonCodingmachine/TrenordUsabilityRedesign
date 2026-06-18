@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trenord UX Wireframe v5 - Tourism Strategy Hub</title>
+    <style>
+        /* Strict Low-Fidelity Monochrome Color Specification */
+        :root {
+            --wf-white: #ffffff;
+            --wf-gray-50: #f9fafb;
+            --wf-gray-100: #f4f4f5;
+            --wf-gray-200: #e4e4e7;
+            --wf-gray-300: #d4d4d8;
+            --wf-gray-400: #a1a1aa;
+            --wf-gray-600: #52525b;
+            --wf-gray-800: #27272a;
+            --wf-black: #09090b;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--wf-gray-100);
+            color: var(--wf-black);
+            margin: 0; padding: 0; line-height: 1.5;
+        }
+
+        header {
+            background-color: var(--wf-black); color: var(--wf-white);
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .header-logo { font-size: 14px; font-weight: bold; border: 2px dashed var(--wf-white); padding: 4px 10px; }
+        .header-tag { font-size: 12px; color: var(--wf-gray-400); }
+
+        /* Two-Column Asymmetric Wireframe Dashboard Grid */
+        .dashboard-container {
+            max-width: 1500px; margin: 20px auto; padding: 0 20px;
+            display: grid; grid-template-columns: 400px 1fr; gap: 20px;
+        }
+
+        .config-side-panel { display: flex; flex-direction: column; gap: 20px; }
+        .wf-card { background-color: var(--wf-white); border: 2px solid var(--wf-black); padding: 20px; }
+        .card-title {
+            font-size: 13px; font-weight: bold; margin-top: 0; margin-bottom: 12px;
+            padding-bottom: 6px; border-bottom: 2px dashed var(--wf-gray-200);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
+        .form-group input[type="text"], .form-group input[type="datetime-local"] {
+            width: 100%; padding: 8px; border: 1px solid var(--wf-gray-600); font-size: 13px;
+        }
+
+        /* Highly Enhanced & Diversified Passenger Personas */
+        .passenger-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .p-persona-option {
+            border: 1px solid var(--wf-gray-400); padding: 8px; text-align: left; cursor: pointer; background-color: var(--wf-white);
+        }
+        .p-persona-option.active { border: 3px solid var(--wf-black); background-color: var(--wf-gray-200); }
+        .p-persona-title { font-size: 12px; font-weight: bold; margin: 0; }
+        .p-persona-desc { font-size: 10px; color: var(--wf-gray-600); margin: 2px 0 0 0; }
+
+        /* Tourism Destination & Experience Package Planner */
+        .tour-package-select {
+            width: 100%; padding: 8px; border: 1px solid var(--wf-black); font-size: 13px; font-weight: bold; margin-bottom: 10px;
+        }
+        .tour-itinerary-box {
+            background-color: var(--wf-gray-50); border: 1px dashed var(--wf-black); padding: 12px; font-size: 12px; margin-bottom: 10px;
+        }
+        .tour-step { margin-bottom: 6px; padding-left: 14px; position: relative; }
+        .tour-step::before { content: "•"; position: absolute; left: 0; font-weight: bold; }
+
+        /* Standardized Action Buttons */
+        .btn-wf-action {
+            width: 100%; background-color: var(--wf-white); border: 2px solid var(--wf-black);
+            padding: 10px; font-size: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase;
+        }
+        .btn-wf-action:hover { background-color: var(--wf-gray-100); }
+        .btn-wf-action.btn-filled { background-color: var(--wf-black); color: var(--wf-white); }
+        .btn-wf-action.btn-filled:hover { background-color: var(--wf-gray-800); }
+
+        .quick-btn {
+            width: 100%; text-align: left; background: var(--wf-white); border: 1px solid var(--wf-gray-400);
+            padding: 8px 12px; cursor: pointer; font-size: 11px; margin-bottom: 6px;
+        }
+        .quick-btn:hover { background-color: var(--wf-gray-100); }
+
+        /* ==================== RIGHT PANEL STYLING ==================== */
+        .main-matrix-panel { display: flex; flex-direction: column; gap: 20px; }
+
+        .disruption-box {
+            border: 2px solid var(--wf-black); background-color: var(--wf-gray-200);
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .switch-label {
+            display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: bold;
+            cursor: pointer; border: 2px solid var(--wf-black); padding: 6px 12px; background-color: var(--wf-white);
+        }
+
+        .filter-control-bar {
+            background-color: var(--wf-white); border: 2px solid var(--wf-black); padding: 12px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .filter-tabs { display: flex; gap: 6px; }
+        .tab-trigger {
+            background-color: var(--wf-white); border: 1px solid var(--wf-gray-600);
+            padding: 6px 14px; font-size: 12px; cursor: pointer;
+        }
+        .tab-trigger.active { background-color: var(--wf-black); color: var(--wf-white); font-weight: bold; }
+
+        /* Sensory Feedback Banners */
+        .feedback-banner {
+            background-color: var(--wf-black); color: var(--wf-white);
+            padding: 18px 25px; border: 2px solid var(--wf-black);
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .feedback-banner h3 { margin: 0; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .feedback-banner p { margin: 0; font-size: 12px; color: var(--wf-gray-400); }
+
+        /* Hero Spotlight Matrix Box */
+        .spotlight-frame {
+            border: 4px solid var(--wf-black); background-color: var(--wf-white);
+            padding: 20px; position: relative; display: none; margin-bottom: 5px;
+        }
+        .spotlight-lbl {
+            position: absolute; top: -14px; left: 20px; background-color: var(--wf-black);
+            color: var(--wf-white); font-size: 10px; font-weight: bold; padding: 2px 10px; letter-spacing: 1px;
+        }
+
+        /* Route Result Cards Layout */
+        .results-stack { display: flex; flex-direction: column; gap: 12px; }
+        .strategy-card {
+            background-color: var(--wf-white); border: 2px solid var(--wf-black);
+            display: grid; grid-template-columns: 2.2fr 1.2fr 1fr 1fr auto;
+            align-items: center; padding: 15px 20px; gap: 15px; transition: all 0.2s;
+        }
+        .strategy-card.contingency-mode { border: 2px dashed var(--wf-black); background-color: var(--wf-gray-100); display: none; }
+
+        /* Dimming Effect for Secondary Options */
+        .strategy-card.dimmed-out {
+            opacity: 0.2; border: 1px dashed var(--wf-gray-400);
+            transform: scale(0.99); filter: grayscale(1);
+        }
+        .strategy-card.dimmed-out .btn-card { pointer-events: none; }
+
+        .card-badge { display: inline-block; border: 1px solid var(--wf-black); background-color: var(--wf-gray-200); font-size: 10px; font-weight: bold; padding: 2px 6px; margin-bottom: 6px; }
+        .card-time { font-size: 18px; font-weight: bold; }
+        .card-meta { font-size: 12px; color: var(--wf-gray-600); }
+        .card-price { font-size: 16px; font-weight: bold; }
+        .btn-card { background-color: var(--wf-white); border: 1px solid var(--wf-black); padding: 6px 10px; font-size: 11px; cursor: pointer; }
+        .btn-card.saved { background-color: var(--wf-black); color: var(--wf-white); }
+
+        .details-drawer { display: none; background-color: var(--wf-gray-100); border: 2px solid var(--wf-black); border-top: none; margin-top: -12px; margin-bottom: 8px; padding: 15px 20px; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">TRENORD STRATEGY MATRIX [LOW-FI WIREFRAME v5]</div>
+        <div class="header-tag">Context: Non-Linear Tourism Strategy Engine</div>
+    </header>
+
+    <div class="dashboard-container">
+        
+        <!-- LEFT CONTROL COLUMN (INPUT ARCHITECTURE) -->
+        <section class="config-side-panel" aria-label="Strategy Customization Panel">
+            
+            <!-- NEW/ENHANCED: Tour Experience Route Filter Planner (Planning transforms into filter conditions) -->
+            <div class="wf-card">
+                <div class="card-title">
+                    <span>1. TOURISM ITINERARY DESIGNER</span>
+                    <span style="font-size:10px; border: 1px solid #000; padding:1px 3px;">IMAGE 1 COUPLING</span>
+                </div>
+                <p style="font-size: 11px; color: var(--wf-gray-600); margin-top:0; margin-bottom:10px;">
+                    Select an experience package below to review its full planning layout. Applying it will override and filter the stations on the map.
+                </p>
+                
+                <label style="display:none;" for="tour-selector">Package Selector</label>
+                <select class="tour-package-select" id="tour-selector" onchange="previewTourPackage(this.value)">
+                    <option value="como">Tesori del Lago di Como (Lake Treasures Pack)</option>
+                    <option value="garda">Lake Garda Active Sport & Bike Trail Pack</option>
+                    <option value="iseo">Iseo Wine Estates & Historic Rail Journey</option>
+                </select>
+
+                <!-- Detailed Experience Drawer View -->
+                <div class="tour-itinerary-box" id="tourPreviewBox">
+                    <strong>📋 Experience Itinerary Breakdown:</strong>
+                    <div style="margin-top: 6px;" id="tourPreviewContent">
+                        <div class="tour-step"><strong>Rail Segment:</strong> Milano Centrale to Como Lago terminus.</div>
+                        <div class="tour-step"><strong>Navigational Link:</strong> Integrated Navigazione Lago Ferry voucher.</div>
+                        <div class="tour-step"><strong>Exploration Window:</strong> Bellagio & Varenna intermediate stopovers.</div>
+                        <div class="tour-step"><strong>Strategic Perk:</strong> 15% combined multimodal tariff deduction applied.</div>
+                    </div>
+                </div>
+
+                <button class="btn-wf-action btn-filled" onclick="applyTourPlanAsFilter()">Apply Tour Plan as Route Filter ↓</button>
+            </div>
+
+            <!-- ENHANCED: Highly Diversified Passenger Personas -->
+            <div class="wf-card">
+                <div class="card-title">2. DIVERSIFIED PASSENGER PERSONAS</div>
+                <div class="passenger-grid">
+                    <div class="p-persona-option active" id="pp-tourist" onclick="setPassengerPersona('tourist')">
+                        <p class="p-persona-title">Day-Tripper</p>
+                        <p class="p-persona-desc">Occasional explorer matching multi-leg scenic passes.</p>
+                    </div>
+                    <div class="p-persona-option" id="pp-family" onclick="setPassengerPersona('family')">
+                        <p class="p-persona-title">Family Group</p>
+                        <p class="p-persona-desc">Traveling with children. Optimizes comfort & group rates.</p>
+                    </div>
+                    <div class="p-persona-option" id="pp-hiker" onclick="setPassengerPersona('hiker')">
+                        <p class="p-persona-title">Alpine Hiker</p>
+                        <p class="p-persona-desc">Requires bike transport cars & rural trail station data.</p>
+                    </div>
+                    <div class="p-persona-option" id="pp-adult" onclick="setPassengerPersona('adult')">
+                        <p class="p-persona-title">Standard Adult</p>
+                        <p class="p-persona-desc">Direct A-to-B routing with standard regional fares.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Journey Settings Override Controls -->
+            <div class="wf-card">
+                <div class="card-title">3. STATION CONFIGURATION (FIND JOURNEY)</div>
+                <div class="form-group">
+                    <label for="station-from">Departure Station</label>
+                    <input type="text" id="station-from" value="Milano Centrale">
+                </div>
+                <div class="form-group">
+                    <label for="station-to">Arrival Destination Filter</label>
+                    <input type="text" id="station-to" value="Como Lago">
+                </div>
+                <div class="form-group">
+                    <label for="strategy-time">Target Timeframe</label>
+                    <input type="datetime-local" id="strategy-time" value="2026-06-05T08:30">
+                </div>
+            </div>
+
+            <!-- ENHANCED: Saved Strategies Dashboard -->
+            <div class="wf-card">
+                <div class="card-title">⭐ QUICK-ACCESS STRATEGY PRESETS</div>
+                <button class="quick-btn" onclick="injectQuickPreset('Milano Centrale', 'Como Lago', 'tourist', 'como')">
+                    <strong>Milano ➔ Como (Lake Treasures Day-Trip)</strong><br>
+                    <span style="color: var(--wf-gray-600);">Persona: Day-Tripper / Package Active</span>
+                </button>
+                <button class="quick-btn" onclick="injectQuickPreset('Milano Cadorna', 'Malpensa Aeroporto', 'adult', 'none')">
+                    <strong>Milano Cadorna ➔ Malpensa Express (Airport)</strong><br>
+                    <span style="color: var(--wf-gray-600);">Persona: Standard Adult / Direct Rail</span>
+                </button>
+            </div>
+
+        </section>
+
+        <!-- RIGHT PANEL STACK (OUTPUT EVALUATION MATRIX WITH SENSORY FEEDBACK) -->
+        <section class="main-matrix-panel">
+            
+            <!-- Strike Contingency Management (Feature 3 alternative routes check) -->
+            <div class="disruption-box">
+                <div>
+                    <h4 style="margin:0 0 4px 0; font-size:13px; text-transform:uppercase;">⚠️ Regional Industrial Action Alert System</h4>
+                    <p style="margin:0; font-size:11px; color:var(--wf-gray-600);">Potential trade union strike detected for this date. Regular train lines might face unexpected service suspensions.</p>
+                </div>
+                <label class="switch-label">
+                    <input type="checkbox" id="strikeCheckbox" onchange="toggleStrikeRoutes()">
+                    Inject Strike-Proof Alternatives
+                </label>
+            </div>
+
+            <!-- Multidimensional Analytical Controls (Feature 1 & 2 compare engine) -->
+            <div class="filter-control-bar">
+                <div style="font-size: 12px; font-weight: bold; text-transform: uppercase;">Compare Strategies by Cost, Time &amp; Transfers</div>
+                <div class="filter-tabs">
+                    <button class="tab-trigger active" id="t-all" onclick="filterStrategyMatrix('all')">View All Recommendations</button>
+                    <button class="tab-trigger" id="t-fast" onclick="filterStrategyMatrix('fast')">⚡ Fastest Route</button>
+                    <button class="tab-trigger" id="t-cheap" onclick="filterStrategyMatrix('cheap')">💰 Cheapest &amp; Promo</button>
+                    <button class="tab-trigger" id="t-conv" onclick="filterStrategyMatrix('conv')">🔄 Scenic/Multimodal</button>
+                </div>
+            </div>
+
+            <!-- HIGH SENSORY FEEDBACK COMPONENT 1: Plain English Explainer Console Banner -->
+            <div class="feedback-banner" id="matrixConsoleLog">
+                <h3 id="consoleLogTitle">📊 Balanced Evaluation Matrix Initialized</h3>
+                <p id="consoleLogDesc">Currently executing a standard multi-variable cross-comparison across time, cost, and layout constraints. The direct RegioExpress variant presents the optimal equilibrium score.</p>
+            </div>
+
+            <!-- HIGH SENSORY FEEDBACK COMPONENT 2: Hero Strategy Focus Frame -->
+            <div class="spotlight-frame" id="heroSpotlightFrame">
+                <div class="spotlight-lbl" id="heroSpotlightTitle">ACTIVE STRATEGIC SPOTLIGHT FOCUS</div>
+                <div id="heroSpotlightSlot"><!-- Cloned Winning Card Injecting Target Here --></div>
+            </div>
+
+            <!-- OUTPUT STRATEGY RESULTS STACK -->
+            <div class="results-stack" id="mainResultsContainer">
+                
+                <!-- Strategy Option Card 1: Fastest -->
+                <div class="strategy-card" id="scard-fast" data-type="fast">
+                    <div>
+                        <span class="card-badge">⚡ TIMEFRAME OPTIMAL (FASTEST)</span>
+                        <div class="card-time">08:43 ➔ 09:32</div>
+                        <div class="card-meta">RegioExpress 10042 • Non-stop Rail • 49 mins elapsed</div>
+                    </div>
+                    <div class="card-price">
+                        <span id="price-lbl-1">€4.90</span>
+                        <div class="card-meta">Standard Tariff</div>
+                    </div>
+                    <div class="card-meta"><strong>0</strong> transfers</div>
+                    <div class="card-meta">⚬ Running Normal</div>
+                    <div>
+                        <button class="btn-card" onclick="toggleStrategySave(this, 'RE-10042')">⭐ Save</button>
+                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-1')">Details</button>
+                    </div>
+                </div>
+                <div class="details-drawer" id="dr-1">
+                    <strong>Comprehensive Strategic Breakdown:</strong><br>
+                    • Boarding sequence executes at Milano Centrale Platform 5 at 08:43.<br>
+                    • Arrives at Como San Giovanni at 09:32. Skips all secondary urban intermediate hubs. High performance for time-restricted itineraries.
+                </div>
+
+                <!-- Strategy Option Card 2: Cheapest / Tourism Specific Bundle -->
+                <div class="strategy-card" id="scard-cheap" data-type="cheap">
+                    <div>
+                        <span class="card-badge">💰 FINANCIAL OPTIMAL (CHEAPEST / TOUR PASS BUNDLE)</span>
+                        <div class="card-time">08:50 ➔ 10:05</div>
+                        <div class="card-meta">Regional Local Rail 24110 • Multimodal Access Included • 1h 15m elapsed</div>
+                    </div>
+                    <div class="card-price">
+                        <span id="price-lbl-2">€3.60</span>
+                        <div class="card-meta" id="promo-subtext-2">Integrated Tour Discount Active</div>
+                    </div>
+                    <div class="card-meta"><strong>0</strong> transfers</div>
+                    <div class="card-meta">⚬ Running Normal</div>
+                    <div>
+                        <button class="btn-card" onclick="toggleStrategySave(this, 'REG-24110')">⭐ Save</button>
+                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-2')">Details</button>
+                    </div>
+                </div>
+                <div class="details-drawer" id="dr-2">
+                    <strong>Comprehensive Strategic Breakdown:</strong><br>
+                    • Slower local commuter rail. However, because your **Tourism Itinerary Designer** filter condition is locked, this layout automatically pairs with the Navigazione Lago public ferry network, reducing out-of-pocket tourist costs.
+                </div>
+
+                <!-- Strategy Option Card 3: Scenic Multimodal Transfer Path -->
+                <div class="strategy-card" id="scard-conv" data-type="conv">
+                    <div>
+                        <span class="card-badge">🔄 MULTIMODAL SCENIC SCORING (CONVENIENT)</span>
+                        <div class="card-time">09:10 ➔ 10:18</div>
+                        <div class="card-meta">Suburban S11 Route • High Density Scenic Corridor • 1h 08m elapsed</div>
+                    </div>
+                    <div class="card-price">
+                        <span id="price-lbl-3">€4.90</span>
+                        <div class="card-meta">Standard Base Rate</div>
+                    </div>
+                    <div class="card-meta"><strong>1</strong> transfer <span class="card-meta">(Monza Split)</span></div>
+                    <div class="card-meta" style="text-decoration: underline;">⚠️ 8 min delay expected</div>
+                    <div>
+                        <button class="btn-card" onclick="toggleStrategySave(this, 'S11-Transit')">⭐ Save</button>
+                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-3')">Details</button>
+                    </div>
+                </div>
+                <div class="details-drawer" id="dr-3">
+                    <strong>Comprehensive Strategic Breakdown:</strong><br>
+                    • Demands cross-platform connection handling at Monza Hub. Due to inbound technical delay patterns, the connection gap is compressed to 5 minutes. High risk of missed connection for travelers carrying heavy vacation gear.
+                </div>
+
+                <!-- Strategy Option Card 4: Hidden Strike Mitigation Alternative (Feature 3) -->
+                <div class="strategy-card contingency-mode" id="scard-strike" data-type="fast">
+                    <div>
+                        <span class="card-badge" style="background-color: var(--wf-black); color: var(--wf-white);">🛡️ STATUTORY STRIKE ESCAPE LAYOUT (STRIKE-PROOF)</span>
+                        <div class="card-time">09:00 ➔ 09:55</div>
+                        <div class="card-meta">Guaranteed Backup Coach Service Bus DB902 • Road Transit Corridor • 55 mins elapsed</div>
+                    </div>
+                    <div class="card-price">
+                        <span>€0.00</span>
+                        <div class="card-meta">Free with existing rail pass</div>
+                    </div>
+                    <div class="card-meta"><strong>0</strong> transfers <span class="card-meta">(Direct Highway link)</span></div>
+                    <div class="card-meta" style="font-weight: bold;">⬥ Guaranteed Action Service</div>
+                    <div>
+                        <button class="btn-card" onclick="toggleStrategySave(this, 'Bus-DB902')">⭐ Save</button>
+                        <button class="btn-card" style="margin-left:4px;" onclick="toggleDrawerInline('dr-4')">Details</button>
+                    </div>
+                </div>
+                <div class="details-drawer" id="dr-4">
+                    <strong>Comprehensive Strategic Breakdown:</strong><br>
+                    • This highway shuttle is legally protected under Italian transport strike exemption regulations. Even if all rail station grids freeze, this coach line remains operational. Crucial defensive routing to keep your tourism schedule intact.
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- WIREFRAME INTERACTION CONTROLLER SCRIPT ENGINE -->
+    <script>
+        let selectedPersona = 'tourist';
+        let activeTourFilter = 'como';
+
+        // Dynamic Itinerary Swapping Logic inside Step 1
+        function previewTourPackage(val) {
+            activeTourFilter = val;
+            const content = document.getElementById('tourPreviewContent');
+            
+            if (val === 'como') {
+                content.innerHTML = `
+                    <div class="tour-step"><strong>Rail Segment:</strong> Milano Centrale to Como Lago terminus.</div>
+                    <div class="tour-step"><strong>Navigational Link:</strong> Integrated Navigazione Lago Ferry voucher.</div>
+                    <div class="tour-step"><strong>Exploration Window:</strong> Bellagio & Varenna intermediate stopovers.</div>
+                    <div class="tour-step"><strong>Strategic Perk:</strong> 15% combined multimodal tariff deduction applied.</div>`;
+            } else if (val === 'garda') {
+                content.innerHTML = `
+                    <div class="tour-step"><strong>Rail Segment:</strong> Milano Centrale to Desenzano del Garda.</div>
+                    <div class="tour-step"><strong>Transit Adaptation:</strong> Guarded bicycle cargo rolling carriage prioritized.</div>
+                    <div class="tour-step"><strong>Destinations:</strong> Peschiera cycling trail interface coordinates.</div>
+                    <div class="tour-step"><strong>Strategic Perk:</strong> Zero-fee regional bicycle carriage waiver attached.</div>`;
+            } else {
+                content.innerHTML = `
+                    <div class="tour-step"><strong>Rail Segment:</strong> Milano Iseo historic steam locomotives scheduling grid.</div>
+                    <div class="tour-step"><strong>Experience Scope:</strong> Franciacorta regional vineyard shuttle connection links.</div>
+                    <div class="tour-step"><strong>Strategic Perk:</strong> Full access pass covering both winery entries and baseline transit costs.</div>`;
+            }
+        }
+
+        // NON-LINEAR INTERACTION: Turn Planned Tour Itinerary into the screening condition for right side
+        function applyTourPlanAsFilter() {
+            const destInput = document.getElementById('station-to');
+            const logTitle = document.getElementById('consoleLogTitle');
+            const logDesc = document.getElementById('consoleLogDesc');
+            
+            // Visual layout shake to mimic active system calculation
+            const banner = document.getElementById('matrixConsoleLog');
+            banner.style.transform = "scale(1.01)";
+            setTimeout(() => { banner.style.transform = "scale(1)"; }, 150);
+
+            if (activeTourFilter === 'como') {
+                destInput.value = "Como Lago";
+                logTitle.innerText = "🔍 FILTER CONDITION INJECTED: LAKE COMO TREASURES CORRIDOR";
+                logDesc.innerText = "The strategy outputs below have been screened. Non-lake routes have been expunged. Multimodal ferry linkages and tourist discount pass coefficients are now driving the rank order.";
+            } else if (activeTourFilter === 'garda') {
+                destInput.value = "Desenzano (Garda)";
+                logTitle.innerText = "🔍 FILTER CONDITION INJECTED: LAKE GARDA CYCLING AXIS";
+                logDesc.innerText = "Screened list re-oriented for Lake Garda. Train models missing active bicycle freight infrastructure options have been filtered down. Displaying bike-trail optimized routes.";
+            } else {
+                destInput.value = "Iseo Hub";
+                logTitle.innerText = "🔍 FILTER CONDITION INJECTED: ISEO HISTORIC RAILWAY BUNDLE";
+                logDesc.innerText = "Filter conditions altered for Iseo regional matrix. Regular fast lines hidden; highlighting historic rolling stock options combined with local estate shuttle connections.";
+            }
+
+            // Sync passenger persona to best fit the chosen tour pack automatically
+            if(activeTourFilter === 'garda') setPassengerPersona('hiker');
+            else if(activeTourFilter === 'como') setPassengerPersona('tourist');
+            
+            // Re-render and match output display matrix values
+            switchPassengerPersonaRates();
+        }
+
+        // Persona Selection State Engine
+        function setPassengerPersona(persona) {
+            selectedPersona = persona;
+            document.querySelectorAll('.p-persona-option').forEach(opt => opt.classList.remove('active'));
+            document.getElementById('pp-' + persona).classList.add('active');
+            switchPassengerPersonaRates();
+        }
+
+        // Simulating Multi-Variable Factor Recalculation inside the Low-Fi scope
+        function switchPassengerPersonaRates() {
+            const price1 = document.getElementById('price-lbl-1');
+            const price2 = document.getElementById('price-lbl-2');
+            const sub2 = document.getElementById('promo-subtext-2');
+            const title = document.getElementById('consoleLogTitle');
+            const desc = document.getElementById('consoleLogDesc');
+
+            if (selectedPersona === 'tourist') {
+                price1.innerText = "€4.90"; price2.innerText = "€3.60";
+                sub2.innerText = "Integrated Tour Discount Active";
+            } else if (selectedPersona === 'family') {
+                price1.innerText = "€9.80"; price2.innerText = "€6.20";
+                sub2.innerText = "Group-Saver Combo Multiplier Applied";
+                title.innerText = "👤 PERSONA VARIABLE UPDATE: FAMILY GROUP CONTEXT LOADED";
+                desc.innerText = "Pricing matrices shifted to compound family packages. Priority scoring relocated to carriage units providing wide storage clearances and infant facilities.";
+            } else if (selectedPersona === 'hiker') {
+                price1.innerText = "€7.40"; price2.innerText = "€5.80";
+                sub2.innerText = "Includes Active Bicycle Transit Permit";
+                title.innerText = "👤 PERSONA VARIABLE UPDATE: ALPINE HIKER & CYCLE CONTEXT LOADED";
+                desc.innerText = "The ranking algorithm has elevated transit profiles incorporating dedicated sports equipment space. Rural trail station connections have been mapped.";
+            } else {
+                price1.innerText = "€4.90"; price2.innerText = "€4.90";
+                sub2.innerText = "Standard Baseline Regional Tariff";
+                title.innerText = "👤 PERSONA VARIABLE UPDATE: BASELINE COMMUTER MODE";
+                desc.innerText = "All integrated holiday bundle discounts removed. The tracking layout is calculating strict vanilla, direct train fares.";
+            }
+
+            // If an active focus filter tab was clicked, preserve its view rendering
+            const currentActiveTab = document.querySelector('.tab-trigger.active');
+            if (currentActiveTab && currentActiveTab.id !== 't-all') {
+                filterStrategyMatrix(currentActiveTab.id.replace('t-', ''));
+            }
+        }
+
+        // Feature 1 & 2: Compare Engine with Extreme Sensory Dimming Feedback Loop
+        function filterStrategyMatrix(mode) {
+            const tabs = document.querySelectorAll('.tab-trigger');
+            tabs.forEach(btn => btn.classList.remove('active'));
+            document.getElementById('t-' + mode).classList.add('active');
+
+            const consoleTitle = document.getElementById('consoleLogTitle');
+            const consoleDesc = document.getElementById('consoleLogDesc');
+            
+            const spotlightFrame = document.getElementById('heroSpotlightFrame');
+            const spotlightSlot = document.getElementById('heroSpotlightSlot');
+            const badgeText = document.getElementById('spotlightBadgeText');
+
+            const cards = document.querySelectorAll('.strategy-card');
+
+            if (mode === 'all') {
+                spotlightFrame.style.display = 'none';
+                spotlightSlot.innerHTML = '';
+                cards.forEach(card => card.classList.remove('dimmed-out'));
+                consoleTitle.innerText = "📊 Evaluation Matrix Restored to Balanced View";
+                consoleDesc.innerText = "Displaying the unfiltered parallel matrix comparison layout across all generated strategy choices.";
+                return;
+            }
+
+            // Engage High Sensory Focus Frame Visual Shift
+            spotlightFrame.style.display = 'block';
+            let targetCardId = '';
+
+            if (mode === 'fast') {
+                targetCardId = 'scard-fast';
+                badgeText.innerText = "CRITICAL TARGET STRATEGY FOCUS: TIMEFRAME EFFICIENCY OPTIMAL (FASTEST)";
+                consoleTitle.innerText = "⚡ TIMEFRAME MINIMIZATION SHUTTLE MATRIX ENGAGED";
+                consoleDesc.innerText = "Isolating the absolute fastest rail transit track. This strategy cuts down in-transit overhead by 26 minutes compared to local options, prioritizing speed over leisure stopovers.";
+            } else if (mode === 'cheap') {
+                targetCardId = 'scard-cheap';
+                badgeText.innerText = "CRITICAL TARGET STRATEGY FOCUS: FINANCIAL OUT-OF-POCKET EXPENDITURE MINIMIZED (CHEAPEST)";
+                consoleTitle.innerText = "💰 TOTAL EXPENDITURE AUDITING ENGINE ENGAGED";
+                consoleDesc.innerText = "Isolating the lowest financial tariff tracks. System has cross-verified and factored in tourism concession passes matching your active left-side parameters.";
+            } else if (mode === 'conv') {
+                targetCardId = 'scard-conv';
+                badgeText.innerText = "CRITICAL TARGET STRATEGY FOCUS: HIGH-DENSITY SCENIC MULTIMODAL OVERLAY (CONVENIENT)";
+                consoleTitle.innerText = "🔄 TOURISM EXPERIENCE ENHANCEMENT ISOLATION ENGAGED";
+                consoleDesc.innerText = "Prioritizing scenic rail corridors and panoramic views. Highly recommended for leisure travelers where the travel route itself is part of the vacation experience.";
+            }
+
+            // Clone target option layout into top Spotlight box
+            const targetCard = document.getElementById(targetCardId);
+            if (targetCard) {
+                let cardSnapshot = targetCard.cloneNode(true);
+                let interactiveActions = cardSnapshot.querySelector('div:last-child');
+                if (interactiveActions) interactiveActions.remove(); // Drop controls inside spotlight container view
+                spotlightSlot.innerHTML = cardSnapshot.innerHTML;
+            }
+
+            // Apply extreme structural dimming to emphasize winning choice
+            cards.forEach(card => {
+                if (card.id === targetCardId) {
+                    card.classList.remove('dimmed-out');
+                } else {
+                    card.classList.add('dimmed-out');
+                }
+            });
+        }
+
+        // Feature 3 Check alternative routes during strikes or delays
+        function toggleStrikeRoutes() {
+            const isChecked = document.getElementById('strikeCheckbox').checked;
+            const strikeCard = document.getElementById('scard-strike');
+            const consoleTitle = document.getElementById('consoleLogTitle');
+            const consoleDesc = document.getElementById('consoleLogDesc');
+
+            if (isChecked) {
+                strikeCard.style.display = 'grid';
+                consoleTitle.innerText = "🛡️ DEFENSIVE ACTION: STRIKE CONTINGENCY VECTOR INJECTED";
+                consoleDesc.innerText = "The scheduling layer has forcefully injected emergency highway shuttle Bus DB902. This run bypasses regional rail lines subject to union stop-work orders. Recommended for strict travel security.";
+            } else {
+                strikeCard.style.display = 'none';
+                filterStrategyMatrix('all');
+            }
+        }
+
+        // Feature 4: Preset Data Loader Action
+        function injectQuickPreset(from, to, persona, tourPack) {
+            document.getElementById('station-from').value = from;
+            document.getElementById('station-to').value = to;
+            
+            if(tourPack !== 'none') {
+                document.getElementById('tour-selector').value = tourPack;
+                previewTourPackage(tourPack);
+            }
+            
+            setPassengerPersona(persona);
+            applyTourPlanAsFilter();
+        }
+
+        function toggleStrategySave(btn, id) {
+            btn.classList.toggle('saved');
+            btn.innerText = btn.classList.contains('saved') ? "★ Saved to Presets" : "⭐ Save";
+        }
+
+        function toggleDrawerInline(id) {
+            const drawer = document.getElementById(id);
+            drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
