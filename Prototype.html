@@ -6,21 +6,21 @@
     <title>Trenord Ticket Purchase</title>
     <style>
         :root {
-            --green: #007a53;
-            --green-dark: #004b38;
-            --green-deep: #003f2f;
-            --green-soft: #e6f4ef;
-            --red: #e4002b;
-            --red-dark: #b70022;
+            --green: #006955;
+            --green-dark: #006955;
+            --green-deep: #006955;
+            --green-soft: #E8EEE7;
+            --red: #D74D54;
+            --red-dark: #D74D54;
             --blue-dark: #053d52;
             --ink: #263430;
             --muted: #65706c;
             --line: #d8e1dd;
             --paper: #ffffff;
-            --soft: #f4f7f5;
+            --soft: #E8EEE7;
             --warning: #fff4df;
             --focus: #ffbf47;
-            --shadow: 0 16px 38px rgba(0, 47, 35, 0.16);
+            --shadow: 0 16px 38px rgba(0, 105, 85, 0.16);
             --radius: 6px;
             --motion-fast: 160ms;
             --motion-mid: 260ms;
@@ -117,12 +117,11 @@
         }
 
         .brand-mark {
-            width: 21px;
-            height: 15px;
-            border-radius: 2px;
-            background:
-                linear-gradient(135deg, var(--red) 0 52%, transparent 52%),
-                linear-gradient(45deg, transparent 0 36%, #fff 36% 100%);
+            width: 32px;
+            height: 28px;
+            display: block;
+            object-fit: contain;
+            flex: 0 0 auto;
         }
 
         .brand span:last-child {
@@ -336,7 +335,7 @@
             border: 1px solid var(--line);
             border-radius: var(--radius);
             background: #fff;
-            box-shadow: 0 16px 38px rgba(0, 47, 35, 0.14);
+            box-shadow: 0 16px 38px rgba(0, 105, 85, 0.14);
             padding: 18px;
             transform: translateY(8px) scale(.98);
             transition: transform var(--motion-mid) var(--motion-ease);
@@ -369,7 +368,7 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             border-bottom: 1px solid var(--line);
-            background: #f7faf8;
+            background: #E8EEE7;
         }
 
         .booking-tab {
@@ -417,14 +416,14 @@
 
         .rail {
             border-right: 1px solid var(--line);
-            background: #f7faf8;
+            background: #E8EEE7;
             padding: 22px;
         }
 
         .detail-rail {
             display: none;
             border-left: 1px solid var(--line);
-            background: #f7faf8;
+            background: #E8EEE7;
             padding: 22px;
         }
 
@@ -626,7 +625,7 @@
             gap: 6px;
             margin: -2px 0 4px 38px;
             padding-left: 11px;
-            border-left: 2px solid #e4ebe8;
+            border-left: 2px solid #E8EEE7;
         }
 
         .funnel-leg-steps.active {
@@ -664,7 +663,7 @@
 
         .funnel-substep.done {
             border-color: rgba(0, 122, 83, 0.32);
-            background: #f5fbf8;
+            background: #E8EEE7;
             color: var(--green-dark);
         }
 
@@ -715,7 +714,7 @@
             border: 1px solid var(--line);
             border-radius: var(--radius);
             padding: 9px 12px;
-            background: #f7faf8;
+            background: #E8EEE7;
             color: var(--green-dark);
             font-size: 13px;
             font-weight: 800;
@@ -731,7 +730,7 @@
             border-left: 5px solid var(--green);
             border-radius: var(--radius);
             padding: 14px;
-            background: #fbfdfc;
+            background: #E8EEE7;
             animation: panelReveal var(--motion-mid) var(--motion-ease);
         }
 
@@ -968,14 +967,14 @@
 
         .saved-preset {
             border-color: var(--green);
-            background: linear-gradient(180deg, #fff 0%, #f5fbf8 100%);
+            background: linear-gradient(180deg, #fff 0%, #E8EEE7 100%);
         }
 
         .outbound-locked {
             border-color: #b7c3be;
             border-left: 6px solid var(--green);
-            background: #eef2f0;
-            box-shadow: 0 10px 24px rgba(0, 47, 35, 0.10);
+            background: #E8EEE7;
+            box-shadow: 0 10px 24px rgba(0, 105, 85, 0.10);
         }
 
         .outbound-locked .mini-title {
@@ -1023,7 +1022,7 @@
             border-left: 5px solid var(--green);
             border-radius: var(--radius);
             padding: 14px;
-            background: linear-gradient(180deg, #fff 0%, #f5fbf8 100%);
+            background: linear-gradient(180deg, #fff 0%, #E8EEE7 100%);
         }
 
         .ticket-leg-heading {
@@ -1090,8 +1089,8 @@
             border: 2px solid var(--green);
             border-left-width: 8px;
             border-radius: 8px;
-            background: linear-gradient(90deg, #effaf5 0, #fff 70%);
-            box-shadow: 0 10px 24px rgba(0, 82, 58, 0.12);
+            background: linear-gradient(90deg, #E8EEE7 0, #fff 70%);
+            box-shadow: 0 10px 24px rgba(0, 105, 85, 0.12);
         }
 
         .search-method-bar summary {
@@ -1136,7 +1135,7 @@
             gap: 18px;
             border-top: 1px solid var(--line);
             padding: 16px;
-            background: #fbfdfc;
+            background: #E8EEE7;
         }
 
         .mode-switcher {
@@ -1207,7 +1206,7 @@
             margin: 14px 0 0;
             border-left: 4px solid var(--green);
             padding: 9px 12px;
-            background: #f3fbf7;
+            background: #E8EEE7;
             color: #4c5a55;
             font-size: 12px;
             line-height: 1.45;
@@ -1319,7 +1318,7 @@
         .status-banner.neutral {
             border-color: var(--line);
             border-left-color: var(--green);
-            background: #f3fbf7;
+            background: #E8EEE7;
         }
 
         .status-icon {
@@ -1386,7 +1385,7 @@
         .result-card:hover {
             transform: translateY(-2px);
             border-color: var(--green);
-            box-shadow: 0 10px 24px rgba(0, 74, 55, 0.12);
+            box-shadow: 0 10px 24px rgba(0, 105, 85, 0.12);
         }
 
         .result-card.selected {
@@ -1434,7 +1433,7 @@
             display: grid;
             place-items: center;
             border-radius: 6px;
-            background: #b30045;
+            background: #D74D54;
             color: #fff;
             font-size: 15px;
             font-weight: 900;
@@ -1520,7 +1519,7 @@
             min-height: 44px;
             border-top: 1px solid #ecefed;
             padding: 9px 18px;
-            background: #f2f3f2;
+            background: #E8EEE7;
             cursor: pointer;
         }
 
@@ -1599,8 +1598,8 @@
         .screen-block:hover,
         .assist-panel:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(0, 74, 55, 0.09);
-            border-color: rgba(0, 122, 83, 0.34);
+            box-shadow: 0 12px 26px rgba(0, 105, 85, 0.09);
+            border-color: rgba(0, 105, 85, 0.34);
         }
 
         .product-card,
@@ -1893,7 +1892,7 @@
             border: 1px solid var(--line);
             border-radius: var(--radius);
             padding: 14px;
-            background: #f2f3f2;
+            background: #E8EEE7;
         }
 
         .checkout-leg-card strong {
@@ -1968,7 +1967,7 @@
             border: 1px solid var(--line);
             border-radius: var(--radius);
             padding: 20px;
-            background: linear-gradient(135deg, #fff, #eef7f3);
+            background: linear-gradient(135deg, #fff, #E8EEE7);
         }
 
         .success-title {
@@ -1989,7 +1988,7 @@
             gap: 2px;
             padding: 7px;
             border: 5px solid var(--ink);
-            background: #edf4f1;
+            background: #E8EEE7;
         }
 
         .qr span.on {
@@ -2029,7 +2028,7 @@
             display: flex;
             align-items: flex-end;
             padding: 20px;
-            background: #143b2f;
+            background: #006955;
             color: #fff;
             text-align: left;
         }
@@ -2394,7 +2393,7 @@
         <div class="top-strip">
             <div class="container">
                 <a href="#" class="brand" aria-label="Trenord home">
-                    <span class="brand-mark" aria-hidden="true"></span>
+                    <img class="brand-mark" src="data:image/png;base64,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" alt="" aria-hidden="true">
                     <span>TRENORD</span>
                 </a>
                 <div class="header-tools" aria-label="Header tools">
