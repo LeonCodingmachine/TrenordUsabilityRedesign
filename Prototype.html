@@ -1,0 +1,4208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trenord Ticket Purchase</title>
+    <style>
+        :root {
+            --green: #007a53;
+            --green-dark: #004b38;
+            --green-deep: #003f2f;
+            --green-soft: #e6f4ef;
+            --red: #e4002b;
+            --red-dark: #b70022;
+            --blue-dark: #053d52;
+            --ink: #263430;
+            --muted: #65706c;
+            --line: #d8e1dd;
+            --paper: #ffffff;
+            --soft: #f4f7f5;
+            --warning: #fff4df;
+            --focus: #ffbf47;
+            --shadow: 0 16px 38px rgba(0, 47, 35, 0.16);
+            --radius: 6px;
+            --motion-fast: 160ms;
+            --motion-mid: 260ms;
+            --motion-slow: 520ms;
+            --motion-ease: cubic-bezier(.2, .8, .2, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        [hidden] { display: none !important; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.45;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        summary:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px;
+        }
+
+        a { color: inherit; }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -60px;
+            left: 14px;
+            z-index: 50;
+            padding: 10px 14px;
+            border-radius: 0 0 var(--radius) var(--radius);
+            background: var(--green-dark);
+            color: #fff;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .skip-link:focus { top: 0; }
+
+        .container {
+            width: min(1240px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        .top-strip {
+            background: var(--green-deep);
+            color: #fff;
+        }
+
+        .top-strip .container {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 21px;
+            height: 15px;
+            border-radius: 2px;
+            background:
+                linear-gradient(135deg, var(--red) 0 52%, transparent 52%),
+                linear-gradient(45deg, transparent 0 36%, #fff 36% 100%);
+        }
+
+        .brand span:last-child {
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 25px;
+            font-style: italic;
+            font-weight: 900;
+        }
+
+        .header-tools {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .main-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid #e7e7e7;
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(10px);
+        }
+
+        .main-nav .container {
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: clamp(14px, 3vw, 34px);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: #4d5754;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-links a[aria-current="page"],
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-search {
+            flex: 0 1 280px;
+            display: grid;
+            grid-template-columns: 1fr 38px 34px;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .nav-search input {
+            min-width: 0;
+            min-height: 38px;
+            border: 1px solid #d3dbd7;
+            border-radius: var(--radius);
+            padding: 8px 10px;
+        }
+
+        .icon-button {
+            min-width: 34px;
+            min-height: 34px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #d3dbd7;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--green-dark);
+            font-weight: 900;
+        }
+
+        .hero {
+            min-height: 320px;
+            display: grid;
+            align-items: end;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0, rgba(0, 0, 0, 0.62) 35%, rgba(0, 0, 0, 0.08) 74%),
+                url("https://www.trenord.it/fileadmin/contenuti/TRENORD/3-News/Trenord_Informa/Notizie/2025/campagna_loyalty/TND_LOYALTY_Area_riservata_B_1500x260_RAGAZZA.jpg") center / cover;
+            color: #fff;
+        }
+
+        .hero-copy {
+            max-width: 720px;
+            padding: 52px 0 94px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(34px, 6vw, 58px);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            max-width: 560px;
+            margin: 12px 0 20px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .outline-button {
+            min-height: 40px;
+            border: 2px solid currentColor;
+            border-radius: 999px;
+            padding: 8px 22px;
+            background: transparent;
+            color: inherit;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .booking-shell {
+            margin-top: -66px;
+            margin-bottom: 70px;
+        }
+
+        .booking-shell.results-layout {
+            width: min(1540px, calc(100% - 32px));
+        }
+
+        .purchase-card {
+            position: relative;
+            overflow: visible;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        .flow-loader {
+            position: absolute;
+            inset: 0;
+            z-index: 12;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.74);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--motion-mid) var(--motion-ease);
+            backdrop-filter: blur(3px);
+        }
+
+        .purchase-card.loading .flow-loader {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+
+        .navigation-confirm-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(0, 31, 23, 0.48);
+            backdrop-filter: blur(4px);
+        }
+
+        .navigation-confirm-overlay[hidden] {
+            display: none !important;
+        }
+
+        .navigation-confirm-panel {
+            width: min(440px, 100%);
+            border: 1px solid var(--line);
+            border-left: 6px solid var(--red);
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 24px 58px rgba(0, 31, 23, 0.28);
+            padding: 22px;
+            animation: panelReveal var(--motion-mid) var(--motion-ease);
+        }
+
+        .navigation-confirm-panel p {
+            margin: 8px 0 0;
+            color: var(--muted);
+        }
+
+        .navigation-confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        body.confirm-open {
+            overflow: hidden;
+        }
+
+        .loader-panel {
+            min-width: min(320px, calc(100% - 48px));
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #fff;
+            box-shadow: 0 16px 38px rgba(0, 47, 35, 0.14);
+            padding: 18px;
+            transform: translateY(8px) scale(.98);
+            transition: transform var(--motion-mid) var(--motion-ease);
+        }
+
+        .purchase-card.loading .loader-panel {
+            transform: translateY(0) scale(1);
+        }
+
+        .loader-track {
+            position: relative;
+            height: 4px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: var(--green-soft);
+            margin-top: 12px;
+        }
+
+        .loader-track::after {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 42%;
+            border-radius: inherit;
+            background: var(--green);
+            animation: loaderRail 960ms var(--motion-ease) infinite;
+        }
+
+        .booking-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            border-bottom: 1px solid var(--line);
+            background: #f7faf8;
+        }
+
+        .booking-tab {
+            min-height: 58px;
+            border: 0;
+            border-bottom: 3px solid transparent;
+            background: transparent;
+            color: var(--muted);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .booking-tab small {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: none;
+        }
+
+        .booking-tab[aria-pressed="true"] {
+            border-bottom-color: var(--green);
+            background: #fff;
+            color: var(--green);
+        }
+
+        .search-mode-tabs {
+            overflow: hidden;
+            margin-bottom: 18px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+        }
+
+        .funnel {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            min-height: 650px;
+        }
+
+        .purchase-card.results-layout .funnel {
+            grid-template-columns: 260px minmax(0, 1fr) 330px;
+        }
+
+        .rail {
+            border-right: 1px solid var(--line);
+            background: #f7faf8;
+            padding: 22px;
+        }
+
+        .detail-rail {
+            display: none;
+            border-left: 1px solid var(--line);
+            background: #f7faf8;
+            padding: 22px;
+        }
+
+        .purchase-card.results-layout .detail-rail {
+            display: block;
+        }
+
+        .detail-summary {
+            position: sticky;
+            top: 76px;
+            display: grid;
+            gap: 16px;
+            align-self: start;
+        }
+
+        .detail-rail .metric-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .detail-rail .stop {
+            grid-template-columns: 54px minmax(0, 1fr);
+        }
+
+        .detail-rail .stop-status {
+            grid-column: 2;
+            justify-self: start;
+            margin-top: 4px;
+        }
+
+        .detail-rail .amount-line {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .detail-rail .amount-line strong {
+            margin-top: 4px;
+            text-align: left;
+        }
+
+        .journey-summary {
+            position: sticky;
+            top: 76px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .mini-title {
+            margin: 0 0 8px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .progress-hint {
+            display: block;
+            margin: -2px 0 12px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+
+        .summary-card,
+        .assist-panel,
+        .screen-block,
+        .result-card,
+        .product-card,
+        .payment-option,
+        .confirmation-ticket {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #fff;
+        }
+
+        .summary-card,
+        .assist-panel {
+            padding: 16px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            border-top: 1px solid #edf1ef;
+            padding: 10px 0;
+            color: var(--muted);
+        }
+
+        .summary-line:first-of-type {
+            border-top: 0;
+        }
+
+        .summary-line strong {
+            color: var(--ink);
+            text-align: right;
+        }
+
+        .funnel-steps {
+            display: grid;
+            gap: 8px;
+        }
+
+        .funnel-step {
+            min-height: 44px;
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 8px 10px;
+            background: #fff;
+            color: var(--muted);
+            text-align: left;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .step-number {
+            width: 26px;
+            height: 26px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--soft);
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .flow-icon,
+        .page-icon,
+        .button-icon,
+        .preset-icon {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 auto;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .page-icon {
+            width: 30px;
+            height: 30px;
+            display: inline-grid;
+            place-items: center;
+            margin-right: 10px;
+            border-radius: 50%;
+            background: var(--green-soft);
+            color: var(--green);
+            vertical-align: -6px;
+        }
+
+        .page-icon .flow-icon {
+            width: 17px;
+            height: 17px;
+        }
+
+        .funnel-step[aria-current="step"] {
+            border-color: var(--green);
+            color: var(--green-dark);
+            box-shadow: inset 4px 0 0 var(--green);
+        }
+
+        .funnel-step[aria-current="step"] .step-number,
+        .funnel-step.done .step-number {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .funnel-step[disabled],
+        .funnel-substep[disabled] {
+            cursor: not-allowed;
+            opacity: .46;
+        }
+
+        .funnel-step[disabled] .flow-icon,
+        .funnel-substep[disabled] .substep-index {
+            color: var(--muted);
+        }
+
+        .funnel-step .flow-icon {
+            color: var(--green-dark);
+        }
+
+        .funnel-step[aria-current="step"] .flow-icon,
+        .funnel-step.done .flow-icon {
+            color: #fff;
+        }
+
+        .funnel-leg-steps {
+            display: none;
+            gap: 6px;
+            margin: -2px 0 4px 38px;
+            padding-left: 11px;
+            border-left: 2px solid #e4ebe8;
+        }
+
+        .funnel-leg-steps.active {
+            display: grid;
+        }
+
+        .funnel-substep {
+            min-height: 34px;
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            align-items: center;
+            gap: 7px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 7px 9px;
+            background: #fff;
+            color: var(--muted);
+            text-align: left;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .substep-index {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .funnel-substep[aria-current="step"] {
+            border-color: var(--green);
+            color: var(--green-dark);
+            box-shadow: inset 4px 0 0 var(--green);
+        }
+
+        .funnel-substep.done {
+            border-color: rgba(0, 122, 83, 0.32);
+            background: #f5fbf8;
+            color: var(--green-dark);
+        }
+
+        .content {
+            min-width: 0;
+            padding: 24px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: screenEnter var(--motion-slow) var(--motion-ease) both;
+            will-change: opacity, transform;
+        }
+
+        .screen-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .step-actionbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid var(--line);
+        }
+
+        .return-action-cluster {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .return-date-chip {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 9px 12px;
+            background: #f7faf8;
+            color: var(--green-dark);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .return-action-panel {
+            flex: 1 0 100%;
+            display: none;
+            grid-template-columns: minmax(220px, 1fr) auto;
+            gap: 12px;
+            align-items: end;
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--green);
+            border-radius: var(--radius);
+            padding: 14px;
+            background: #fbfdfc;
+            animation: panelReveal var(--motion-mid) var(--motion-ease);
+        }
+
+        .return-action-panel.active {
+            display: grid;
+        }
+
+        .back-button {
+            margin-bottom: 14px;
+        }
+
+        .kicker {
+            margin: 0 0 4px;
+            color: var(--green);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .screen-title {
+            margin: 0;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1.05;
+        }
+
+        .screen-subtitle {
+            max-width: 760px;
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .primary-button,
+        .secondary-button,
+        .text-button {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: var(--radius);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .primary-button {
+            border: 1px solid var(--red);
+            background: var(--red);
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .primary-button:hover {
+            background: var(--red-dark);
+        }
+
+        .primary-button,
+        .secondary-button,
+        .text-button,
+        .booking-tab,
+        .choice-button,
+        .chip-button,
+        .filter-button,
+        .train-select,
+        .result-card {
+            transition: transform var(--motion-fast) var(--motion-ease), box-shadow var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease), background-color var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease), opacity var(--motion-fast) var(--motion-ease);
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover,
+        .text-button:hover,
+        .choice-button:hover,
+        .chip-button:hover,
+        .filter-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .primary-button:active,
+        .secondary-button:active,
+        .text-button:active,
+        .booking-tab:active,
+        .choice-button:active,
+        .chip-button:active,
+        .filter-button:active,
+        .train-select:active {
+            transform: translateY(0) scale(.985);
+        }
+
+        .primary-button[aria-busy="true"] {
+            cursor: wait;
+            opacity: .82;
+        }
+
+        .primary-button[disabled],
+        .primary-button[aria-disabled="true"] {
+            border-color: #b7c3be;
+            background: #d8e1dd;
+            color: #65706c;
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 1;
+        }
+
+        .primary-button[disabled]:hover,
+        .primary-button[aria-disabled="true"]:hover {
+            background: #d8e1dd;
+            transform: none;
+        }
+
+        .secondary-button {
+            border: 1px solid var(--green);
+            background: #fff;
+            color: var(--green);
+            padding: 10px 18px;
+        }
+
+        .text-button {
+            border: 0;
+            background: transparent;
+            color: var(--green);
+            padding: 8px 10px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.8fr);
+            gap: 18px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .preset-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .preset-controls {
+            display: inline-flex;
+            gap: 8px;
+        }
+
+        .preset-page {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .preset-viewport {
+            overflow: hidden;
+        }
+
+        .preset-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 12px;
+        }
+
+        .preset-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--line);
+            transition: transform var(--motion-fast) var(--motion-ease), background-color var(--motion-fast) var(--motion-ease);
+        }
+
+        .preset-dot.active {
+            background: var(--green);
+            transform: scale(1.18);
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            animation: presetSlideIn var(--motion-mid) var(--motion-ease) both;
+        }
+
+        .preset-grid.slide-next {
+            animation-name: presetSlideNext;
+        }
+
+        .preset-grid.slide-prev {
+            animation-name: presetSlidePrev;
+        }
+
+        .preset-grid .chip-button {
+            min-height: 82px;
+            align-content: start;
+        }
+
+        .rail-presets .preset-toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .rail-presets .preset-controls {
+            width: 100%;
+        }
+
+        .rail-presets .preset-controls .secondary-button {
+            flex: 1;
+            min-height: 38px;
+            padding: 8px 10px;
+        }
+
+        .rail-presets .preset-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .rail-presets {
+            display: none;
+        }
+
+        .purchase-card.results-layout .rail-presets {
+            display: block;
+        }
+
+        .preset-hint {
+            margin: -4px 0 12px;
+        }
+
+        .saved-preset {
+            border-color: var(--green);
+            background: linear-gradient(180deg, #fff 0%, #f5fbf8 100%);
+        }
+
+        .outbound-locked {
+            border-color: #b7c3be;
+            border-left: 6px solid var(--green);
+            background: #eef2f0;
+            box-shadow: 0 10px 24px rgba(0, 47, 35, 0.10);
+        }
+
+        .outbound-locked .mini-title {
+            color: #59635f;
+        }
+
+        .detail-rail .outbound-locked .amount-list {
+            gap: 4px;
+        }
+
+        .detail-rail .outbound-locked .amount-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 6px 0;
+        }
+
+        .detail-rail .outbound-locked .amount-line strong {
+            margin-top: 0;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .selection-digest {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--line);
+        }
+
+        .selection-digest .summary-line {
+            padding: 7px 0;
+        }
+
+        .ticket-leg-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .ticket-leg-card {
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--green);
+            border-radius: var(--radius);
+            padding: 14px;
+            background: linear-gradient(180deg, #fff 0%, #f5fbf8 100%);
+        }
+
+        .ticket-leg-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .ticket-leg-heading strong {
+            color: var(--ink);
+            text-align: right;
+        }
+
+        .ticket-leg-route {
+            margin: 0 0 10px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .ticket-leg-meta {
+            display: grid;
+            gap: 7px;
+        }
+
+        .ticket-leg-meta .summary-line {
+            border-top: 1px solid #edf1ef;
+            padding: 7px 0;
+        }
+
+        .results-list.refreshing {
+            animation: resultsRefresh 420ms var(--motion-ease) both;
+        }
+
+        .screen-block {
+            padding: 18px;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+            gap: 12px;
+            align-items: end;
+        }
+
+        .mode-panel {
+            display: none;
+        }
+
+        .mode-panel.active {
+            display: block;
+        }
+
+        .search-method-bar {
+            margin-bottom: 16px;
+            border: 2px solid var(--green);
+            border-left-width: 8px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #effaf5 0, #fff 70%);
+            box-shadow: 0 10px 24px rgba(0, 82, 58, 0.12);
+        }
+
+        .search-method-bar summary {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 14px;
+            align-items: center;
+            min-height: 62px;
+            padding: 16px 18px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .method-toggle-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 96px;
+            min-height: 38px;
+            border: 1px solid var(--green);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--green);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .method-copy {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .method-panel {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 220px;
+            gap: 18px;
+            border-top: 1px solid var(--line);
+            padding: 16px;
+            background: #fbfdfc;
+        }
+
+        .mode-switcher {
+            align-self: start;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: #fff;
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field label,
+        .small-label {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .field input,
+        .field select {
+            min-height: 48px;
+            width: 100%;
+            border: 1px solid #b9c8c2;
+            border-radius: var(--radius);
+            padding: 10px 12px;
+            background: #fff;
+            color: var(--ink);
+        }
+
+        .swap-button {
+            width: 42px;
+            min-height: 48px;
+            border: 1px solid #b9c8c2;
+            border-radius: var(--radius);
+            background: #fff;
+            color: var(--red);
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: end;
+            margin-top: 14px;
+        }
+
+        .return-row {
+            display: none;
+            margin-top: 14px;
+        }
+
+        .return-row.active {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .strategy-note {
+            margin: 14px 0 0;
+            border-left: 4px solid var(--green);
+            padding: 9px 12px;
+            background: #f3fbf7;
+            color: #4c5a55;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .preference-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .choice-button,
+        .chip-button {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #fff;
+            color: var(--ink);
+            text-align: left;
+        }
+
+        .choice-button {
+            min-height: 74px;
+            padding: 11px;
+        }
+
+        .choice-button strong,
+        .chip-button strong {
+            display: block;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+        }
+
+        .choice-button small,
+        .chip-button small,
+        .meta {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .choice-button[aria-pressed="true"],
+        .chip-button[aria-pressed="true"] {
+            border-color: var(--green);
+            color: var(--green-dark);
+            box-shadow: inset 4px 0 0 var(--green);
+        }
+
+        .chip-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .chip-button {
+            min-height: 54px;
+            padding: 9px 10px;
+        }
+
+        details.assist-panel summary {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .assist-body {
+            display: grid;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .toggle-row,
+        .check-row,
+        .radio-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: #fff;
+        }
+
+        .toggle-row input,
+        .check-row input,
+        .radio-row input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--green);
+        }
+
+        .status-banner {
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid #f2c2ca;
+            border-left: 5px solid var(--red);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: #fff7f8;
+        }
+
+        .status-banner.neutral {
+            border-color: var(--line);
+            border-left-color: var(--green);
+            background: #f3fbf7;
+        }
+
+        .status-icon {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--red);
+            color: #fff;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .status-banner.neutral .status-icon {
+            background: var(--green);
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .filter-button {
+            min-height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--muted);
+            padding: 8px 15px;
+            font-weight: 800;
+        }
+
+        .filter-button[aria-pressed="true"] {
+            border-color: var(--green);
+            background: var(--green);
+            color: #fff;
+        }
+
+        .results-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .results-workspace {
+            display: block;
+        }
+
+        .results-main {
+            min-width: 0;
+        }
+
+        .result-card {
+            width: 100%;
+            display: block;
+            overflow: hidden;
+            padding: 0;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--green);
+            box-shadow: 0 10px 24px rgba(0, 74, 55, 0.12);
+        }
+
+        .result-card.selected {
+            border-color: var(--green);
+            box-shadow: inset 5px 0 0 var(--green);
+        }
+
+        .result-card.dimmed {
+            opacity: 1;
+            filter: none;
+        }
+
+        .train-card-main {
+            display: grid;
+            grid-template-columns: minmax(190px, 0.68fr) minmax(280px, 1.25fr) minmax(92px, 0.36fr) minmax(168px, 0.54fr) 30px;
+            gap: 12px;
+            align-items: center;
+            padding: 18px;
+        }
+
+        .train-service {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--ink);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(18px, 1.8vw, 24px);
+            font-weight: 500;
+            min-width: 0;
+            overflow-wrap: normal;
+            word-break: normal;
+        }
+
+        .service-name {
+            min-width: 0;
+            overflow-wrap: normal;
+            word-break: normal;
+            line-height: 1.18;
+        }
+
+        .service-logo {
+            flex: 0 0 46px;
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 6px;
+            background: #b30045;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .train-route {
+            display: grid;
+            gap: 8px;
+        }
+
+        .station-line {
+            display: grid;
+            grid-template-columns: 54px minmax(0, 1fr) auto;
+            gap: 8px;
+            align-items: center;
+            color: var(--green-dark);
+            font-size: clamp(15px, 1.35vw, 18px);
+        }
+
+        .station-line span:not(.platform-pill) {
+            min-width: 0;
+            overflow-wrap: normal;
+            word-break: normal;
+        }
+
+        .platform-pill {
+            border: 1px solid var(--green);
+            border-radius: 999px;
+            padding: 2px 7px;
+            color: var(--green-dark);
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .train-duration strong,
+        .train-fare strong {
+            display: block;
+            color: var(--ink);
+            font-size: 18px;
+        }
+
+        .train-fare {
+            text-align: center;
+        }
+
+        .fare-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-width: 150px;
+            width: min(100%, 170px);
+            min-height: 46px;
+            border: 2px solid var(--red);
+            border-radius: 999px;
+            color: var(--red);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(16px, 1.5vw, 20px);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .expand-icon {
+            justify-self: end;
+            color: var(--muted);
+            font-size: 28px;
+            line-height: 1;
+            transition: transform 180ms ease;
+        }
+
+        .result-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .train-card-footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            min-height: 44px;
+            border-top: 1px solid #ecefed;
+            padding: 9px 18px;
+            background: #f2f3f2;
+            cursor: pointer;
+        }
+
+        .train-card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .save-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .save-icon {
+            width: 17px;
+            height: 17px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            transition: fill var(--motion-fast) var(--motion-ease), transform var(--motion-fast) var(--motion-ease);
+        }
+
+        .save-indicator.saved .save-icon {
+            fill: currentColor;
+            transform: scale(1.06);
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .train-tag {
+            border-radius: 999px;
+            padding: 4px 9px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .train-tag.alert {
+            background: #ffe3e8;
+            color: var(--red-dark);
+        }
+
+        .train-details {
+            display: none;
+            border-top: 1px solid var(--line);
+            padding: 14px 18px 18px;
+            background: #fff;
+            animation: panelReveal var(--motion-mid) var(--motion-ease);
+        }
+
+        .result-card.expanded .train-details {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 0.75fr);
+            gap: 16px;
+        }
+
+        .train-select {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            text-align: left;
+        }
+
+        .product-card:hover,
+        .payment-option:hover,
+        .summary-card:hover,
+        .screen-block:hover,
+        .assist-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px rgba(0, 74, 55, 0.09);
+            border-color: rgba(0, 122, 83, 0.34);
+        }
+
+        .product-card,
+        .payment-option,
+        .summary-card,
+        .screen-block,
+        .assist-panel,
+        .news-card,
+        .promo-card {
+            transition: transform var(--motion-mid) var(--motion-ease), box-shadow var(--motion-mid) var(--motion-ease), border-color var(--motion-mid) var(--motion-ease), opacity var(--motion-mid) var(--motion-ease);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity var(--motion-slow) var(--motion-ease), transform var(--motion-slow) var(--motion-ease);
+            will-change: opacity, transform;
+        }
+
+        .reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal[data-reveal-delay="1"] { transition-delay: 70ms; }
+        .reveal[data-reveal-delay="2"] { transition-delay: 130ms; }
+        .reveal[data-reveal-delay="3"] { transition-delay: 190ms; }
+
+        .time-pair {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 21px;
+            font-weight: 900;
+            line-height: 1.15;
+        }
+
+        .train-meta strong {
+            display: block;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+        }
+
+        .price {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            text-align: right;
+        }
+
+        .badge {
+            justify-self: end;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            border-radius: 999px;
+            padding: 5px 10px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .spotlight {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+            gap: 10px;
+        }
+
+        .metric {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px;
+            background: var(--soft);
+        }
+
+        .metric span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .metric strong {
+            display: block;
+            margin-top: 3px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .stop {
+            display: grid;
+            grid-template-columns: 62px minmax(0, 1fr) auto;
+            gap: 10px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 10px;
+            background: #fff;
+        }
+
+        .stop time {
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .stop-status {
+            justify-self: end;
+            border-radius: 999px;
+            padding: 5px 9px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .stop-status.warning {
+            background: #ffe3e8;
+            color: var(--red-dark);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .product-card {
+            min-height: 186px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+            text-align: left;
+        }
+
+        .product-card[aria-pressed="true"] {
+            border-color: #0d0f10;
+            background: #0d0f10;
+            color: #fff;
+        }
+
+        .product-card[aria-pressed="true"] small {
+            color: #d7e0dc;
+        }
+
+        .product-card strong {
+            display: block;
+        }
+
+        .product-card small {
+            display: block;
+            margin-top: 7px;
+            line-height: 1.35;
+            white-space: normal;
+        }
+
+        .product-price {
+            margin-top: 18px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        .counter-list {
+            display: grid;
+            gap: 9px;
+        }
+
+        .counter-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 38px 36px 38px;
+            gap: 8px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 10px;
+            background: #fff;
+        }
+
+        .counter-button {
+            min-height: 36px;
+            border: 1px solid var(--green);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--green);
+            font-weight: 900;
+        }
+
+        .counter-value {
+            text-align: center;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .amount-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .amount-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid #edf1ef;
+            padding: 8px 0;
+        }
+
+        .amount-line.discount {
+            color: var(--green);
+        }
+
+        .amount-line.total {
+            margin-top: 8px;
+            border-top: 2px solid var(--ink);
+            border-bottom: 0;
+            padding-top: 12px;
+            color: var(--ink);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .checkout-total-line {
+            align-items: flex-start;
+        }
+
+        .checkout-total-copy {
+            display: grid;
+            gap: 6px;
+        }
+
+        .terms-inline {
+            display: grid;
+            grid-template-columns: 14px minmax(0, 1fr);
+            align-items: start;
+            gap: 6px;
+            max-width: 100%;
+            color: var(--muted);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.25;
+            text-transform: none;
+        }
+
+        .terms-inline input {
+            width: 14px;
+            height: 14px;
+            margin: 1px 0 0;
+            accent-color: var(--green);
+        }
+
+        .terms-label-text {
+            min-width: 0;
+            white-space: normal;
+        }
+
+        .payment-terms-hint {
+            align-self: center;
+            color: var(--red-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .payment-terms-hint.accepted {
+            color: var(--green-dark);
+        }
+
+        .checkout-leg-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .checkout-leg-card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px;
+            background: #f2f3f2;
+        }
+
+        .checkout-leg-card strong {
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .checkout-leg-card .leg-title {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--green-dark);
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .checkout-leg-card .leg-route {
+            margin-top: 8px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 18px;
+            line-height: 1.25;
+        }
+
+        .checkout-leg-card .leg-meta {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .payment-option {
+            min-height: 62px;
+            display: grid;
+            place-items: center;
+            position: relative;
+            color: var(--muted);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .payment-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .payment-option.active {
+            border-color: var(--green);
+            background: var(--green);
+            color: #fff;
+        }
+
+        .login-choice {
+            display: grid;
+            gap: 10px;
+        }
+
+        .login-choice .radio-row {
+            justify-content: flex-start;
+        }
+
+        .qr-ticket {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 168px;
+            gap: 18px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 20px;
+            background: linear-gradient(135deg, #fff, #eef7f3);
+        }
+
+        .success-title {
+            margin: 0 0 10px;
+            color: var(--green-dark);
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(32px, 5vw, 54px);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .qr {
+            width: 156px;
+            height: 156px;
+            display: grid;
+            grid-template-columns: repeat(13, 1fr);
+            grid-template-rows: repeat(13, 1fr);
+            gap: 2px;
+            padding: 7px;
+            border: 5px solid var(--ink);
+            background: #edf4f1;
+        }
+
+        .qr span.on {
+            border-radius: 1px;
+            background: var(--ink);
+        }
+
+        .site-section {
+            padding: 56px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            margin: 0 0 28px;
+            color: #4f5754;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 32px;
+            text-transform: uppercase;
+        }
+
+        .promo-grid,
+        .updates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .updates-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            max-width: 760px;
+            margin: 0 auto 28px;
+        }
+
+        .promo-card,
+        .news-card {
+            min-height: 160px;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            background: #143b2f;
+            color: #fff;
+            text-align: left;
+        }
+
+        .promo-card:nth-child(2) {
+            background: #eef34a;
+            color: var(--ink);
+        }
+
+        .promo-card h3,
+        .news-card h3 {
+            margin: 0;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 24px;
+            line-height: 1.02;
+            text-transform: uppercase;
+        }
+
+        footer {
+            margin-top: 30px;
+        }
+
+        .footer-band {
+            background: var(--blue-dark);
+            color: #e0eef2;
+            padding: 46px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 44px;
+        }
+
+        .footer-grid h3 {
+            margin: 0 0 14px;
+            font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
+
+        .footer-grid ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-grid li {
+            margin: 9px 0;
+        }
+
+        .copyright {
+            padding: 24px 0 34px;
+            color: #717b77;
+            font-size: 13px;
+        }
+
+        @keyframes screenEnter {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes panelReveal {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes loaderRail {
+            from { transform: translateX(-110%); }
+            to { transform: translateX(250%); }
+        }
+
+        @keyframes presetSlideIn {
+            from { opacity: 0; transform: translateX(14px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes presetSlideNext {
+            from { opacity: 0; transform: translateX(42px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes presetSlidePrev {
+            from { opacity: 0; transform: translateX(-42px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes resultsRefresh {
+            0% { opacity: .55; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 1ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 1ms !important;
+                transition-delay: 0ms !important;
+            }
+
+            .screen.active,
+            .train-details,
+            .reveal {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        @media (max-width: 1050px) {
+            .funnel,
+            .purchase-card.results-layout .funnel,
+            .grid-2,
+            .spotlight,
+            .results-workspace,
+            .qr-ticket {
+                grid-template-columns: 1fr;
+            }
+
+            .rail,
+            .detail-rail {
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
+            }
+
+            .detail-rail {
+                border-left: 0;
+            }
+
+            .journey-summary,
+            .detail-summary {
+                position: static;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                align-items: start;
+            }
+        }
+
+        @media (max-width: 1580px) {
+            .train-card-main {
+                grid-template-columns: minmax(0, 1fr) max-content;
+                grid-template-areas:
+                    "service expand"
+                    "route route"
+                    "duration fare";
+                gap: 14px;
+            }
+
+            .train-service { grid-area: service; }
+            .train-route { grid-area: route; }
+            .train-duration { grid-area: duration; }
+            .train-fare { grid-area: fare; }
+            .expand-icon { grid-area: expand; }
+
+            .train-service {
+                font-size: 21px;
+            }
+
+            .station-line {
+                font-size: 17px;
+            }
+
+            .fare-pill {
+                font-size: 18px;
+            }
+
+            .train-fare {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 980px) {
+            .method-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .train-card-main {
+                grid-template-columns: minmax(0, 1fr) max-content;
+                grid-template-areas:
+                    "service expand"
+                    "route route"
+                    "duration fare";
+                align-items: start;
+            }
+
+            .train-fare {
+                text-align: left;
+            }
+
+            .train-duration {
+                align-self: center;
+            }
+
+            .result-card.expanded .train-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .container {
+                width: min(100% - 24px, 720px);
+            }
+
+            .booking-shell.results-layout {
+                width: min(100% - 24px, 720px);
+            }
+
+            .top-strip .container,
+            .main-nav .container,
+            .screen-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                overflow-x: auto;
+                gap: 20px;
+                padding-bottom: 5px;
+            }
+
+            .nav-search {
+                display: none;
+            }
+
+            .hero {
+                min-height: 310px;
+            }
+
+            .hero-copy {
+                padding-bottom: 82px;
+            }
+
+            .booking-shell {
+                margin-top: -54px;
+            }
+
+            .content,
+            .rail {
+                padding: 14px;
+            }
+
+            .journey-summary,
+            .field-grid,
+            .search-row,
+            .return-row.active,
+            .preference-grid,
+            .grid-3,
+            .product-grid,
+            .metric-grid,
+            .ticket-leg-grid,
+            .payment-grid,
+            .updates-grid,
+            .promo-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .method-panel,
+            .search-method-bar summary,
+            .return-action-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .method-toggle-label {
+                justify-self: start;
+            }
+
+            .train-card-main {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "service"
+                    "route"
+                    "duration"
+                    "fare"
+                    "expand";
+            }
+
+            .station-line {
+                grid-template-columns: 54px minmax(0, 1fr);
+                align-items: start;
+            }
+
+            .platform-pill {
+                grid-column: 2;
+                justify-self: start;
+                margin-top: 2px;
+            }
+
+            .train-service {
+                font-size: 20px;
+            }
+
+            .train-fare {
+                text-align: left;
+            }
+
+            .fare-pill {
+                width: 100%;
+                max-width: 240px;
+                font-size: 17px;
+            }
+
+            .expand-icon {
+                justify-self: start;
+            }
+
+            .train-card-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .train-card-actions {
+                width: 100%;
+            }
+
+            .train-card-actions .text-button {
+                flex: 1 1 140px;
+                border: 1px solid var(--line);
+            }
+
+            .result-card,
+            .stop,
+            .counter-row,
+            .status-banner {
+                grid-template-columns: 1fr;
+            }
+
+            .badge,
+            .price,
+            .stop-status {
+                justify-self: start;
+                text-align: left;
+            }
+
+            .swap-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#purchase-flow" class="skip-link">Skip to purchase flow</a>
+    <svg class="sr-only" aria-hidden="true" focusable="false">
+        <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></symbol>
+        <symbol id="icon-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"></rect><path d="M8 21l2-4M16 21l-2-4M8 8h8M8 12h8"></path><circle cx="9" cy="15" r="1"></circle><circle cx="15" cy="15" r="1"></circle></symbol>
+        <symbol id="icon-ticket" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></symbol>
+        <symbol id="icon-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18M7 15h3"></path></symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16 9"></path></symbol>
+        <symbol id="icon-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"></path></symbol>
+        <symbol id="icon-route" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 6h3a4 4 0 0 1 0 8H9a3 3 0 0 0 0 6h3"></path></symbol>
+        <symbol id="icon-alert" viewBox="0 0 24 24"><path d="m12 3 10 18H2Z"></path><path d="M12 9v4M12 17h.01"></path></symbol>
+    </svg>
+
+    <header>
+        <div class="top-strip">
+            <div class="container">
+                <a href="#" class="brand" aria-label="Trenord home">
+                    <span class="brand-mark" aria-hidden="true"></span>
+                    <span>TRENORD</span>
+                </a>
+                <div class="header-tools" aria-label="Header tools">
+                    <span>ENG</span>
+                    <span>Sign in / Register</span>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav" aria-label="Main navigation">
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="#" aria-current="page">Tickets</a></li>
+                    <li><a href="#">Routes and Timetables</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Assistance</a></li>
+                    <li><a href="#">Train Trips</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+                <form class="nav-search" role="search">
+                    <label class="sr-only" for="site-search">Search Trenord</label>
+                    <input id="site-search" type="search" placeholder="What are you looking for?">
+                    <button class="icon-button" type="submit" aria-label="Submit site search">S</button>
+                    <button class="icon-button" type="button" aria-label="Open account">A</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="container">
+            <div class="hero-copy">
+                <h1 id="hero-title">Community</h1>
+                <p>Travel by train, choose a sustainable route, and complete the ticket purchase in one guided flow.</p>
+                <button class="outline-button" type="button">Discover more</button>
+            </div>
+        </div>
+    </section>
+
+    <main id="purchase-flow" class="booking-shell container">
+        <section class="purchase-card" aria-labelledby="flow-title">
+            <h2 id="flow-title" class="sr-only">Trenord ticket purchase flow</h2>
+            <div class="flow-loader" id="flow-loader" aria-live="polite" aria-hidden="true">
+                <div class="loader-panel">
+                    <h3 class="mini-title">Processing request</h3>
+                    <p class="meta" id="loader-copy">Preparing the next step.</p>
+                    <div class="loader-track" aria-hidden="true"></div>
+                </div>
+            </div>
+
+            <div class="funnel">
+                <aside class="rail" aria-label="Trip summary and progress">
+                    <div class="journey-summary">
+                        <section class="summary-card" aria-labelledby="progress-title">
+                            <h3 class="mini-title" id="progress-title">Purchase progress</h3>
+                            <span class="progress-hint">Click to change to corresponding step</span>
+                            <div class="funnel-steps" role="list" aria-label="Purchase steps">
+                                <button class="funnel-step" type="button" data-go-step="1" aria-current="step"><span class="step-number"><svg class="flow-icon"><use href="#icon-search"></use></svg></span><span>Search journey</span></button>
+                                <button class="funnel-step" type="button" data-go-step="2"><span class="step-number"><svg class="flow-icon"><use href="#icon-train"></use></svg></span><span>Select train</span></button>
+                                <div class="funnel-leg-steps" id="train-leg-steps" aria-label="Select train sub steps" hidden>
+                                    <button class="funnel-substep" type="button" data-train-leg="outbound"><span class="substep-index">2.1</span><span>Select outward</span></button>
+                                    <button class="funnel-substep" type="button" data-train-leg="return"><span class="substep-index">2.2</span><span>Select return</span></button>
+                                </div>
+                                <button class="funnel-step" type="button" data-go-step="3"><span class="step-number"><svg class="flow-icon"><use href="#icon-ticket"></use></svg></span><span>Choose ticket</span></button>
+                                <button class="funnel-step" type="button" data-go-step="4"><span class="step-number"><svg class="flow-icon"><use href="#icon-card"></use></svg></span><span>Review and pay</span></button>
+                                <button class="funnel-step" type="button" data-go-step="5"><span class="step-number"><svg class="flow-icon"><use href="#icon-check"></use></svg></span><span>Ticket ready</span></button>
+                            </div>
+                        </section>
+                        <section class="summary-card rail-presets" aria-labelledby="results-preset-title">
+                            <div class="preset-toolbar">
+                                <div>
+                                    <h3 class="mini-title" id="results-preset-title">Strategy presets</h3>
+                                    <span class="preset-page" id="preset-page-label">1/1</span>
+                                </div>
+                                <div class="preset-controls" aria-label="Strategy preset pages">
+                                    <button class="secondary-button" type="button" id="preset-prev" aria-label="Previous strategy presets">Prev</button>
+                                    <button class="secondary-button" type="button" id="preset-next" aria-label="Next strategy presets">Next</button>
+                                </div>
+                            </div>
+                            <p class="meta preset-hint">Your Saved train will be shown here</p>
+                            <div class="preset-viewport">
+                                <div class="preset-grid" id="strategy-presets"></div>
+                            </div>
+                            <div class="preset-dots" id="preset-dots" aria-label="Strategy preset pages"></div>
+                        </section>
+                    </div>
+                </aside>
+
+                <section class="content" aria-live="polite">
+                    <section class="screen active" id="screen-search" aria-labelledby="search-title">
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 1</p>
+                                <h2 class="screen-title" id="search-title"><span class="page-icon" aria-hidden="true"><svg class="flow-icon"><use href="#icon-search"></use></svg></span>Start your journey</h2>
+                                <p class="screen-subtitle" id="search-subtitle">Choose your journey details and find available regional trains.</p>
+                            </div>
+                        </div>
+
+                        <div class="booking-tabs search-mode-tabs" aria-label="Search mode">
+                            <button class="booking-tab" type="button" id="mode-search" data-search-mode="station" aria-pressed="true">Search<small>Search for your journey by departure and arrival station</small></button>
+                            <button class="booking-tab" type="button" id="mode-explore" data-search-mode="explore" aria-pressed="false">Explore<small>Plan your journey with Itinerary designer</small></button>
+                        </div>
+
+                        <div class="mode-panel active" id="search-mode-station">
+                            <section class="screen-block" aria-labelledby="route-fields-title">
+                                <h3 class="mini-title" id="route-fields-title">Station Config</h3>
+                                <div class="field-grid">
+                                    <div class="field">
+                                        <label for="origin">From</label>
+                                        <input id="origin" type="text" value="Milano Centrale" autocomplete="off">
+                                    </div>
+                                    <button class="swap-button" type="button" id="swap-route" aria-label="Swap origin and destination">=</button>
+                                    <div class="field">
+                                        <label for="destination">To</label>
+                                        <input id="destination" type="text" value="Como Lago" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="search-row">
+                                    <div class="field">
+                                        <label for="outbound-date">Outbound</label>
+                                        <input id="outbound-date" type="datetime-local" value="2026-06-19T09:30">
+                                    </div>
+                                    <button class="secondary-button" type="button" id="toggle-return">Add return</button>
+                                </div>
+                                <div class="return-row" id="return-row">
+                                    <div class="field">
+                                        <label for="return-date">Return</label>
+                                        <input id="return-date" type="datetime-local" value="2026-06-19T18:10">
+                                    </div>
+                                    <button class="text-button" type="button" id="remove-return">Remove return</button>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="mode-panel" id="search-mode-explore">
+                            <section class="screen-block" aria-labelledby="preferences-title">
+                                <h3 class="mini-title" id="preferences-title">Itinerary Designer</h3>
+                                <div class="field" style="margin-top:12px;">
+                                    <label for="itinerary-package">Itinerary designer</label>
+                                    <select id="itinerary-package">
+                                        <option value="standard">Standard rail journey</option>
+                                        <option value="como" selected>Lake Como day trip</option>
+                                        <option value="bike">Bike and outdoor route</option>
+                                        <option value="crossborder">Swiss cross-border route</option>
+                                    </select>
+                                </div>
+                                <div style="margin-top:14px;">
+                                    <h4 class="mini-title">Passenger persona</h4>
+                                    <div class="preference-grid">
+                                        <button class="choice-button" type="button" data-persona="tourist" aria-pressed="true"><strong>Day visitor</strong><small>Scenic route and simple fare</small></button>
+                                        <button class="choice-button" type="button" data-persona="family" aria-pressed="false"><strong>Family group</strong><small>Comfort and group clarity</small></button>
+                                        <button class="choice-button" type="button" data-persona="bike" aria-pressed="false"><strong>Bike traveler</strong><small>Bike supplement visible</small></button>
+                                        <button class="choice-button" type="button" data-persona="commuter" aria-pressed="false"><strong>Daily commuter</strong><small>Reliability and recovery first</small></button>
+                                    </div>
+                                </div>
+                                <p class="strategy-note" id="itinerary-strategy-note"></p>
+                            </section>
+                        </div>
+                        <div class="step-actionbar">
+                            <button class="primary-button" type="button" id="search-submit"><svg class="button-icon" aria-hidden="true"><use href="#icon-search"></use></svg>Search</button>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-results" aria-labelledby="results-title">
+                        <button class="secondary-button back-button" type="button" data-back-step="1">Back</button>
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker" id="results-kicker">Step 2</p>
+                                <h2 class="screen-title" id="results-title"><span class="page-icon" aria-hidden="true"><svg class="flow-icon"><use href="#icon-train"></use></svg></span>Select an outbound train</h2>
+                                <p class="screen-subtitle">Compare departure times, fares, platforms, and service updates before choosing your train.</p>
+                            </div>
+                        </div>
+
+                        <details class="search-method-bar" id="method-details">
+                            <summary>
+                                <span><span id="method-title">Search method: Station search</span><span class="method-copy" id="method-copy">Milano Centrale to Como Lago, outbound route search.</span></span>
+                                <span class="method-toggle-label" id="method-toggle-label">Expand</span>
+                            </summary>
+                            <div class="method-panel">
+                                <div>
+                                    <div class="mode-panel active" id="results-mode-station">
+                                        <section class="screen-block" aria-labelledby="results-station-title">
+                                            <h3 class="mini-title" id="results-station-title">Station Config</h3>
+                                            <div class="field-grid">
+                                                <div class="field">
+                                                    <label for="results-origin">From</label>
+                                                    <input id="results-origin" type="text" value="Milano Centrale" autocomplete="off">
+                                                </div>
+                                                <button class="swap-button" type="button" id="results-swap-route" aria-label="Swap results origin and destination">=</button>
+                                                <div class="field">
+                                                    <label for="results-destination">To</label>
+                                                    <input id="results-destination" type="text" value="Como Lago" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <button class="primary-button" type="button" id="results-station-search" style="margin-top:14px;"><svg class="button-icon" aria-hidden="true"><use href="#icon-search"></use></svg>Search</button>
+                                        </section>
+                                    </div>
+                                    <div class="mode-panel" id="results-mode-explore">
+                                        <section class="screen-block" aria-labelledby="results-explore-title">
+                                            <h3 class="mini-title" id="results-explore-title">Itinerary Designer</h3>
+                                            <div class="field">
+                                                <label for="results-itinerary-package">Experience package</label>
+                                                <select id="results-itinerary-package">
+                                                    <option value="standard">Standard rail journey</option>
+                                                    <option value="como" selected>Lake Como day trip</option>
+                                                    <option value="bike">Bike and outdoor route</option>
+                                                    <option value="crossborder">Swiss cross-border route</option>
+                                                </select>
+                                            </div>
+                                            <div style="margin-top:14px;">
+                                                <h4 class="mini-title">Passenger Persona</h4>
+                                                <div class="preference-grid">
+                                                    <button class="choice-button" type="button" data-persona="tourist" aria-pressed="true"><strong>Day visitor</strong><small>Scenic route and simple fare</small></button>
+                                                    <button class="choice-button" type="button" data-persona="family" aria-pressed="false"><strong>Family group</strong><small>Comfort and group clarity</small></button>
+                                                    <button class="choice-button" type="button" data-persona="bike" aria-pressed="false"><strong>Bike traveler</strong><small>Bike supplement visible</small></button>
+                                                    <button class="choice-button" type="button" data-persona="commuter" aria-pressed="false"><strong>Daily commuter</strong><small>Reliability and recovery first</small></button>
+                                                </div>
+                                            </div>
+                                            <p class="strategy-note" id="results-strategy-note"></p>
+                                            <button class="primary-button" type="button" id="results-explore-search" style="margin-top:14px;"><svg class="button-icon" aria-hidden="true"><use href="#icon-search"></use></svg>Search</button>
+                                        </section>
+                                    </div>
+                                </div>
+                                <aside class="mode-switcher">
+                                    <h3 class="mini-title">Switch mode</h3>
+                                    <button class="chip-button" type="button" data-switch-search-mode="station" aria-pressed="true" style="width:100%;margin-bottom:8px;"><strong>Search</strong><small>Station Config</small></button>
+                                    <button class="chip-button" type="button" data-switch-search-mode="explore" aria-pressed="false" style="width:100%;"><strong>Explore</strong><small>Itinerary Designer</small></button>
+                                </aside>
+                            </div>
+                        </details>
+
+                        <div class="results-workspace">
+                            <div class="results-main">
+                                <h3 class="mini-title">Strike Alert & Filter</h3>
+                                <div class="status-banner neutral" id="alert-banner">
+                                    <span class="status-icon" aria-hidden="true">i</span>
+                                    <span><strong id="alert-title">Route status clear</strong><br><span id="alert-copy">Standard service is available for the selected route.</span></span>
+                                    <button class="secondary-button" type="button" id="toggle-disruption">Simulate disruption</button>
+                                </div>
+
+                                <div class="filter-bar" aria-label="Result filters">
+                                    <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All options</button>
+                                    <button class="filter-button" type="button" data-filter="fast" aria-pressed="false">Fastest</button>
+                                    <button class="filter-button" type="button" data-filter="cheap" aria-pressed="false">Lowest fare</button>
+                                    <button class="filter-button" type="button" data-filter="scenic" aria-pressed="false">Scenic route</button>
+                                    <button class="filter-button" type="button" data-filter="recovery" aria-pressed="false">Recovery ready</button>
+                                </div>
+
+                                <div class="results-list" id="results-list"></div>
+                            </div>
+
+                        </div>
+                        <div class="step-actionbar">
+                            <div class="return-action-cluster" id="return-action-cluster">
+                                <button class="secondary-button" type="button" id="add-return-results">Add return</button>
+                                <span class="return-date-chip" id="return-date-chip" hidden></span>
+                                <button class="secondary-button" type="button" id="change-return-date" hidden>Change return date</button>
+                            </div>
+                            <button class="primary-button" type="button" id="continue-ticket"><svg class="button-icon" aria-hidden="true"><use href="#icon-ticket"></use></svg><span id="continue-ticket-label">CONTINUE(ONE WAY)</span></button>
+                            <div class="return-action-panel" id="return-action-panel">
+                                <div class="field">
+                                    <label for="results-return-date">Return</label>
+                                    <input id="results-return-date" type="datetime-local" value="2026-06-19T18:10">
+                                </div>
+                                <button class="primary-button" type="button" id="find-return-train"><svg class="button-icon" aria-hidden="true"><use href="#icon-search"></use></svg><span id="find-return-label">Find return train</span></button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-ticket" aria-labelledby="ticket-title">
+                        <button class="secondary-button back-button" type="button" data-back-step="2">Back</button>
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 3</p>
+                                <h2 class="screen-title" id="ticket-title"><span class="page-icon" aria-hidden="true"><svg class="flow-icon"><use href="#icon-ticket"></use></svg></span>Choose ticket and verify fares</h2>
+                                <p class="screen-subtitle">Select the best ticket for your route and confirm any passenger discounts.</p>
+                            </div>
+                        </div>
+
+                        <section class="screen-block journey-brief" aria-labelledby="ticket-summary-title">
+                            <h3 class="mini-title" id="ticket-summary-title">Selected journey spotlight</h3>
+                            <div id="ticket-summary-metrics"></div>
+                            <div class="selection-digest">
+                                <div class="summary-line"><span>Route</span><strong id="ticket-summary-route">Milano Centrale to Como Lago</strong></div>
+                                <div class="summary-line"><span>Ticket</span><strong id="ticket-summary-product">Single</strong></div>
+                                <div class="summary-line"><span>Total</span><strong id="ticket-summary-total">5.20 EUR</strong></div>
+                            </div>
+                        </section>
+
+                        <section class="screen-block" aria-labelledby="product-title">
+                            <h3 class="mini-title" id="product-title">Select ticket or pass type</h3>
+                            <div class="product-grid">
+                                <button class="product-card" type="button" data-product="single" aria-pressed="true"><span><strong>Single</strong><small>One-way journey for the selected route. Valid after activation.</small></span><span class="product-price" data-product-price="single">5.20 EUR</span></button>
+                                <button class="product-card" type="button" data-product="carnet" aria-pressed="false"><span><strong>Carnet</strong><small>Ten journeys on the selected route. Useful for repeat travel.</small></span><span class="product-price" data-product-price="carnet">46.80 EUR</span></button>
+                                <button class="product-card" type="button" data-product="monthly" aria-pressed="false"><span><strong>Monthly</strong><small>Unlimited travel for the selected origin-destination pair.</small></span><span class="product-price" data-product-price="monthly">84.00 EUR</span></button>
+                            </div>
+                        </section>
+
+                        <div class="grid-2" style="margin-top:18px;">
+                            <section class="screen-block" aria-labelledby="passengers-title">
+                                <h3 class="mini-title" id="passengers-title">Passenger configuration</h3>
+                                <div class="counter-list">
+                                    <div class="counter-row"><span><strong>Adult</strong><small class="meta">Age 14 to 64</small></span><button class="counter-button" type="button" data-counter="adult" data-delta="-1" aria-label="Decrease adult passengers">-</button><span class="counter-value" id="adult-count">1</span><button class="counter-button" type="button" data-counter="adult" data-delta="1" aria-label="Increase adult passengers">+</button></div>
+                                    <div class="counter-row"><span><strong>Student under 26</strong><small class="meta">Student status required</small></span><button class="counter-button" type="button" data-counter="student" data-delta="-1" aria-label="Decrease student passengers">-</button><span class="counter-value" id="student-count">0</span><button class="counter-button" type="button" data-counter="student" data-delta="1" aria-label="Increase student passengers">+</button></div>
+                                    <div class="counter-row"><span><strong>Senior</strong><small class="meta">Age 65 and over</small></span><button class="counter-button" type="button" data-counter="senior" data-delta="-1" aria-label="Decrease senior passengers">-</button><span class="counter-value" id="senior-count">0</span><button class="counter-button" type="button" data-counter="senior" data-delta="1" aria-label="Increase senior passengers">+</button></div>
+                                </div>
+                                <label class="check-row" style="margin-top:12px;">
+                                    <span><strong>Verify student status</strong><small class="meta">Student passengers hold valid identification.</small></span>
+                                    <input id="student-verified" type="checkbox" checked>
+                                </label>
+                            </section>
+                            <section class="screen-block" aria-labelledby="fare-title">
+                                <h3 class="mini-title" id="fare-title">Fare verification</h3>
+                                <div class="amount-list" id="fare-preview"></div>
+                            </section>
+                        </div>
+                        <div class="step-actionbar">
+                            <button class="primary-button" type="button" id="continue-checkout"><svg class="button-icon" aria-hidden="true"><use href="#icon-card"></use></svg>Continue</button>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-checkout" aria-labelledby="checkout-title">
+                        <button class="secondary-button back-button" type="button" data-back-step="3">Back</button>
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 4</p>
+                                <h2 class="screen-title" id="checkout-title"><span class="page-icon" aria-hidden="true"><svg class="flow-icon"><use href="#icon-card"></use></svg></span>Review and pay</h2>
+                                <p class="screen-subtitle">Review your trip, add optional services, and choose how you want to pay.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <section class="screen-block" aria-labelledby="review-title">
+                                <h3 class="mini-title" id="review-title">Trip details</h3>
+                                <div class="amount-list">
+                                    <div class="amount-line"><span>Route</span><strong id="review-route">Milano Centrale to Como Lago</strong></div>
+                                    <div class="amount-line"><span>Train</span><strong id="review-train">09:43 Direct regional</strong></div>
+                                    <div class="amount-line"><span>Validity</span><strong id="review-validity">Selected travel date</strong></div>
+                                    <div class="amount-line"><span>Passengers</span><strong id="review-passengers">1 Adult</strong></div>
+                                </div>
+                                <div class="checkout-leg-list" id="checkout-leg-summary"></div>
+                                <h3 class="mini-title" style="margin-top:18px;">Extras</h3>
+                                <label class="check-row"><span><strong>Bicycle transport +3.00 EUR</strong><small class="meta">Reserved bike carriage where available.</small></span><input id="bike" type="checkbox"></label>
+                                <label class="check-row" style="margin-top:9px;"><span><strong>First class upgrade +2.50 EUR</strong><small class="meta">Upgrade the selected product.</small></span><input id="first-class" type="checkbox"></label>
+                            </section>
+
+                            <section class="screen-block" aria-labelledby="payment-title">
+                                <h3 class="mini-title" id="payment-title">Sign in or continue as guest</h3>
+                                <div class="login-choice" role="radiogroup" aria-label="Checkout identity option">
+                                    <label class="radio-row"><input type="radio" name="identity" value="guest" checked><span><strong>Continue as guest</strong><small class="meta">Bypass mandatory registration and receive the ticket by email.</small></span></label>
+                                    <label class="radio-row"><input type="radio" name="identity" value="signin"><span><strong>Sign in with Trenord account</strong><small class="meta">Matches the official store login path.</small></span></label>
+                                </div>
+                                <h3 class="mini-title" style="margin-top:18px;">Fare summary</h3>
+                                <div class="amount-list" id="checkout-summary"></div>
+                                <h3 class="mini-title" style="margin-top:18px;">Payment method</h3>
+                                <div class="payment-grid">
+                                    <label class="payment-option active"><input type="radio" name="payment" value="Credit card" checked>Credit card</label>
+                                    <label class="payment-option"><input type="radio" name="payment" value="PayPal">PayPal</label>
+                                    <label class="payment-option"><input type="radio" name="payment" value="Satispay">Satispay</label>
+                                    <label class="payment-option"><input type="radio" name="payment" value="Apple Pay">Apple Pay</label>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="step-actionbar payment-actionbar">
+                            <span class="payment-terms-hint" id="payment-terms-hint">Accept terms of carriage to continue</span>
+                            <button class="primary-button" type="button" id="pay-now" disabled aria-disabled="true"><svg class="button-icon" aria-hidden="true"><use href="#icon-card"></use></svg>Pay now</button>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen-confirmation" aria-labelledby="confirmation-title">
+                        <button class="secondary-button back-button" type="button" data-back-step="4">Back</button>
+                        <div class="screen-header">
+                            <div>
+                                <p class="kicker">Step 5</p>
+                                <h2 class="screen-title" id="confirmation-title"><span class="page-icon" aria-hidden="true"><svg class="flow-icon"><use href="#icon-check"></use></svg></span>Purchase confirmed</h2>
+                                <p class="screen-subtitle">Your digital ticket is active and ready for inspection.</p>
+                            </div>
+                        </div>
+
+                        <section class="qr-ticket" aria-labelledby="success-title">
+                            <div>
+                                <h3 class="success-title" id="success-title">Ticket ready</h3>
+                                <div class="amount-list">
+                                    <div class="amount-line"><span>Order ID</span><strong>TN-928374-2026</strong></div>
+                                    <div class="amount-line"><span>Route</span><strong id="confirmed-route">Milano Centrale to Como Lago</strong></div>
+                                    <div class="amount-line"><span>Product</span><strong id="confirmed-product">Single</strong></div>
+                                    <div class="amount-line"><span>Total paid</span><strong id="confirmed-total">5.20 EUR</strong></div>
+                                </div>
+                            </div>
+                            <div class="qr" id="qr-code" role="img" aria-label="Validated digital QR ticket"></div>
+                        </section>
+
+                        <div class="spotlight">
+                            <section class="screen-block" aria-labelledby="monitor-title">
+                                <h3 class="mini-title" id="monitor-title">Live journey monitor</h3>
+                                <div class="status-banner" id="confirmation-alert">
+                                    <span class="status-icon" aria-hidden="true">!</span>
+                                    <span><strong id="confirmation-alert-title">No active disruption</strong><br><span id="confirmation-alert-copy">Track and timing remain aligned with the selected train.</span></span>
+                                    <button class="secondary-button" type="button" id="confirmation-disruption">Toggle alert</button>
+                                </div>
+                            </section>
+                            <section class="screen-block" aria-labelledby="post-purchase-timeline-title">
+                                <h3 class="mini-title" id="post-purchase-timeline-title">Activated ticket timeline</h3>
+                                <div class="timeline" id="confirmation-timeline"></div>
+                            </section>
+                        </div>
+                        <div class="step-actionbar">
+                            <button class="secondary-button" type="button" id="new-search"><svg class="button-icon" aria-hidden="true"><use href="#icon-search"></use></svg>New search</button>
+                        </div>
+                    </section>
+                </section>
+                <aside class="detail-rail" aria-label="Selected journey details">
+                    <div class="detail-summary">
+                        <section class="summary-card outbound-locked" id="outbound-summary-card" aria-labelledby="outbound-summary-title" hidden>
+                            <h3 class="mini-title" id="outbound-summary-title">Outbound train</h3>
+                            <div class="amount-list" id="outbound-summary"></div>
+                        </section>
+                        <section class="summary-card" aria-labelledby="spotlight-title">
+                            <h3 class="mini-title" id="spotlight-title">Selected journey spotlight</h3>
+                            <div class="metric-grid" id="journey-metrics"></div>
+                            <div class="selection-digest" aria-label="Current selection">
+                                <div class="summary-line"><span>From</span><strong id="summary-origin">Milano Centrale</strong></div>
+                                <div class="summary-line"><span>To</span><strong id="summary-destination">Como Lago</strong></div>
+                                <div class="summary-line"><span>Date</span><strong id="summary-date">Fri, 19 Jun 2026</strong></div>
+                                <div class="summary-line"><span>Train</span><strong id="summary-train">Not selected</strong></div>
+                                <div class="summary-line"><span>Ticket</span><strong id="summary-product">Single</strong></div>
+                                <div class="summary-line"><span>Total</span><strong id="summary-total">5.20 EUR</strong></div>
+                            </div>
+                            <div class="amount-line" style="margin-top:12px;"><span>Recovery strategy</span><strong id="recovery-summary">Direct service, no transfer risk.</strong></div>
+                        </section>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <section class="site-section container" aria-labelledby="updates-title">
+        <h2 class="section-title" id="updates-title">Stay updated</h2>
+        <div class="updates-grid">
+            <article class="news-card"><h3>Service works</h3></article>
+            <article class="news-card"><h3>Other notices</h3></article>
+        </div>
+        <div class="promo-grid">
+            <article class="promo-card"><h3>Garda experience</h3></article>
+            <article class="promo-card"><h3>Sustainability report</h3></article>
+            <article class="promo-card"><h3>ZeroNeet</h3></article>
+        </div>
+    </section>
+
+    <section class="site-section container" aria-labelledby="infomobility-title">
+        <h2 class="section-title" id="infomobility-title">Infomobility</h2>
+        <p>Search for a train, follow its current operating status, and keep recovery options close.</p>
+        <form class="nav-search" style="margin:18px auto 0;max-width:430px;grid-template-columns:1fr auto;" role="search">
+            <label class="sr-only" for="train-search">Train number</label>
+            <input id="train-search" type="search" value="RE 25510">
+            <button class="primary-button" type="submit">Search</button>
+        </form>
+    </section>
+
+
+    <div class="navigation-confirm-overlay" id="navigation-confirm" role="dialog" aria-modal="true" aria-labelledby="navigation-confirm-title" aria-describedby="navigation-confirm-copy" hidden>
+        <div class="navigation-confirm-panel" role="document">
+            <p class="kicker">Confirm navigation</p>
+            <h2 class="mini-title" id="navigation-confirm-title">Return to a previous page?</h2>
+            <p id="navigation-confirm-copy">Your current search data will be lost. Are you sure you want to return to a previous page?</p>
+            <div class="navigation-confirm-actions">
+                <button class="secondary-button" type="button" id="navigation-confirm-cancel">Cancel</button>
+                <button class="primary-button" type="button" id="navigation-confirm-accept">Confirm return</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-band">
+            <div class="container footer-grid">
+                <div><h3>Before departure</h3><ul><li>Online purchase guide</li><li>Train trips</li><li>Travelers with disabilities</li></ul></div>
+                <div><h3>On the journey</h3><ul><li>Real-time traffic</li><li>Replacement services</li><li>Guaranteed trains</li></ul></div>
+                <div><h3>After arrival</h3><ul><li>Contacts</li><li>Lost property</li><li>Refunds</li></ul></div>
+            </div>
+        </div>
+        <div class="container copyright">Regional rail ticketing experience. Routes, fares, and service notices update before purchase.</div>
+    </footer>
+
+    <script>
+        const products = {
+            single: { name: "Single", base: 5.2, validity: "Valid on the selected travel date" },
+            carnet: { name: "Carnet", base: 46.8, validity: "10 route journeys" },
+            monthly: { name: "Monthly", base: 84, validity: "Calendar month on selected route" }
+        };
+
+        const regions = {
+            stibm: { label: "STIBM Milan Area", factor: 0.85 },
+            lombardy: { label: "Lombardy Regional", factor: 1 },
+            tilo: { label: "Swiss Cross-Border TILO", factor: 1.45 }
+        };
+
+        const productOptions = {
+            standard: {
+                single: { name: "Single", copy: "One-way journey for the selected route.", validity: "Valid on the selected travel date", multiplier: 1 },
+                carnet: { name: "Carnet", copy: "Ten journeys on this regional route.", validity: "10 route journeys", multiplier: 9 },
+                monthly: { name: "Monthly", copy: "Unlimited travel on the selected route.", validity: "Calendar month on selected route", multiplier: products.monthly.base / products.single.base }
+            },
+            como: {
+                single: { name: "Single", copy: "One-way journey to the lake terminus.", validity: "Valid on the selected travel date", multiplier: 1 },
+                carnet: { name: "Carnet", copy: "Ten lake-route journeys for repeat travel.", validity: "10 route journeys", multiplier: 9 },
+                monthly: { name: "Monthly", copy: "Unlimited monthly travel between Milan and Como.", validity: "Calendar month on selected route", multiplier: products.monthly.base / products.single.base }
+            },
+            bike: {
+                single: { name: "Single", copy: "Rail ticket for bike-friendly Lecco services.", validity: "Valid on the selected travel date", multiplier: 1 },
+                carnet: { name: "Carnet", copy: "Ten journeys on the bike-friendly Lecco route.", validity: "10 route journeys", multiplier: 9 },
+                monthly: { name: "Monthly", copy: "Monthly rail access for the selected bike route.", validity: "Calendar month on selected route", multiplier: products.monthly.base / products.single.base }
+            },
+            crossborder: {
+                single: { name: "Single", copy: "One-way cross-border ticket to Switzerland.", validity: "Valid on selected cross-border service", multiplier: 1 },
+                carnet: { name: "Carnet", copy: "Six cross-border journeys for repeat travel.", validity: "6 cross-border journeys", multiplier: 5.5 },
+                monthly: { name: "Monthly", copy: "Monthly cross-border travel on the selected corridor.", validity: "Calendar month on selected cross-border route", multiplier: 12 }
+            }
+        };
+
+        const packageRoutes = {
+            standard: { origin: "Milano Centrale", destination: "Bergamo" },
+            como: { origin: "Milano Centrale", destination: "Como Lago" },
+            bike: { origin: "Milano Porta Garibaldi", destination: "Lecco" },
+            crossborder: { origin: "Milano Centrale", destination: "Lugano" }
+        };
+
+        const packageLabels = {
+            standard: "Standard rail journey",
+            como: "Lake Como day trip",
+            bike: "Bike and outdoor route",
+            crossborder: "Swiss cross-border route"
+        };
+
+        const strategyNotes = {
+            standard: {
+                tourist: "For a day visitor, the designer prioritises simple regional trains from Milano Centrale to Bergamo with clear platform information and moderate fares.",
+                family: "For a family group, the designer keeps direct Milano Centrale to Bergamo services first, with stable timings and fewer transfer decisions.",
+                bike: "For a bike traveler, the designer still offers Milano Centrale to Bergamo tickets while keeping supplement visibility and carriage constraints prominent.",
+                commuter: "For a daily commuter, the designer favours reliable Milano Centrale to Bergamo trains and keeps disruption-ready alternatives close."
+            },
+            como: {
+                tourist: "For a day visitor, the designer proposes Milano Centrale to Como Lago trains with scenic lake arrival options and simple single-ticket pricing.",
+                family: "For a family group, the designer prioritises comfortable Milano Centrale to Como Lago services with predictable arrival times and fare clarity.",
+                bike: "For a bike traveler, the designer keeps the Milano Centrale to Como Lago route available while highlighting bike supplement decisions before checkout.",
+                commuter: "For a daily commuter, the designer favours resilient Milano Centrale to Como Lago trains and shows recovery-ready services when disruptions are simulated."
+            },
+            bike: {
+                tourist: "For a day visitor, the designer proposes Milano Porta Garibaldi to Lecco trains with a scenic outdoor route and straightforward fare comparison.",
+                family: "For a family group, the designer filters Milano Porta Garibaldi to Lecco options around comfort, easy boarding, and readable supplement choices.",
+                bike: "For a bike traveler, the designer prioritises Milano Porta Garibaldi to Lecco services with bike-friendly carriage planning and visible supplement pricing.",
+                commuter: "For a daily commuter, the designer keeps Milano Porta Garibaldi to Lecco options focused on reliable timings and recovery guidance."
+            },
+            crossborder: {
+                tourist: "For a day visitor, the designer provides Milano Centrale to Lugano cross-border trains with scenic TILO options and border-stop visibility.",
+                family: "For a family group, the designer keeps Milano Centrale to Lugano services readable with clear fare totals and fewer avoidable transfer decisions.",
+                bike: "For a bike traveler, the designer shows Milano Centrale to Lugano cross-border options while making supplements and train constraints visible before payment.",
+                commuter: "For a daily commuter, the designer favours Milano Centrale to Lugano services with connection monitoring and disruption-aware alternatives."
+            }
+        };
+
+        const trainCatalog = [
+            { id: "std-r1", package: "standard", direction: "outbound", time: "09:18 to 10:07", duration: "49m", train: "RE 2615", platform: "Platform 6", changes: "0 changes", price: 5.6, type: "fast", scenic: false, recovery: "Direct regional service with platform confirmation before departure.", stops: [["09:18", "Milano Centrale", "Platform 6", "On time"], ["09:39", "Treviglio", "Platform 3", "On time"], ["10:07", "Bergamo", "Platform 1", "Arrival"]] },
+            { id: "std-r2", package: "standard", direction: "outbound", time: "09:42 to 10:38", duration: "56m", train: "R 10827", platform: "Platform 8", changes: "0 changes", price: 5.2, type: "cheap", scenic: false, recovery: "Lower fare regional route with an additional intermediate stop.", stops: [["09:42", "Milano Centrale", "Platform 8", "On time"], ["10:05", "Pioltello", "Platform 2", "On time"], ["10:38", "Bergamo", "Platform 2", "Arrival"]] },
+            { id: "std-ret1", package: "standard", direction: "return", time: "18:12 to 19:03", duration: "51m", train: "RE 2628", platform: "Platform 2", changes: "0 changes", price: 5.6, type: "fast", scenic: false, recovery: "Return service with direct arrival at Milano Centrale.", stops: [["18:12", "Bergamo", "Platform 2", "On time"], ["18:38", "Treviglio", "Platform 5", "On time"], ["19:03", "Milano Centrale", "Platform 7", "Arrival"]] },
+            { id: "std-ret2", package: "standard", direction: "return", time: "18:36 to 19:34", duration: "58m", train: "R 10844", platform: "Platform 1", changes: "0 changes", price: 5.2, type: "cheap", scenic: false, recovery: "Evening regional service with lower fare availability.", stops: [["18:36", "Bergamo", "Platform 1", "On time"], ["19:01", "Pioltello", "Platform 3", "On time"], ["19:34", "Milano Centrale", "Platform 5", "Arrival"]] },
+
+            { id: "como-re1", package: "como", direction: "outbound", time: "09:43 to 10:43", duration: "1h 00m", train: "RE 25510", platform: "Platform 5", changes: "0 changes", price: 5.2, type: "fast", scenic: false, recovery: "Direct lake service with protected alternatives shown during service changes.", stops: [["09:43", "Milano Centrale", "Platform 5", "On time"], ["10:12", "Sesto S. Giovanni", "Platform 2", "On time"], ["10:28", "Monza", "Platform 3", "On time"], ["10:43", "Como Lago", "Platform 1", "Arrival"]] },
+            { id: "como-r1", package: "como", direction: "outbound", time: "09:50 to 11:05", duration: "1h 15m", train: "R 24110", platform: "Platform 7", changes: "0 changes", price: 4.7, type: "cheap", scenic: true, recovery: "Lower fare route with lake arrival connections kept visible.", stops: [["09:50", "Milano Centrale", "Platform 7", "On time"], ["10:22", "Monza", "Platform 4", "On time"], ["10:44", "Cantu", "Platform 1", "On time"], ["11:05", "Como Lago", "Platform 1", "Arrival"]] },
+            { id: "como-s11", package: "como", direction: "outbound", time: "10:10 to 11:18", duration: "1h 08m", train: "S11 25073 + R 25517", platform: "Platform 2 / 4", changes: "1 change", price: 5.2, type: "scenic", scenic: true, recovery: "Connection at Seregno with next verified train shown on Platform 4.", stops: [["10:10", "Milano Centrale", "Platform 2", "On time"], ["10:40", "Seregno", "Platform 2", "Connection"], ["10:50", "Seregno", "Platform 4", "On time"], ["11:18", "Como Lago", "Platform 2", "Arrival"]] },
+            { id: "como-recovery", package: "como", direction: "outbound", time: "10:00 to 10:55", duration: "55m", train: "RE 25522", platform: "Platform 3", changes: "0 changes", price: 5.2, type: "recovery", scenic: false, recovery: "Strike-proof rail service. Existing route ticket remains accepted, and the protected train is highlighted while other services stay readable.", stops: [["10:00", "Milano Centrale", "Platform 3", "Guaranteed"], ["10:24", "Sesto S. Giovanni", "Platform 2", "Guaranteed"], ["10:41", "Monza", "Platform 4", "Guaranteed"], ["10:55", "Como Lago", "Platform 1", "Arrival"]] },
+            { id: "como-ret1", package: "como", direction: "return", time: "18:04 to 19:04", duration: "1h 00m", train: "RE 25631", platform: "Platform 1", changes: "0 changes", price: 5.2, type: "fast", scenic: false, recovery: "Direct evening return with Milan arrival platform monitored.", stops: [["18:04", "Como Lago", "Platform 1", "On time"], ["18:24", "Monza", "Platform 2", "On time"], ["19:04", "Milano Centrale", "Platform 6", "Arrival"]] },
+            { id: "como-ret2", package: "como", direction: "return", time: "18:20 to 19:35", duration: "1h 15m", train: "R 24137", platform: "Platform 2", changes: "0 changes", price: 4.7, type: "cheap", scenic: true, recovery: "Lower fare return service with additional intermediate stops.", stops: [["18:20", "Como Lago", "Platform 2", "On time"], ["18:44", "Cantu", "Platform 1", "On time"], ["19:35", "Milano Centrale", "Platform 8", "Arrival"]] },
+
+            { id: "bike-r1", package: "bike", direction: "outbound", time: "08:52 to 09:42", duration: "50m", train: "RE 2814", platform: "Platform 9", changes: "0 changes", price: 5.8, type: "scenic", scenic: true, recovery: "Bike-friendly carriage availability is highlighted before departure.", stops: [["08:52", "Milano Porta Garibaldi", "Platform 9", "On time"], ["09:14", "Monza", "Platform 3", "On time"], ["09:42", "Lecco", "Platform 2", "Arrival"]] },
+            { id: "bike-r2", package: "bike", direction: "outbound", time: "09:22 to 10:18", duration: "56m", train: "R 24818", platform: "Platform 11", changes: "0 changes", price: 5.3, type: "cheap", scenic: true, recovery: "Regional service with bike spaces shown in the fare review.", stops: [["09:22", "Milano Porta Garibaldi", "Platform 11", "On time"], ["09:49", "Carnate", "Platform 2", "On time"], ["10:18", "Lecco", "Platform 1", "Arrival"]] },
+            { id: "bike-ret1", package: "bike", direction: "return", time: "17:28 to 18:20", duration: "52m", train: "RE 2829", platform: "Platform 2", changes: "0 changes", price: 5.8, type: "scenic", scenic: true, recovery: "Return train keeps bike spaces visible through checkout.", stops: [["17:28", "Lecco", "Platform 2", "On time"], ["17:55", "Monza", "Platform 4", "On time"], ["18:20", "Milano Porta Garibaldi", "Platform 8", "Arrival"]] },
+            { id: "bike-ret2", package: "bike", direction: "return", time: "17:52 to 18:49", duration: "57m", train: "R 24841", platform: "Platform 1", changes: "0 changes", price: 5.3, type: "cheap", scenic: true, recovery: "Evening regional return with lower fare availability.", stops: [["17:52", "Lecco", "Platform 1", "On time"], ["18:21", "Carnate", "Platform 3", "On time"], ["18:49", "Milano Porta Garibaldi", "Platform 10", "Arrival"]] },
+
+            { id: "tilo-re1", package: "crossborder", direction: "outbound", time: "09:10 to 10:28", duration: "1h 18m", train: "RE 80", platform: "Platform 4", changes: "0 changes", price: 17.4, type: "fast", scenic: true, recovery: "Cross-border TILO fare includes Swiss connection monitoring.", stops: [["09:10", "Milano Centrale", "Platform 4", "On time"], ["09:44", "Como S. Giovanni", "Platform 2", "Border"], ["10:28", "Lugano", "Platform 3", "Arrival"]] },
+            { id: "tilo-r1", package: "crossborder", direction: "outbound", time: "09:40 to 11:05", duration: "1h 25m", train: "S10 25034 + RE 80", platform: "Platform 6 / 1", changes: "1 change", price: 15.9, type: "cheap", scenic: true, recovery: "One protected change at Chiasso with connection platform displayed.", stops: [["09:40", "Milano Centrale", "Platform 6", "On time"], ["10:22", "Chiasso", "Platform 4", "Connection"], ["10:34", "Chiasso", "Platform 1", "On time"], ["11:05", "Lugano", "Platform 2", "Arrival"]] },
+            { id: "tilo-ret1", package: "crossborder", direction: "return", time: "18:02 to 19:22", duration: "1h 20m", train: "RE 81", platform: "Platform 3", changes: "0 changes", price: 17.4, type: "fast", scenic: true, recovery: "Direct cross-border return with border timing monitored.", stops: [["18:02", "Lugano", "Platform 3", "On time"], ["18:42", "Como S. Giovanni", "Platform 1", "Border"], ["19:22", "Milano Centrale", "Platform 5", "Arrival"]] },
+            { id: "tilo-ret2", package: "crossborder", direction: "return", time: "18:28 to 19:55", duration: "1h 27m", train: "S10 25089 + RE 81", platform: "Platform 2 / 6", changes: "1 change", price: 15.9, type: "cheap", scenic: true, recovery: "Protected return connection at Chiasso.", stops: [["18:28", "Lugano", "Platform 2", "On time"], ["18:59", "Chiasso", "Platform 1", "Connection"], ["19:10", "Chiasso", "Platform 6", "On time"], ["19:55", "Milano Centrale", "Platform 7", "Arrival"]] }
+        ];
+
+        const state = {
+            step: 1,
+            maxStep: 1,
+            searchMode: "station",
+            origin: "Milano Centrale",
+            destination: "Como Lago",
+            returnActive: false,
+            outboundDate: "2026-06-19T09:30",
+            returnDate: "2026-06-19T18:10",
+            returnPanelOpen: false,
+            returnPanelMode: "add",
+            region: "lombardy",
+            package: "como",
+            pendingPackage: "como",
+            persona: "tourist",
+            preset: "lake",
+            filter: "all",
+            strikeProof: false,
+            disrupted: false,
+            selectingLeg: "outbound",
+            selectedTrain: "como-re1",
+            outboundTrain: "",
+            returnTrain: "",
+            savedTrains: [],
+            presetPage: 0,
+            presetDirection: "next",
+            resultsRefreshing: false,
+            expandedTrain: "",
+            product: "single",
+            passengers: { adult: 1, student: 0, senior: 0 },
+            studentVerified: true,
+            bike: false,
+            firstClass: false,
+            terms: false,
+            identity: "guest",
+            payment: "Credit card",
+            loading: false
+        };
+
+        const screens = {
+            1: "screen-search",
+            2: "screen-results",
+            3: "screen-ticket",
+            4: "screen-checkout",
+            5: "screen-confirmation"
+        };
+
+        function money(value) {
+            return Math.max(0, value).toFixed(2) + " EUR";
+        }
+
+        function selectedTrain() {
+            return trainCatalog.find(train => train.id === state.selectedTrain) || trainCatalog[0];
+        }
+
+        function activeSelectedTrain() {
+            return trainById(state.selectedTrain);
+        }
+
+        function trainById(id) {
+            return trainCatalog.find(train => train.id === id);
+        }
+
+        function region() {
+            return regions[state.region];
+        }
+
+        function passengerCount() {
+            return state.passengers.adult + state.passengers.student + state.passengers.senior;
+        }
+
+        function passengerSummary() {
+            const parts = [];
+            if (state.passengers.adult) parts.push(state.passengers.adult + " Adult");
+            if (state.passengers.student) parts.push(state.passengers.student + " Student");
+            if (state.passengers.senior) parts.push(state.passengers.senior + " Senior");
+            return parts.join(", ") || "1 Adult";
+        }
+
+        function productDef(productKey = state.product) {
+            return (productOptions[state.package] || productOptions.standard)[productKey] || productOptions.standard[productKey];
+        }
+
+        function currentDirection() {
+            return state.returnActive && state.selectingLeg === "return" ? "return" : "outbound";
+        }
+
+        function routeEndpoints(direction = currentDirection()) {
+            return direction === "return"
+                ? { from: state.destination, to: state.origin }
+                : { from: state.origin, to: state.destination };
+        }
+
+        function journeyRouteLabel() {
+            if (state.returnActive) return `${state.origin} to ${state.destination}, return ${state.destination} to ${state.origin}`;
+            return `${state.origin} to ${state.destination}`;
+        }
+
+        function strategyNote(packageKey = state.pendingPackage, personaKey = state.persona) {
+            return strategyNotes[packageKey]?.[personaKey] || strategyNotes.como.tourist;
+        }
+
+        function formatTravelDate(value) {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return value;
+            return date.toLocaleString("en-GB", {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+        }
+
+        function formatTravelDay(value) {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return value;
+            return date.toLocaleDateString("en-GB", {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+        }
+
+        function travelDateForDirection(direction = currentDirection()) {
+            return direction === "return" ? state.returnDate : state.outboundDate;
+        }
+
+        function travelDateForTrain(train = selectedTrain()) {
+            return travelDateForDirection(train?.direction || currentDirection());
+        }
+
+        function departurePlatform(train) {
+            return train?.stops?.[0]?.[2] || train?.platform?.split(" / ")[0] || "Platform pending";
+        }
+
+        function arrivalPlatform(train) {
+            const stops = train?.stops || [];
+            const finalStop = stops[stops.length - 1];
+            return finalStop?.[2] || "Arrival platform pending";
+        }
+
+        function switchTrainLeg(direction) {
+            if (!state.returnActive) return;
+            if (direction === "return" && !state.outboundTrain && state.selectedTrain) state.outboundTrain = state.selectedTrain;
+            state.selectingLeg = direction;
+            state.returnPanelOpen = false;
+            const preferredId = direction === "return" ? state.returnTrain : state.outboundTrain;
+            const preferredTrain = trainById(preferredId);
+            state.selectedTrain = preferredTrain && preferredTrain.package === state.package && preferredTrain.direction === direction ? preferredTrain.id : "";
+            state.expandedTrain = "";
+        }
+
+        function enterReturnSelection(copy = "Finding return trains.") {
+            state.returnActive = true;
+            state.returnPanelOpen = false;
+            state.outboundTrain = state.outboundTrain || state.selectedTrain;
+            state.selectingLeg = "return";
+            state.selectedTrain = state.returnTrain || "";
+            state.expandedTrain = "";
+            refreshResults(copy);
+        }
+
+        function routeFare(train = selectedTrain()) {
+            return train.price * region().factor;
+        }
+
+        function journeyFareBase() {
+            const outbound = trainById(state.outboundTrain);
+            const ret = trainById(state.returnTrain);
+            if (state.returnActive && outbound && ret) return routeFare(outbound) + routeFare(ret);
+            if (state.returnActive && outbound) return routeFare(outbound);
+            return routeFare(selectedTrain());
+        }
+
+        function unitFare(productKey = state.product, train = selectedTrain()) {
+            const base = train === selectedTrain() ? journeyFareBase() : routeFare(train);
+            return base * productDef(productKey).multiplier;
+        }
+
+        function fare() {
+            const unit = unitFare();
+            const base = unit * passengerCount();
+            const student = state.studentVerified ? unit * state.passengers.student * 0.2 : 0;
+            const senior = unit * state.passengers.senior * 0.3;
+            const bike = state.bike ? 3 : 0;
+            const firstClass = state.firstClass ? 2.5 : 0;
+            const recoveryCredit = 0;
+            return { base, student, senior, bike, firstClass, recoveryCredit, total: base - student - senior - recoveryCredit + bike + firstClass };
+        }
+
+        const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let loadingTimer = null;
+        let pendingNavigationAction = null;
+        let confirmReturnFocus = null;
+        let revealObserver = null;
+
+        function log() {}
+
+        function prefersReducedMotion() {
+            return motionQuery.matches;
+        }
+
+        function setLoading(active, copy = "Preparing the next step.") {
+            state.loading = active;
+            const card = document.querySelector(".purchase-card");
+            const loader = document.getElementById("flow-loader");
+            const loaderCopy = document.getElementById("loader-copy");
+            if (loaderCopy) loaderCopy.textContent = copy;
+            if (card) card.classList.toggle("loading", active);
+            if (loader) loader.setAttribute("aria-hidden", active ? "false" : "true");
+            document.querySelectorAll(".primary-button").forEach(button => button.setAttribute("aria-busy", active ? "true" : "false"));
+        }
+
+        function runWithLoading(copy, callback, delay = 430) {
+            window.clearTimeout(loadingTimer);
+            if (prefersReducedMotion()) {
+                callback();
+                return;
+            }
+            setLoading(true, copy);
+            loadingTimer = window.setTimeout(() => {
+                callback();
+                setLoading(false);
+            }, delay);
+        }
+
+        function scrollToPurchaseFlow() {
+            document.getElementById("purchase-flow").scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+        }
+
+        function closeNavigationConfirm() {
+            const overlay = document.getElementById("navigation-confirm");
+            if (overlay) overlay.hidden = true;
+            document.body.classList.remove("confirm-open");
+            pendingNavigationAction = null;
+            if (confirmReturnFocus && typeof confirmReturnFocus.focus === "function") confirmReturnFocus.focus();
+            confirmReturnFocus = null;
+        }
+
+        function showNavigationConfirm(onConfirm, trigger = document.activeElement) {
+            const overlay = document.getElementById("navigation-confirm");
+            const acceptButton = document.getElementById("navigation-confirm-accept");
+            if (!overlay || !acceptButton) {
+                if (window.confirm("Your current search data will be lost. Are you sure you want to return to a previous page?")) onConfirm();
+                return;
+            }
+            pendingNavigationAction = onConfirm;
+            confirmReturnFocus = trigger;
+            overlay.hidden = false;
+            document.body.classList.add("confirm-open");
+            acceptButton.focus();
+        }
+
+        function runConfirmedNavigation() {
+            const action = pendingNavigationAction;
+            closeNavigationConfirm();
+            if (typeof action === "function") action();
+        }
+
+        function clearProgressAfterStep(targetStep) {
+            state.maxStep = Math.max(1, Math.min(5, targetStep));
+            if (targetStep < 5) {
+                state.terms = false;
+            }
+            if (targetStep < 4) {
+                state.identity = "guest";
+                state.payment = "Credit card";
+            }
+            if (targetStep < 3) {
+                state.product = "single";
+                state.firstClass = false;
+                state.studentVerified = true;
+                state.selectedTrain = "";
+                state.outboundTrain = "";
+                state.returnTrain = "";
+                state.expandedTrain = "";
+                state.selectingLeg = "outbound";
+                state.resultsRefreshing = false;
+            }
+            if (targetStep < 2) {
+                state.returnActive = false;
+                state.returnPanelOpen = false;
+                state.returnPanelMode = "add";
+                state.filter = "all";
+            }
+        }
+
+        function requestStepJump(step, trigger = document.activeElement) {
+            if (step >= state.step) return;
+            showNavigationConfirm(() => {
+                clearProgressAfterStep(step);
+                goTo(step);
+            }, trigger);
+        }
+
+        function requestTrainLegJump(direction, trigger = document.activeElement) {
+            if (!state.returnActive || state.step !== 2) return;
+            const currentOrder = currentDirection() === "return" ? 2 : 1;
+            const targetOrder = direction === "return" ? 2 : 1;
+            if (targetOrder >= currentOrder) return;
+            showNavigationConfirm(() => {
+                state.returnTrain = "";
+                clearProgressAfterStep(2);
+                switchTrainLeg(direction);
+                scrollToPurchaseFlow();
+                log("Returned to select " + direction + " train.");
+                render();
+            }, trigger);
+        }
+
+        function goTo(step) {
+            if (step > state.maxStep + 1) return;
+            state.step = Math.max(1, Math.min(5, step));
+            state.maxStep = Math.max(state.maxStep, state.step);
+            scrollToPurchaseFlow();
+            log("Moved to step " + state.step + ".");
+            render();
+        }
+
+        function visibleTrains() {
+            const direction = currentDirection();
+            return trainCatalog.filter(train => {
+                if (train.package !== state.package || train.direction !== direction) return false;
+                if (train.type === "recovery" && !state.strikeProof && !state.disrupted) return false;
+                if (state.filter === "all") return true;
+                if (state.filter === "fast") return train.type === "fast";
+                if (state.filter === "cheap") return train.type === "cheap" || train.type === "recovery";
+                if (state.filter === "scenic") return train.scenic;
+                if (state.filter === "recovery") return train.type === "recovery" || train.changes !== "0 changes";
+                return true;
+            });
+        }
+
+        function applyExperiencePackage(packageValue) {
+            state.package = packageValue;
+            state.bike = packageValue === "bike";
+            state.filter = "all";
+            state.strikeProof = false;
+            state.disrupted = false;
+            if (state.searchMode === "explore" && packageRoutes[packageValue]) {
+                state.origin = packageRoutes[packageValue].origin;
+                state.destination = packageRoutes[packageValue].destination;
+            }
+            if (packageValue === "crossborder") {
+                state.region = "tilo";
+            } else if (state.region === "tilo") {
+                state.region = "lombardy";
+            }
+            if (visibleTrains().length === 0) state.filter = "all";
+            state.selectedTrain = "";
+            state.expandedTrain = "";
+            state.outboundTrain = "";
+            state.returnTrain = "";
+            state.selectingLeg = "outbound";
+            state.returnPanelOpen = false;
+        }
+
+        function inferPackageFromRoute() {
+            const route = `${state.origin} ${state.destination}`.toLowerCase();
+            if (route.includes("lugano") || route.includes("swiss")) return "crossborder";
+            if (route.includes("lecco")) return "bike";
+            if (route.includes("bergamo")) return "standard";
+            return "como";
+        }
+
+        function refreshResults(copy = "Refreshing available trains.") {
+            runWithLoading(copy, () => {
+                state.resultsRefreshing = true;
+                render();
+                window.setTimeout(() => {
+                    state.resultsRefreshing = false;
+                    render();
+                }, prefersReducedMotion() ? 0 : 430);
+            }, 320);
+        }
+
+        function selectFirstVisibleTrain() {
+            const first = visibleTrains()[0];
+            if (first) state.selectedTrain = first.id;
+            return first;
+        }
+
+        function updateMethodToggleLabel() {
+            const details = document.getElementById("method-details");
+            const label = document.getElementById("method-toggle-label");
+            if (details && label) label.textContent = details.open ? "Collapse" : "Expand";
+        }
+
+        function presetItems() {
+            const base = [
+                { id: "lake", type: "base", title: "Milano to Como", copy: "Lake day-trip preset", icon: "icon-route" },
+                { id: "airport", type: "base", title: "Milano to Bergamo", copy: "Standard rail preset", icon: "icon-train" },
+                { id: "commuter", type: "base", title: "Milano to Lecco", copy: "Bike-friendly scenic preset", icon: "icon-alert" }
+            ];
+            const saved = state.savedTrains.map(id => {
+                const train = trainById(id);
+                const route = packageRoutes[train?.package || "como"] || packageRoutes.como;
+                const routeCopy = train?.direction === "return"
+                    ? `${route.destination} to ${route.origin}`
+                    : `${route.origin} to ${route.destination}`;
+                return train ? {
+                    id,
+                    type: "saved",
+                    title: train.train,
+                    copy: `${train.time} - ${routeCopy} - ${money(routeFare(train))}`,
+                    icon: "icon-star"
+                } : null;
+            }).filter(Boolean);
+            return [...base, ...saved];
+        }
+
+        function applyBasePreset(preset) {
+            state.preset = preset;
+            if (preset === "lake") {
+                state.origin = "Milano Centrale";
+                state.destination = "Como Lago";
+                state.package = "como";
+                state.pendingPackage = "como";
+                state.selectedTrain = "como-re1";
+                state.filter = "all";
+            }
+            if (preset === "airport") {
+                state.origin = "Milano Centrale";
+                state.destination = "Bergamo";
+                state.package = "standard";
+                state.pendingPackage = "standard";
+                state.selectedTrain = "std-r1";
+                state.filter = "fast";
+            }
+            if (preset === "commuter") {
+                state.origin = "Milano Porta Garibaldi";
+                state.destination = "Lecco";
+                state.pendingPackage = "standard";
+                state.package = "bike";
+                state.pendingPackage = "bike";
+                state.persona = "commuter";
+                state.strikeProof = false;
+                state.disrupted = false;
+                state.filter = "scenic";
+                state.selectedTrain = "bike-r1";
+            }
+            applyExperiencePackage(state.pendingPackage);
+        }
+
+        function renderPresets() {
+            const items = presetItems();
+            const perPage = 3;
+            const totalPages = Math.max(1, Math.ceil(items.length / perPage));
+            state.presetPage = Math.min(state.presetPage, totalPages - 1);
+            const start = state.presetPage * perPage;
+            const visible = items.slice(start, start + perPage);
+            document.getElementById("preset-page-label").textContent = `${state.presetPage + 1}/${totalPages}`;
+            document.getElementById("preset-prev").disabled = state.presetPage === 0;
+            document.getElementById("preset-next").disabled = state.presetPage >= totalPages - 1;
+            const presetDots = document.getElementById("preset-dots");
+            if (presetDots) {
+                presetDots.innerHTML = Array.from({ length: totalPages }, (_, index) => `
+                    <span class="preset-dot ${index === state.presetPage ? "active" : ""}" aria-label="Strategy preset page ${index + 1}${index === state.presetPage ? ", current page" : ""}"></span>
+                `).join("");
+            }
+            const presetGrid = document.getElementById("strategy-presets");
+            presetGrid.classList.remove("slide-next", "slide-prev");
+            void presetGrid.offsetWidth;
+            presetGrid.classList.add(state.presetDirection === "prev" ? "slide-prev" : "slide-next");
+            presetGrid.innerHTML = visible.map(item => {
+                const pressed = item.type === "base" ? state.preset === item.id : state.selectedTrain === item.id;
+                const action = item.type === "base" ? `data-preset="${item.id}"` : `data-saved-preset="${item.id}"`;
+                return `<button class="chip-button ${item.type === "saved" ? "saved-preset" : ""}" type="button" ${action} aria-pressed="${pressed ? "true" : "false"}">
+                    <svg class="preset-icon" aria-hidden="true"><use href="#${item.icon}"></use></svg>
+                    <strong>${item.title}</strong>
+                    <small>${item.copy}</small>
+                </button>`;
+            }).join("");
+            document.querySelectorAll("[data-preset]").forEach(button => button.addEventListener("click", () => {
+                applyBasePreset(button.dataset.preset);
+                log("Strategy preset loaded: " + button.dataset.preset + ".");
+                render();
+            }));
+            document.querySelectorAll("[data-saved-preset]").forEach(button => button.addEventListener("click", () => {
+                const train = trainById(button.dataset.savedPreset);
+                if (!train) return;
+                const route = packageRoutes[train.package] || packageRoutes.como;
+                state.package = train.package;
+                state.pendingPackage = train.package;
+                state.origin = route.origin;
+                state.destination = route.destination;
+                if (train.direction === "return") state.returnActive = true;
+                state.selectingLeg = train.direction;
+                state.selectedTrain = train.id;
+                state.expandedTrain = train.id;
+                state.filter = "all";
+                log("Saved train preset selected: " + selectedTrain().train + ".");
+                render();
+            }));
+        }
+
+        function renderSteps() {
+            const isResultsStep = state.step === 2;
+            document.getElementById("purchase-flow").classList.toggle("results-layout", isResultsStep);
+            document.querySelector(".purchase-card").classList.toggle("results-layout", isResultsStep);
+            document.querySelectorAll(".screen").forEach(screen => screen.classList.toggle("active", screen.id === screens[state.step]));
+            document.querySelectorAll("[data-go-step]").forEach(button => {
+                const step = Number(button.dataset.goStep);
+                const isFutureStep = step > state.step;
+                button.disabled = isFutureStep;
+                button.setAttribute("aria-disabled", isFutureStep ? "true" : "false");
+                button.classList.toggle("done", step < state.step);
+                if (step === state.step) button.setAttribute("aria-current", "step");
+                else button.removeAttribute("aria-current");
+            });
+            const legSteps = document.getElementById("train-leg-steps");
+            const showLegSteps = state.returnActive && state.step === 2;
+            if (legSteps) {
+                legSteps.hidden = !showLegSteps;
+                legSteps.classList.toggle("active", showLegSteps);
+            }
+            document.querySelectorAll("[data-train-leg]").forEach(button => {
+                const direction = button.dataset.trainLeg;
+                const active = showLegSteps && currentDirection() === direction;
+                const done = direction === "outbound" ? Boolean(state.outboundTrain) : Boolean(state.returnTrain);
+                const currentOrder = currentDirection() === "return" ? 2 : 1;
+                const targetOrder = direction === "return" ? 2 : 1;
+                const isFutureLeg = showLegSteps && targetOrder > currentOrder;
+                button.disabled = isFutureLeg;
+                button.setAttribute("aria-disabled", isFutureLeg ? "true" : "false");
+                button.classList.toggle("done", showLegSteps && done && !active);
+                if (active) button.setAttribute("aria-current", "step");
+                else button.removeAttribute("aria-current");
+            });
+        }
+
+        function prepareReveal() {
+            const targets = document.querySelectorAll(".screen.active .screen-block, .screen.active .assist-panel, .screen.active .product-card, .screen.active .payment-option, .detail-rail .summary-card, .site-section, .news-card, .promo-card");
+            targets.forEach((target, index) => {
+                target.classList.add("reveal");
+                target.dataset.revealDelay = String(Math.min(index % 4, 3));
+            });
+            if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+                targets.forEach(target => target.classList.add("revealed"));
+                return;
+            }
+            if (!revealObserver) {
+                revealObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add("revealed");
+                        revealObserver.unobserve(entry.target);
+                    });
+                }, { rootMargin: "0px 0px -10% 0px", threshold: 0.12 });
+            }
+            targets.forEach(target => {
+                if (target.classList.contains("revealed")) return;
+                revealObserver.observe(target);
+            });
+        }
+
+        function renderSearch() {
+            document.getElementById("summary-origin").textContent = state.origin;
+            document.getElementById("summary-destination").textContent = state.destination;
+            document.getElementById("origin").value = state.origin;
+            document.getElementById("destination").value = state.destination;
+            document.getElementById("outbound-date").value = state.outboundDate;
+            document.getElementById("return-date").value = state.returnDate;
+            document.getElementById("itinerary-package").value = state.pendingPackage;
+            document.getElementById("results-origin").value = state.origin;
+            document.getElementById("results-destination").value = state.destination;
+            document.getElementById("results-itinerary-package").value = state.pendingPackage;
+            document.getElementById("results-return-date").value = state.returnDate;
+            document.getElementById("return-row").classList.toggle("active", state.returnActive);
+            document.querySelectorAll("[data-search-mode]").forEach(button => button.setAttribute("aria-pressed", button.dataset.searchMode === state.searchMode ? "true" : "false"));
+            document.querySelectorAll("[data-switch-search-mode]").forEach(button => button.setAttribute("aria-pressed", button.dataset.switchSearchMode === state.searchMode ? "true" : "false"));
+            document.querySelectorAll("#search-mode-station, #results-mode-station").forEach(panel => panel.classList.toggle("active", state.searchMode === "station"));
+            document.querySelectorAll("#search-mode-explore, #results-mode-explore").forEach(panel => panel.classList.toggle("active", state.searchMode === "explore"));
+            document.getElementById("search-subtitle").textContent = state.searchMode === "station"
+                ? "Search for your journey by departure and arrival station."
+                : "Plan your journey with Itinerary designer.";
+            document.getElementById("method-title").textContent = state.searchMode === "station" ? "Search method: Station search" : "Search method: Explore with Itinerary Designer";
+            document.getElementById("method-copy").textContent = state.searchMode === "station"
+                ? `${state.origin} to ${state.destination}, outbound station search.`
+                : `${packageLabels[state.package] || "Selected"} package with ${state.persona} persona.`;
+            document.getElementById("itinerary-strategy-note").textContent = strategyNote(state.pendingPackage, state.persona);
+            document.getElementById("results-strategy-note").textContent = strategyNote(state.pendingPackage, state.persona);
+            updateMethodToggleLabel();
+            document.querySelectorAll("[data-persona]").forEach(button => button.setAttribute("aria-pressed", button.dataset.persona === state.persona ? "true" : "false"));
+            document.querySelectorAll("[data-preset]").forEach(button => button.setAttribute("aria-pressed", button.dataset.preset === state.preset ? "true" : "false"));
+        }
+
+        function renderResults() {
+            const banner = document.getElementById("alert-banner");
+            const alertActive = state.disrupted;
+            const alertIcon = banner?.querySelector(".status-icon");
+            banner.classList.toggle("neutral", !alertActive);
+            if (alertIcon) alertIcon.textContent = alertActive ? "!" : "i";
+            document.getElementById("alert-title").textContent = alertActive ? "Strike simulation active" : "Route status clear";
+            document.getElementById("alert-copy").textContent = alertActive
+                ? "Recovery-ready alternatives are injected. Select a route to highlight it while all options remain readable."
+                : "Standard service is available for the selected route.";
+            document.getElementById("toggle-disruption").textContent = state.disrupted ? "Clear disruption" : "Simulate disruption";
+            document.querySelectorAll("[data-filter]").forEach(button => button.setAttribute("aria-pressed", button.dataset.filter === state.filter ? "true" : "false"));
+
+            const trains = visibleTrains();
+            if (state.selectedTrain && !trains.some(train => train.id === state.selectedTrain)) {
+                state.selectedTrain = "";
+                state.expandedTrain = "";
+            }
+            const activeTrain = activeSelectedTrain();
+            const endpoints = routeEndpoints();
+            const legIndex = state.returnActive ? (currentDirection() === "return" ? "Step 2.2" : "Step 2.1") : "Step 2";
+            document.getElementById("results-kicker").textContent = legIndex;
+            document.getElementById("results-title").innerHTML = `<span class="page-icon" aria-hidden="true"><svg class="flow-icon"><use href="#icon-train"></use></svg></span>${currentDirection() === "return" ? "Select a return train" : "Select an outbound train"}`;
+            const resultsBackButton = document.querySelector('#screen-results [data-back-step="1"]');
+            if (resultsBackButton) resultsBackButton.textContent = state.returnActive && currentDirection() === "return" ? "Back to outward train" : "Back";
+            const continueLabel = document.getElementById("continue-ticket-label");
+            if (continueLabel) {
+                continueLabel.textContent = state.returnActive
+                    ? (currentDirection() === "outbound" ? "CONTINUE TO RETURN" : "CONTINUE")
+                    : "CONTINUE(ONE WAY)";
+            }
+            const continueButton = document.getElementById("continue-ticket");
+            if (continueButton) {
+                continueButton.disabled = !activeTrain;
+                continueButton.setAttribute("aria-disabled", activeTrain ? "false" : "true");
+            }
+            const addReturnButton = document.getElementById("add-return-results");
+            const changeReturnButton = document.getElementById("change-return-date");
+            const returnDateChip = document.getElementById("return-date-chip");
+            const returnPanel = document.getElementById("return-action-panel");
+            const findReturnLabel = document.getElementById("find-return-label");
+            addReturnButton.hidden = state.returnActive;
+            changeReturnButton.hidden = !state.returnActive;
+            returnDateChip.hidden = !state.returnActive;
+            returnDateChip.textContent = "Return " + formatTravelDate(state.returnDate);
+            returnPanel.classList.toggle("active", state.returnPanelOpen);
+            findReturnLabel.textContent = state.returnPanelMode === "change" ? "Confirm change" : "Find return train";
+            const resultsList = document.getElementById("results-list");
+            resultsList.classList.toggle("refreshing", state.resultsRefreshing);
+            resultsList.innerHTML = trains.map(train => {
+                const selected = train.id === state.selectedTrain;
+                const expanded = state.expandedTrain === train.id;
+                const tags = [
+                    train.scenic ? "scenic" : "",
+                    train.type === "fast" ? "convenient" : "",
+                    train.type === "recovery" ? "strike-proof" : "",
+                    train.changes === "0 changes" ? "direct" : ""
+                ].filter(Boolean);
+                return `<article class="result-card ${selected ? "selected" : ""} ${expanded ? "expanded" : ""}" data-train-card="${train.id}">
+                    <button class="train-select" type="button" data-train-toggle="${train.id}" aria-pressed="${selected ? "true" : "false"}" aria-expanded="${expanded ? "true" : "false"}" aria-label="${expanded ? "Collapse" : "Expand"} ${train.train} details">
+                        <div class="train-card-main">
+                            <span class="train-service"><span class="service-logo">TND</span><span class="service-name">${train.train}</span></span>
+                            <span class="train-route">
+                                <span class="station-line"><strong>${train.time.split(" to ")[0]}</strong><span>${endpoints.from}</span><span class="platform-pill">${departurePlatform(train)}</span></span>
+                                <span class="station-line"><strong>${train.time.split(" to ")[1]}</strong><span>${endpoints.to}</span><span class="platform-pill">${arrivalPlatform(train)}</span></span>
+                            </span>
+                            <span class="train-duration"><strong>${train.duration}</strong><span class="meta">${train.changes}</span></span>
+                            <span class="train-fare"><span class="meta">First class</span><span class="fare-pill">${money(routeFare(train))} | cart</span></span>
+                            <span class="expand-icon" aria-hidden="true">v</span>
+                        </div>
+                    </button>
+                    <div class="train-card-footer" data-train-toggle="${train.id}">
+                        <strong>Railway ticket</strong>
+                        <span class="tag-list">${tags.map(tag => `<span class="train-tag ${tag === "strike-proof" ? "alert" : ""}">${tag}</span>`).join("")}</span>
+                        <span class="train-card-actions">
+                            <button class="text-button" type="button" data-save-train="${train.id}"><span class="save-indicator ${state.savedTrains.includes(train.id) ? "saved" : ""}"><svg class="save-icon" aria-hidden="true"><use href="#icon-star"></use></svg>${state.savedTrains.includes(train.id) ? "Saved" : "Save train"}</span></button>
+                        </span>
+                    </div>
+                    <div class="train-details">
+                        <section>
+                            <h3 class="mini-title">Service guidance</h3>
+                            <p>${train.recovery}</p>
+                        </section>
+                        <section>
+                            <h3 class="mini-title">Train detail stops</h3>
+                            <div class="timeline">${train.stops.map(stop => `<div class="stop"><time>${stop[0]}</time><span><strong>${stop[1]}</strong><small class="meta">${stop[2]}</small></span><span class="stop-status ${stop[3] === "Delayed" || stop[3] === "Connection" ? "warning" : ""}">${stop[3]}</span></div>`).join("")}</div>
+                        </section>
+                    </div>
+                </article>`;
+            }).join("");
+            document.querySelectorAll("[data-train-toggle]").forEach(control => control.addEventListener("click", event => {
+                const trainId = control.dataset.trainToggle;
+                state.selectedTrain = trainId;
+                if (state.returnActive && state.selectingLeg === "return") {
+                    state.returnTrain = trainId;
+                } else {
+                    state.outboundTrain = trainId;
+                }
+                state.expandedTrain = state.expandedTrain === trainId ? "" : trainId;
+                log("Selected train " + selectedTrain().train + ".");
+                render();
+            }));
+            document.querySelectorAll("[data-save-train]").forEach(button => button.addEventListener("click", event => {
+                event.stopPropagation();
+                const trainId = button.dataset.saveTrain;
+                if (state.savedTrains.includes(trainId)) {
+                    state.savedTrains = state.savedTrains.filter(id => id !== trainId);
+                    state.presetDirection = "prev";
+                    state.presetPage = Math.min(state.presetPage, Math.max(0, Math.ceil(presetItems().length / 3) - 1));
+                    log("Removed saved train.");
+                } else {
+                    state.savedTrains = [...state.savedTrains, trainId];
+                    state.presetDirection = "next";
+                    state.presetPage = Math.ceil(presetItems().length / 3) - 1;
+                    log("Saved train.");
+                }
+                render();
+            }));
+
+            const train = activeTrain;
+            const outboundCard = document.getElementById("outbound-summary-card");
+            const outboundTrain = trainById(state.outboundTrain);
+            outboundCard.hidden = !(state.returnActive && outboundTrain);
+            if (outboundTrain) {
+                document.getElementById("outbound-summary").innerHTML = `
+                    <div class="amount-line"><span>Train</span><strong>${outboundTrain.train}</strong></div>
+                    <div class="amount-line"><span>Route</span><strong>${state.origin} to ${state.destination}</strong></div>
+                    <div class="amount-line"><span>Date</span><strong>${formatTravelDate(state.outboundDate)}</strong></div>
+                    <div class="amount-line"><span>Time</span><strong>${outboundTrain.time}</strong></div>
+                    <div class="amount-line"><span>Departure platform</span><strong>${departurePlatform(outboundTrain)}</strong></div>
+                    <div class="amount-line"><span>Fare</span><strong>${money(routeFare(outboundTrain))}</strong></div>`;
+            }
+            document.getElementById("journey-metrics").innerHTML = train ? `
+                <div class="metric"><span>Date</span><strong>${formatTravelDay(travelDateForTrain(train))}</strong></div>
+                <div class="metric"><span>Time</span><strong>${train.time}</strong></div>
+                <div class="metric"><span>Service</span><strong>${train.train}</strong></div>
+                <div class="metric"><span>Departure platform</span><strong>${departurePlatform(train)}</strong></div>` : `
+                <div class="metric"><span>Date</span><strong>--</strong></div>
+                <div class="metric"><span>Time</span><strong>--</strong></div>
+                <div class="metric"><span>Service</span><strong>--</strong></div>
+                <div class="metric"><span>Departure platform</span><strong>--</strong></div>`;
+            document.getElementById("recovery-summary").textContent = train ? train.recovery : "--";
+        }
+
+        function renderTimeline(targetId, stops) {
+            const target = document.getElementById(targetId);
+            if (!target) return;
+            target.innerHTML = stops.map(stop => `
+                <div class="stop">
+                    <time>${stop[0]}</time>
+                    <span><strong>${stop[1]}</strong><small class="meta">${stop[2]}</small></span>
+                    <span class="stop-status ${stop[3] === "Delayed" || stop[3] === "Connection" ? "warning" : ""}">${stop[3]}</span>
+                </div>`).join("");
+        }
+
+        function renderTicket() {
+            document.querySelectorAll("[data-product]").forEach(button => button.setAttribute("aria-pressed", button.dataset.product === state.product ? "true" : "false"));
+            Object.keys(products).forEach(key => {
+                const node = document.querySelector(`[data-product-price="${key}"]`);
+                const card = document.querySelector(`[data-product="${key}"]`);
+                const def = productDef(key);
+                if (card) {
+                    const title = card.querySelector("strong");
+                    const copy = card.querySelector("small");
+                    if (title) title.textContent = def.name;
+                    if (copy) copy.textContent = def.copy;
+                }
+                if (node) node.textContent = money(unitFare(key));
+            });
+            document.getElementById("adult-count").textContent = state.passengers.adult;
+            document.getElementById("student-count").textContent = state.passengers.student;
+            document.getElementById("senior-count").textContent = state.passengers.senior;
+            document.getElementById("student-verified").checked = state.studentVerified;
+            const f = fare();
+            const fareDiscountRows = [
+                f.student > 0 ? `<div class="amount-line discount"><span>Student discount</span><strong>-${money(f.student)}</strong></div>` : "",
+                f.senior > 0 ? `<div class="amount-line discount"><span>Senior discount</span><strong>-${money(f.senior)}</strong></div>` : ""
+            ].join("");
+            document.getElementById("fare-preview").innerHTML = `
+                <div class="amount-line"><span>Base fare (${passengerCount()} passenger${passengerCount() === 1 ? "" : "s"})</span><strong>${money(f.base)}</strong></div>
+                ${fareDiscountRows || `<div class="amount-line"><span>Discounts</span><strong>No active discount</strong></div>`}
+                <div class="amount-line total"><span>Total before extras</span><strong>${money(f.total)}</strong></div>`;
+        }
+
+        function renderPaymentGate() {
+            const payButton = document.getElementById("pay-now");
+            const hint = document.getElementById("payment-terms-hint");
+            if (!payButton) return;
+            payButton.disabled = !state.terms;
+            payButton.setAttribute("aria-disabled", state.terms ? "false" : "true");
+            payButton.title = state.terms ? "" : "Accept terms of carriage to continue";
+            if (hint) {
+                hint.textContent = state.terms ? "Terms accepted. You can pay now." : "Accept terms of carriage to continue";
+                hint.classList.toggle("accepted", state.terms);
+            }
+        }
+
+        function renderCheckout() {
+            const train = selectedTrain();
+            const outbound = trainById(state.outboundTrain);
+            const ret = trainById(state.returnTrain);
+            const f = fare();
+            document.getElementById("review-route").textContent = journeyRouteLabel();
+            document.getElementById("review-train").textContent = state.returnActive && outbound && ret
+                ? `${outbound.train} outbound, ${ret.train} return`
+                : train.time + " - " + train.train;
+            document.getElementById("review-validity").textContent = productDef().validity + " (" + region().label + ")";
+            document.getElementById("review-passengers").textContent = passengerSummary();
+            const legSummary = document.getElementById("checkout-leg-summary");
+            const legCards = [];
+            const outboundLeg = outbound || (!state.returnActive ? train : null);
+            if (outboundLeg) {
+                legCards.push(`
+                    <article class="checkout-leg-card">
+                        <div class="leg-title"><span>Outbound</span><strong>${money(routeFare(outboundLeg))}</strong></div>
+                        <div class="leg-route">${state.origin}<br>${state.destination}</div>
+                        <div class="leg-meta">${formatTravelDate(state.outboundDate)} · ${outboundLeg.train} · ${outboundLeg.time} · Depart ${departurePlatform(outboundLeg)} · Arrive ${arrivalPlatform(outboundLeg)}</div>
+                    </article>`);
+            }
+            if (ret) {
+                legCards.push(`
+                    <article class="checkout-leg-card">
+                        <div class="leg-title"><span>Return</span><strong>${money(routeFare(ret))}</strong></div>
+                        <div class="leg-route">${state.destination}<br>${state.origin}</div>
+                        <div class="leg-meta">${formatTravelDate(state.returnDate)} · ${ret.train} · ${ret.time} · Depart ${departurePlatform(ret)} · Arrive ${arrivalPlatform(ret)}</div>
+                    </article>`);
+            }
+            legSummary.innerHTML = legCards.join("");
+            document.getElementById("bike").checked = state.bike;
+            document.getElementById("first-class").checked = state.firstClass;
+            document.querySelectorAll('input[name="identity"]').forEach(input => input.checked = input.value === state.identity);
+            document.querySelectorAll('input[name="payment"]').forEach(input => {
+                input.checked = input.value === state.payment;
+                input.closest(".payment-option").classList.toggle("active", input.checked);
+            });
+            const discountTotal = f.student + f.senior + f.recoveryCredit;
+            const checkoutDiscountRow = discountTotal > 0
+                ? `<div class="amount-line discount"><span>Discounts</span><strong>-${money(discountTotal)}</strong></div>`
+                : `<div class="amount-line"><span>Discounts</span><strong>No active discount</strong></div>`;
+            const supplementRows = [
+                state.bike ? `<div class="amount-line"><span>Bicycle transport</span><strong>${money(f.bike)}</strong></div>` : "",
+                state.firstClass ? `<div class="amount-line"><span>First class upgrade</span><strong>${money(f.firstClass)}</strong></div>` : ""
+            ].join("");
+            document.getElementById("checkout-summary").innerHTML = `
+                <div class="amount-line"><span>Base fare</span><strong>${money(f.base)}</strong></div>
+                ${checkoutDiscountRow}
+                ${supplementRows || `<div class="amount-line"><span>Supplements</span><strong>No supplement selected</strong></div>`}
+                <div class="amount-line"><span>Supplements total</span><strong>${f.bike + f.firstClass > 0 ? money(f.bike + f.firstClass) : "None"}</strong></div>
+                <div class="amount-line total checkout-total-line">
+                    <span class="checkout-total-copy">
+                        <span>Total to pay</span>
+                        <label class="terms-inline"><input id="terms" type="checkbox" ${state.terms ? "checked" : ""}><span class="terms-label-text">Accept terms of carriage (Required before payment)</span></label>
+                    </span>
+                    <strong>${money(f.total)}</strong>
+                </div>`;
+            renderPaymentGate();
+        }
+
+        function renderConfirmation() {
+            const f = fare();
+            document.getElementById("confirmed-route").textContent = journeyRouteLabel();
+            document.getElementById("confirmed-product").textContent = productDef().name;
+            document.getElementById("confirmed-total").textContent = money(f.total);
+            const train = selectedTrain();
+            const stops = state.disrupted
+                ? train.stops.map((stop, index) => index === 1 ? [stop[0], stop[1], stop[2], "Delayed"] : stop)
+                : train.stops;
+            renderTimeline("confirmation-timeline", stops);
+            document.getElementById("confirmation-alert-title").textContent = state.disrupted ? "Platform change monitored" : "No active disruption";
+            document.getElementById("confirmation-alert-copy").textContent = state.disrupted
+                ? `${train.train} is being monitored. Follow the updated platform guidance shown in the activated ticket timeline.`
+                : "Track and timing remain aligned with the selected train.";
+        }
+
+        function renderQr() {
+            const pattern = ["1111111010111","1000001010101","1011101011101","1011101000101","1011101111101","1000001000001","1111111011111","0000010001000","1110111110111","0010100010100","1011111011101","1000101000101","1111101111111"];
+            document.getElementById("qr-code").innerHTML = pattern.flatMap(row => row.split("").map(cell => `<span class="${cell === "1" ? "on" : ""}"></span>`)).join("");
+        }
+
+        function renderSummary() {
+            const activeTrain = activeSelectedTrain();
+            const train = activeTrain || selectedTrain();
+            const f = fare();
+            const endpoints = state.step === 2 ? routeEndpoints() : { from: state.origin, to: state.destination };
+            const waitingForTrainSelection = state.step === 2 && !activeTrain;
+            document.getElementById("summary-origin").textContent = endpoints.from;
+            document.getElementById("summary-destination").textContent = endpoints.to;
+            const summaryDateNode = document.getElementById("summary-date");
+            if (summaryDateNode) summaryDateNode.textContent = waitingForTrainSelection ? "--" : formatTravelDay(travelDateForTrain(train));
+            document.getElementById("summary-train").textContent = waitingForTrainSelection ? "--" : (state.maxStep >= 2 ? train.train : "Not selected");
+            document.getElementById("summary-product").textContent = productDef().name;
+            document.getElementById("summary-total").textContent = waitingForTrainSelection ? "--" : money(f.total);
+            const ticketMetrics = document.getElementById("ticket-summary-metrics");
+            const outbound = trainById(state.outboundTrain) || (!state.returnActive ? train : null);
+            const ret = trainById(state.returnTrain);
+            const ticketLegCard = (label, legTrain, direction) => {
+                const endpoints = routeEndpoints(direction);
+                const legDate = travelDateForDirection(direction);
+                return `
+                    <article class="ticket-leg-card" aria-label="${label} train details">
+                        <div class="ticket-leg-heading"><span>${label}</span><strong>${money(routeFare(legTrain))}</strong></div>
+                        <p class="ticket-leg-route">${endpoints.from}<br>${endpoints.to}</p>
+                        <div class="ticket-leg-meta">
+                            <div class="summary-line"><span>Date</span><strong>${formatTravelDay(legDate)}</strong></div>
+                            <div class="summary-line"><span>Time</span><strong>${legTrain.time}</strong></div>
+                            <div class="summary-line"><span>Service</span><strong>${legTrain.train}</strong></div>
+                            <div class="summary-line"><span>Departure platform</span><strong>${departurePlatform(legTrain)}</strong></div>
+                            <div class="summary-line"><span>Arrival platform</span><strong>${arrivalPlatform(legTrain)}</strong></div>
+                            <div class="summary-line"><span>Changes</span><strong>${legTrain.changes}</strong></div>
+                        </div>
+                    </article>`;
+            };
+            if (ticketMetrics) {
+                if (state.returnActive && outbound && ret) {
+                    ticketMetrics.className = "ticket-leg-grid";
+                    ticketMetrics.innerHTML = ticketLegCard("Outbound", outbound, "outbound") + ticketLegCard("Return", ret, "return");
+                } else {
+                    ticketMetrics.className = "metric-grid";
+                    ticketMetrics.innerHTML = `
+                        <div class="metric"><span>Date</span><strong>${formatTravelDay(travelDateForTrain(train))}</strong></div>
+                        <div class="metric"><span>Time</span><strong>${train.time}</strong></div>
+                        <div class="metric"><span>Service</span><strong>${train.train}</strong></div>
+                        <div class="metric"><span>Departure platform</span><strong>${departurePlatform(train)}</strong></div>
+                        <div class="metric"><span>Arrival platform</span><strong>${arrivalPlatform(train)}</strong></div>
+                        <div class="metric"><span>Fare</span><strong>${money(unitFare())}</strong></div>`;
+                }
+            }
+            const routeNode = document.getElementById("ticket-summary-route");
+            const productNode = document.getElementById("ticket-summary-product");
+            const totalNode = document.getElementById("ticket-summary-total");
+            if (routeNode) routeNode.textContent = state.returnActive && outbound && ret ? "Round trip selected" : journeyRouteLabel();
+            if (productNode) productNode.textContent = productDef().name;
+            if (totalNode) totalNode.textContent = money(f.total);
+        }
+
+        function render() {
+            renderSteps();
+            renderSearch();
+            renderResults();
+            renderTicket();
+            renderCheckout();
+            renderConfirmation();
+            renderSummary();
+            renderQr();
+            renderPresets();
+            window.requestAnimationFrame(prepareReveal);
+        }
+
+        function submitSearch() {
+            state.maxStep = Math.max(state.maxStep, 2);
+            state.expandedTrain = "";
+            applyExperiencePackage(state.searchMode === "station" ? inferPackageFromRoute() : state.pendingPackage);
+            if (state.searchMode === "explore" && state.persona === "commuter") {
+                state.strikeProof = false;
+                state.disrupted = false;
+                state.filter = "all";
+            }
+            runWithLoading("Searching trains and checking service alerts.", () => goTo(2), 520);
+        }
+
+        document.querySelectorAll("[data-search-mode]").forEach(button => button.addEventListener("click", () => {
+            state.searchMode = button.dataset.searchMode;
+            log("Search method selected: " + state.searchMode + ".");
+            render();
+        }));
+
+        document.querySelectorAll("[data-switch-search-mode]").forEach(button => button.addEventListener("click", () => {
+            state.searchMode = button.dataset.switchSearchMode;
+            log("Select train search method switched to " + state.searchMode + ".");
+            render();
+        }));
+
+        document.getElementById("swap-route").addEventListener("click", () => {
+            const temp = state.origin;
+            state.origin = state.destination;
+            state.destination = temp;
+            log("Origin and destination swapped.");
+            render();
+        });
+
+        ["origin", "destination"].forEach(id => document.getElementById(id).addEventListener("input", event => {
+            state[id] = event.target.value || (id === "origin" ? "Milano Centrale" : "Como Lago");
+            renderSummary();
+        }));
+
+        document.getElementById("itinerary-package").addEventListener("change", event => {
+            state.pendingPackage = event.target.value;
+            log("Itinerary designer package queued: " + state.pendingPackage + ".");
+            render();
+        });
+
+        document.getElementById("results-itinerary-package").addEventListener("change", event => {
+            state.pendingPackage = event.target.value;
+            log("Results itinerary package queued: " + state.pendingPackage + ".");
+            render();
+        });
+
+        document.getElementById("outbound-date").addEventListener("change", event => {
+            state.outboundDate = event.target.value || state.outboundDate;
+            render();
+        });
+
+        document.getElementById("return-date").addEventListener("change", event => {
+            state.returnDate = event.target.value || state.returnDate;
+            render();
+        });
+
+        document.getElementById("results-return-date").addEventListener("change", event => {
+            state.returnDate = event.target.value || state.returnDate;
+            render();
+        });
+
+        ["results-origin", "results-destination"].forEach(id => document.getElementById(id).addEventListener("input", event => {
+            if (id === "results-origin") state.origin = event.target.value || "Milano Centrale";
+            if (id === "results-destination") state.destination = event.target.value || "Como Lago";
+            render();
+        }));
+
+        document.getElementById("results-swap-route").addEventListener("click", () => {
+            const temp = state.origin;
+            state.origin = state.destination;
+            state.destination = temp;
+            log("Results origin and destination swapped.");
+            render();
+        });
+
+        document.getElementById("toggle-return").addEventListener("click", () => {
+            state.returnActive = true;
+            state.selectingLeg = "outbound";
+            state.outboundTrain = "";
+            state.returnTrain = "";
+            state.returnPanelOpen = false;
+            log("Return journey field added.");
+            render();
+        });
+        document.getElementById("remove-return").addEventListener("click", () => {
+            state.returnActive = false;
+            state.selectingLeg = "outbound";
+            state.outboundTrain = "";
+            state.returnTrain = "";
+            state.returnPanelOpen = false;
+            log("Return journey removed.");
+            render();
+        });
+
+        document.querySelectorAll("[data-persona]").forEach(button => button.addEventListener("click", () => {
+            state.persona = button.dataset.persona;
+            if (state.persona === "commuter") {
+                state.strikeProof = false;
+                state.disrupted = false;
+                state.filter = "all";
+                selectFirstVisibleTrain();
+            }
+            if (state.persona === "bike") state.bike = true;
+            log("Passenger persona selected: " + state.persona + ".");
+            render();
+        }));
+
+        document.getElementById("search-submit").addEventListener("click", submitSearch);
+        document.getElementById("method-details").addEventListener("toggle", updateMethodToggleLabel);
+        document.getElementById("results-station-search").addEventListener("click", () => {
+            state.searchMode = "station";
+            applyExperiencePackage(inferPackageFromRoute());
+            log("Station Config refreshed train results.");
+            refreshResults("Updating trains for the selected route.");
+        });
+        document.getElementById("results-explore-search").addEventListener("click", () => {
+            state.searchMode = "explore";
+            applyExperiencePackage(state.pendingPackage);
+            log("Itinerary Designer refreshed train results.");
+            refreshResults("Updating trains for the selected experience package.");
+        });
+        document.getElementById("add-return-results").addEventListener("click", () => {
+            state.returnPanelMode = "add";
+            state.returnPanelOpen = !state.returnPanelOpen || state.returnPanelMode !== "add";
+            log("Return date selector opened from train results.");
+            render();
+        });
+        document.getElementById("change-return-date").addEventListener("click", () => {
+            state.returnPanelMode = "change";
+            state.returnPanelOpen = !state.returnPanelOpen || state.returnPanelMode !== "change";
+            log("Return date change panel opened.");
+            render();
+        });
+        document.getElementById("find-return-train").addEventListener("click", () => {
+            state.returnDate = document.getElementById("results-return-date").value || state.returnDate;
+            log((state.returnPanelMode === "change" ? "Return date changed. " : "Return journey added. ") + "Finding return trains.");
+            enterReturnSelection(state.returnPanelMode === "change" ? "Updating return trains for the new date." : "Finding return trains.");
+        });
+        document.getElementById("preset-prev").addEventListener("click", () => {
+            state.presetDirection = "prev";
+            state.presetPage = Math.max(0, state.presetPage - 1);
+            render();
+        });
+        document.getElementById("preset-next").addEventListener("click", () => {
+            state.presetDirection = "next";
+            state.presetPage = Math.min(Math.ceil(presetItems().length / 3) - 1, state.presetPage + 1);
+            render();
+        });
+        document.querySelectorAll("[data-train-leg]").forEach(button => button.addEventListener("click", () => {
+            requestTrainLegJump(button.dataset.trainLeg, button);
+        }));
+        document.getElementById("continue-ticket").addEventListener("click", () => {
+            if (!activeSelectedTrain()) {
+                log("Select a train before continuing.");
+                render();
+                return;
+            }
+            if (state.returnActive && state.selectingLeg === "outbound") {
+                state.outboundTrain = state.selectedTrain;
+                log("Outbound train selected. Choose a return train.");
+                enterReturnSelection("Finding return trains.");
+                return;
+            }
+            if (state.returnActive && state.selectingLeg === "return" && !state.returnTrain) {
+                state.returnTrain = state.selectedTrain;
+            }
+            runWithLoading("Loading ticket and fare options.", () => {
+                state.maxStep = Math.max(state.maxStep, 3);
+                goTo(3);
+            }, 360);
+        });
+        document.getElementById("continue-checkout").addEventListener("click", () => {
+            runWithLoading("Preparing checkout summary.", () => {
+                state.maxStep = Math.max(state.maxStep, 4);
+                goTo(4);
+            }, 360);
+        });
+        document.getElementById("new-search").addEventListener("click", () => {
+            runWithLoading("Resetting journey search.", () => {
+                state.step = 1;
+                state.maxStep = 1;
+                log("New search started.");
+                render();
+            }, 320);
+        });
+
+        document.getElementById("toggle-disruption").addEventListener("click", () => {
+            state.disrupted = !state.disrupted;
+            if (state.disrupted) {
+                state.strikeProof = true;
+                state.filter = "recovery";
+                selectFirstVisibleTrain();
+                state.expandedTrain = state.selectedTrain;
+            } else {
+                state.strikeProof = false;
+                state.filter = "all";
+                selectFirstVisibleTrain();
+                state.expandedTrain = "";
+            }
+            log("Disruption simulation " + (state.disrupted ? "enabled" : "cleared") + ".");
+            render();
+        });
+
+        document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
+            state.filter = button.dataset.filter;
+            log("Result filter selected: " + state.filter + ".");
+            render();
+        }));
+
+        document.querySelectorAll("[data-product]").forEach(button => button.addEventListener("click", () => {
+            state.product = button.dataset.product;
+            log("Ticket product selected: " + productDef().name + ".");
+            render();
+        }));
+
+        document.querySelectorAll("[data-counter]").forEach(button => button.addEventListener("click", () => {
+            const key = button.dataset.counter;
+            const delta = Number(button.dataset.delta);
+            if (passengerCount() === 1 && state.passengers[key] === 1 && delta < 0) {
+                log("At least one passenger is required.");
+                return;
+            }
+            state.passengers[key] = Math.max(0, state.passengers[key] + delta);
+            log("Passenger configuration updated: " + passengerSummary() + ".");
+            render();
+        }));
+
+        document.getElementById("student-verified").addEventListener("change", event => { state.studentVerified = event.target.checked; log("Student verification " + (state.studentVerified ? "accepted" : "removed") + "."); render(); });
+        document.getElementById("bike").addEventListener("change", event => { state.bike = event.target.checked; log("Bicycle transport " + (state.bike ? "added" : "removed") + "."); render(); });
+        document.getElementById("first-class").addEventListener("change", event => { state.firstClass = event.target.checked; log("First class upgrade " + (state.firstClass ? "added" : "removed") + "."); render(); });
+        document.addEventListener("change", event => {
+            if (!event.target || event.target.id !== "terms") return;
+            state.terms = event.target.checked;
+            log("Terms agreement " + (state.terms ? "accepted" : "unchecked") + ".");
+            render();
+        });
+
+        document.querySelectorAll('input[name="identity"]').forEach(input => input.addEventListener("change", event => { state.identity = event.target.value; log("Checkout identity selected: " + state.identity + "."); render(); }));
+        document.querySelectorAll('input[name="payment"]').forEach(input => input.addEventListener("change", event => { state.payment = event.target.value; log("Payment method selected: " + state.payment + "."); render(); }));
+
+        document.getElementById("pay-now").addEventListener("click", () => {
+            if (!state.terms) {
+                log("Accept terms of carriage to continue.");
+                renderPaymentGate();
+                return;
+            }
+            runWithLoading("Authorising payment and issuing ticket.", () => {
+                state.maxStep = 5;
+                log("Payment confirmed via " + state.payment + ". Order TN-928374-2026 generated.");
+                goTo(5);
+            }, 620);
+        });
+
+        document.getElementById("confirmation-disruption").addEventListener("click", () => {
+            state.disrupted = !state.disrupted;
+            log("Post-purchase journey alert " + (state.disrupted ? "enabled" : "cleared") + ".");
+            render();
+        });
+
+        document.querySelectorAll("[data-go-step]").forEach(button => button.addEventListener("click", () => requestStepJump(Number(button.dataset.goStep), button)));
+        document.getElementById("navigation-confirm-cancel").addEventListener("click", closeNavigationConfirm);
+        document.getElementById("navigation-confirm-accept").addEventListener("click", runConfirmedNavigation);
+        document.getElementById("navigation-confirm").addEventListener("click", event => {
+            if (event.target.id === "navigation-confirm") closeNavigationConfirm();
+        });
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && !document.getElementById("navigation-confirm").hidden) closeNavigationConfirm();
+        });
+        document.querySelectorAll("[data-back-step]").forEach(button => button.addEventListener("click", () => {
+            const target = Number(button.dataset.backStep);
+            if (state.step === 2 && target === 1 && state.returnActive && currentDirection() === "return") {
+                switchTrainLeg("outbound");
+                scrollToPurchaseFlow();
+                log("Returned to outward train selection.");
+                render();
+                return;
+            }
+            if (target < 1) {
+                window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+                return;
+            }
+            goTo(target);
+        }));
+
+        log("Trenord ticket purchase flow initialized.");
+        render();
+    </script>
+</body>
+</html>
